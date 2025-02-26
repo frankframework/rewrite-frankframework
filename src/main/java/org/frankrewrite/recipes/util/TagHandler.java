@@ -83,7 +83,7 @@ public class TagHandler {
         if (attributeOptional.isPresent()) {
             Xml.Attribute foundAttribute = attributeOptional.get();
             foundAttribute = foundAttribute.withValue(foundAttribute.getValue().withValue(newValue));
-            attributes = attributes.stream().filter(attribute->!attribute.getKeyAsString().equalsIgnoreCase(attributeName)).collect(Collectors.toList());
+            attributes = attributes.stream().filter(attribute-> !attribute.getKeyAsString().equalsIgnoreCase(attributeName)).collect(Collectors.toList());
             attributes.add(foundAttribute);
 
             // Return a new Xml.Tag with the updated attributes

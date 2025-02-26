@@ -33,17 +33,20 @@ public class AnnotationExtractor {
         //Split segments into a list of words
         String[] segments = warning.split(" ");
 
-        return Arrays.stream(segments)
-            //Replace invalid keys from warning segment, and add set before the segment to compare it with a method
-            .map(segment -> "set" + segment.replace(".", "").replace("'", "").replace("\"", "").toLowerCase())
-            //Lookup method referring to the segment or throw exception
-            .flatMap(expectedMethodName -> Arrays.stream(clazz.getMethods())
-                    .filter(method -> method.getName().equalsIgnoreCase(expectedMethodName) && !method.equals(deprecatedMethod)))
-            .findFirst()
-            .orElseThrow(() -> {
-                log.add(clazz.getSimpleName()+": No updated method/attribute implementation found in warning: " + warning);
-                return new MethodNotFoundException("No updated method/attribute implementation found in warning: " + warning);
-            });
+        List<Method> matchedMethods = Arrays.stream(segments)
+                // Replace invalid keys from warning segment and format it to match setter methods
+                .map(segment -> "set" + segment.replace(".", "").replace("'", "").replace("\"", "").toLowerCase())
+                // Lookup methods referring to the segment
+                .flatMap(expectedMethodName -> Arrays.stream(clazz.getMethods())
+                        .filter(method -> method.getName().equalsIgnoreCase(expectedMethodName) && !method.equals(deprecatedMethod)))
+                .toList(); // Collect results into a list
+
+        if (matchedMethods.size() == 1) {
+            return matchedMethods.get(0); // Java 16+ or matchedMethods.get(0);
+        } else {
+            log.add(clazz.getSimpleName() + ": No updated method/attribute implementation found in warning: " + warning);
+            throw new MethodNotFoundException("No updated method/attribute implementation found in warning: " + warning);
+        }
     }
 
     private static String getConfigurationWarningValue(AnnotatedElement element) {
