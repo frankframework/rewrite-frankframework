@@ -14,10 +14,8 @@
  * limitations under the License.
  */
 
-package org.frankrewrite;
+package org.frankrewrite.recipes;
 
-import org.frankrewrite.recipes.EditStyleConfigurationRecipe;
-import org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe;
 import org.junit.jupiter.api.Test;
 import org.openrewrite.test.RecipeSpec;
 import org.openrewrite.test.RewriteTest;
@@ -31,35 +29,18 @@ public class EditStyleConfigurationRecipeTest implements RewriteTest{
     }
 
     @Test
-    void changesElementStyle() {
+    void changesPipeNameCorrectly() {
         rewriteRun(
                 xml(
                         """
-                            <pipe name="Test" className="org.frankframework.XsltPipe">
+                            <pipe name="Test" className="nl.nn.adapterframework.pipes.thebest">
                         
                             </pipe>
                         """,
                         """
-                            <XsltPipe name="Test">
+                            <TheBestPipe name="Test">
                         
-                            </XsltPipe>
-                        """
-                )
-        );
-    }
-    @Test
-    void changesElementStyleAndHandlesMessageSendingPipeDerivatives() {
-        rewriteRun(
-                xml(
-                        """
-                            <pipe name="Test" className="org.frankframework.pipes.Json2XmlValidator">
-                        
-                            </pipe>
-                        """,
-                        """
-                            <Json2XmlValidatorPipe name="Test">
-                        
-                            </Json2XmlValidatorPipe>
+                            </TheBestPipe>
                         """
                 )
         );
@@ -94,38 +75,35 @@ public class EditStyleConfigurationRecipeTest implements RewriteTest{
         );
     }
     @Test
-    void changesLarvaPipe() {
-        rewriteRun(recipeSpec -> recipeSpec.recipes(new EditStyleConfigurationRecipe(),new WarningAnnotationUpdaterRecipe()),
-                xml(
-                        """
-                            <pipe className="nl.nn.adapterframework.pipes.LarvaPipe">
-                        
-                            </pipe>
-                        ""","""
-                            <LarvaPipe>
-                        
-                            </LarvaPipe>
-                        """
-                )
-        );
-    }
-
-    @Test
     void dontChangeErrorStorage() {
-        rewriteRun(recipeSpec -> recipeSpec.recipes(new EditStyleConfigurationRecipe(),new WarningAnnotationUpdaterRecipe()),
-                xml(
-                """
-                <errorStorage
-                    className="nl.nn.adapterframework.jdbc.JdbcTransactionalStorage"
-                    jmsRealm="${jdbc.realm}"
-                    slotId="mailSender"
-                    schemaOwner4Check="current schema"
-                />
-                """
-                )
+        rewriteRun(
+          xml(
+            """
+            <errorStorage
+                className="nl.nn.adapterframework.jdbc.JdbcTransactionalStorage"
+                jmsRealm="${jdbc.realm}"
+                slotId="mailSender"
+                schemaOwner4Check="current schema"
+            />
+            """
+          )
         );
     }
-
+    @Test
+    void changesExistingPipe() {
+        rewriteRun(
+          xml(
+            """
+            <pipe
+                className="nl.nn.adapterframework.pipes.MyPipe"
+            />
+            ""","""
+            <MyPipe
+            />
+            """
+          )
+        );
+    }
     @Test
     void changesJob() {
         rewriteRun(

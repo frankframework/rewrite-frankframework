@@ -39,8 +39,10 @@ public class XmlStyleConfigurationVisitor extends XmlIsoVisitor<ExecutionContext
         else if (tag.getAttributes().stream().anyMatch(attribute -> attribute.getKeyAsString().equals("className"))) {
             Optional<Xml.Attribute> classNameAttribute = TagHandler.getAttributeFromTagByKey(tag, "className");
             if (classNameAttribute.isPresent()){
-                if (!isCustomElement(classNameAttribute.get().getValue().getValue().substring(classNameAttribute.get().getValue().getValue().lastIndexOf(".")+1))){
-                    Xml.Tag updatedTag = getTagWithClassNameValueAsTagName(tag);
+                String classSimpleName = classNameAttribute.get().getValue().getValue().substring(classNameAttribute.get().getValue().getValue().lastIndexOf(".")+1);
+                if (!isCustomElement(classSimpleName)){
+                    // Get the result tag and use getElementName to prevent bad element name casing
+                    Xml.Tag updatedTag = getTagWithClassNameValueAsTagName(tag, getElementName(classSimpleName));
                     if (updatedTag != null) {
                         return updatedTag;
                     }
@@ -63,7 +65,7 @@ public class XmlStyleConfigurationVisitor extends XmlIsoVisitor<ExecutionContext
         return super.visitTag(tag, ctx);
     }
 
-    private Xml.@Nullable Tag getTagWithClassNameValueAsTagName(Xml.@NotNull Tag tag) {
+    private Xml.@Nullable Tag getTagWithClassNameValueAsTagName(Xml.@NotNull Tag tag, String classSimpleName) {
         Optional<Xml.Attribute> classNameAttribute = TagHandler.getAttributeFromTagByKey(tag, "className");
         //Check if className Attribute exists (not really necessary but recommended by Optional.get method annotation)
         if (classNameAttribute.isPresent()){
@@ -75,19 +77,18 @@ public class XmlStyleConfigurationVisitor extends XmlIsoVisitor<ExecutionContext
                 || className.startsWith("nl.nn.adapterframework.")
             ) {
                 //Extract the class name without package names
-                String newName = subPackage[subPackage.length-1];
                 String type = subPackage[subPackage.length-2];
 
                 //Check if tag className is in the *.pipe.{pipe's simple class name} namespace and if it doesn't yet end with "Pipe"
-                if (!newName.endsWith("Pipe")&&type.equals("pipes")){
+                if (!classSimpleName.endsWith("Pipe")&&type.equals("pipes")){
                     //Add "Pipe" at the end of the tag's name if it does not end with it already.
                     //Some pipe classes don't end with pipe (in java), but need to (in xml) in order to make some properties accessible.
                     // For instance Json2XmlValidator class needs to be implemented like <Json2XmlValidatorPipe .../> because Json2XmlValidator.setSender() is a protected method
-                    newName=newName+"Pipe";
+                    classSimpleName=classSimpleName+"Pipe";
                 }
 
                 //Update the tag name to the indexed class name
-                Xml.Tag updatedTag = tag.withName(newName);
+                Xml.Tag updatedTag = tag.withName(classSimpleName);
 
                 //Remove the className attribute
                 updatedTag = TagHandler.getTagWithoutAttribute(updatedTag, "className");
@@ -98,6 +99,10 @@ public class XmlStyleConfigurationVisitor extends XmlIsoVisitor<ExecutionContext
     }
 
     private boolean isCustomElement(String className) {
-        return PackageScanner.getInstance().getClasses().stream().noneMatch(clazz -> className.equals(clazz.getSimpleName()));  // Returns true if it's custom (not found), false if it's a known class
+        return PackageScanner.getInstance().getClasses().stream().noneMatch(clazz -> className.equalsIgnoreCase(clazz.getSimpleName()));  // Returns true if it's custom (not found), false if it's a known class
+    }
+    private String getElementName(String className) {
+        Optional<Class<?>> foundClass = PackageScanner.getInstance().getClasses().stream().filter(clazz -> className.equalsIgnoreCase(clazz.getSimpleName())).findFirst();;  // Returns true if it's custom (not found), false if it's a known class
+        return foundClass.map(Class::getSimpleName).orElse(null);
     }
 }

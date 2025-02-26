@@ -16,10 +16,6 @@
 
 package org.frankrewrite.recipes.util;
 
-import jakarta.el.MethodNotFoundException;
-import org.jetbrains.annotations.NotNull;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -33,7 +29,6 @@ public class ElementMapper {
     private static final Map<String, Map<Method, Method>> deprecatedMethodToNewMethodMapCache = new ConcurrentHashMap<>();
 
     // List for debugging
-    public static ArrayList<String> log = new ArrayList<>();
 
     public static Map<Class<?>, Class<?>> getDeprecatedClassToNewClassMapInPackage() {
         // Check cache first
@@ -51,17 +46,15 @@ public class ElementMapper {
                 .filter(clazz -> clazz.isAnnotationPresent(Deprecated.class))
                 .forEach(deprecatedClass -> {
                     try {
-                        String warning = getConfigurationWarningValue(deprecatedClass);
-                        Class<?> newClass = extractNewClassFromConfigurationWarning(warning, classNameToClassMap, deprecatedClass);
+                        String warning = AnnotationExtractor.getConfigurationWarningValue(deprecatedClass);
+                        Class<?> newClass = AnnotationExtractor.extractNewClassFromConfigurationWarning(warning, classNameToClassMap, deprecatedClass);
                         result.put(deprecatedClass, newClass);
                         deprecatedClassToNewClassMapCache.putIfAbsent(deprecatedClass, newClass);
                     } catch (Exception e) {
-                        System.out.println(e.getMessage()); // Log the issue
+                        AnnotationExtractor.getLog().add(e.getMessage()); // Log the issue
                     }
                 });
 
-        // Cache the result for future calls
-//        deprecatedClassToNewClassMapCache.putIfAbsent();
         return result;
     }
 
@@ -81,11 +74,11 @@ public class ElementMapper {
                     for (Method deprecatedMethod : classIn.getMethods()) {
                         if (deprecatedMethod.isAnnotationPresent(Deprecated.class)) {
                             try {
-                                String warning = getConfigurationWarningValue(deprecatedMethod);
-                                Method newMethod = extractNewAttributesFromConfigurationWarning(warning, classIn, deprecatedMethod);
+                                String warning = AnnotationExtractor.getConfigurationWarningValue(deprecatedMethod);
+                                Method newMethod = AnnotationExtractor.extractNewAttributesFromConfigurationWarning(warning, classIn, deprecatedMethod);
                                 deprecatedMethodNewMethodMap.put(deprecatedMethod, newMethod);
                             } catch (Exception e) {
-                                System.out.println(e.getMessage());
+                                AnnotationExtractor.getLog().add(e.getMessage());
                             }
                         }
                     }
@@ -97,95 +90,17 @@ public class ElementMapper {
 
         // Cache the result for future calls
         deprecatedMethodToNewMethodMapCache.put(className, result);
-        log.forEach(System.out::println);
+        AnnotationExtractor.getLog().forEach(System.out::println);
         return result;
     }
 
     private static Map<String, Class<?>> getClassNameToClassMap(Set<Class<?>> classesIn) {
+        //Convert Set<Class<?>> to a Map<String, Class<?>> where map key is the simple name of the map value.
         return classesIn.stream()
                 .collect(Collectors.toMap(
                         Class::getSimpleName,
                         clazz -> clazz,
                         (existing, duplicate) -> existing // Keep the first one
                 ));
-    }
-
-    private static String getConfigurationWarningValue(Class<?> clazz) {
-        try {
-            Annotation annotation = clazz.getAnnotation(PackageScanner.getInstance().getConfigurationWarningClass());
-            // Look up the 'value' method in the actual annotation type.
-            Method valueMethod = annotation.annotationType().getMethod("value");
-            Object result = valueMethod.invoke(annotation);
-            return result.toString(); // or cast to the appropriate type if needed
-        } catch (NoSuchMethodException e) {
-            throw new IllegalStateException("The annotation does not have a 'value()' method.", e);
-        } catch (IllegalAccessException | InvocationTargetException e) {
-            throw new RuntimeException("Failed to invoke 'value()' on the annotation.", e);
-        }
-    }
-
-    private static String getConfigurationWarningValue(Method method) {
-        try {
-
-            Annotation annotation = method.getAnnotation(PackageScanner.getInstance().getConfigurationWarningClass());
-            // Look up the 'value' method in the actual annotation type.
-            Method valueMethod = annotation.annotationType().getMethod("value");
-            Object result = valueMethod.invoke(annotation);
-            return result.toString(); // or cast to the appropriate type if needed
-        } catch (NoSuchMethodException e) {
-            throw new IllegalStateException("The annotation does not have a 'value()' method.", e);
-        } catch (IllegalAccessException | InvocationTargetException e) {
-            throw new RuntimeException("Failed to invoke 'value()' on the annotation.", e);
-        }
-    }
-
-    private static @NotNull Class<?> extractNewClassFromConfigurationWarning(String warning,
-                                                                             Map<String, Class<?>> classLookup,
-                                                                             Class<?> deprecatedClass) throws ClassNotFoundException {
-        String[] segments = warning.split(" ");
-
-        List<Class<?>> foundClasses = Arrays.stream(segments)
-                .map(segment -> classLookup.get(segment.replace(".", "")))
-                .filter(Objects::nonNull)
-                .filter(clazz -> !clazz.equals(deprecatedClass))
-                .distinct()
-                .collect(Collectors.toList());
-        if (foundClasses.isEmpty()) {
-            foundClasses = Arrays.stream(segments)
-                    .map(segment -> classLookup.get(segment.replace(".", "").replace("Pipe", "")))
-                    .filter(Objects::nonNull)
-                    .filter(clazz -> !clazz.equals(deprecatedClass))
-                    .distinct()
-                    .collect(Collectors.toList());
-        }
-        if (foundClasses.isEmpty()) {
-            log.add(deprecatedClass.getSimpleName()+": No updated class implementation found in warning: "+warning);
-            throw new ClassNotFoundException(deprecatedClass.getSimpleName()+": No updated class implementation found in warning: " + warning);
-        } else if (foundClasses.size() == 1) {
-            if (warning.toLowerCase().contains("configure")){
-                log.add(deprecatedClass.getSimpleName()+": Cant handle configure warnings properly, warning: "+warning);
-                throw new ClassNotFoundException(deprecatedClass.getSimpleName()+": Cant handle configure warnings properly, warning: "+warning);
-            }
-            return foundClasses.get(0);
-        } else {
-//            System.out.println("Multiple class names found in warning: " + warning);
-//            return foundClasses.get(0); // Returning the first match for now
-            log.add(deprecatedClass.getSimpleName()+": Multiple class names found in warning: "+warning);
-            throw new ClassNotFoundException(deprecatedClass.getSimpleName()+": Multiple class names found in warning: " + warning);
-        }
-    }
-
-    private static Method extractNewAttributesFromConfigurationWarning(String warning, Class<?> clazz, Method deprecatedMethod) {
-        String[] segments = warning.split(" ");
-
-        return Arrays.stream(segments)
-                .map(segment -> "set" + segment.replace(".", "").replace("'", "").replace("\"", "").toLowerCase())
-                .flatMap(expectedMethodName -> Arrays.stream(clazz.getMethods())
-                        .filter(method -> method.getName().equalsIgnoreCase(expectedMethodName) && !method.equals(deprecatedMethod)))
-                .findFirst()
-                .orElseThrow(() -> {
-                    log.add(clazz.getSimpleName()+": No updated method/attribute implementation found in warning: " + warning);
-                    return new MethodNotFoundException("No updated method/attribute implementation found in warning: " + warning);
-                });
     }
 }
