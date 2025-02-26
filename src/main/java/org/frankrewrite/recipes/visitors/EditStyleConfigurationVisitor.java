@@ -27,7 +27,7 @@ import org.openrewrite.xml.tree.Xml;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class XmlStyleConfigurationVisitor extends XmlIsoVisitor<ExecutionContext> {
+public class EditStyleConfigurationVisitor extends XmlIsoVisitor<ExecutionContext> {
     @Override
     public Xml.Tag visitTag(Xml.Tag tag, ExecutionContext ctx) {
         //Handle exceptional cases, these produce warnings when refactored

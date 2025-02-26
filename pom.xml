@@ -22,7 +22,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <iaf.version>7.7</iaf.version>
-        <ff.version>8.0.0</ff.version>
+        <ff.version>8.0.1</ff.version>
         <artifactName>frankrewrite</artifactName>
         <package>nl.nn.adapterframework</package>
         <!-- <artifactId>OpenRewrite_test</artifactId> -->

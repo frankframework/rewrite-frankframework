@@ -16,7 +16,7 @@
 
 package org.frankrewrite.recipes;
 
-import org.frankrewrite.recipes.visitors.XmlStyleConfigurationVisitor;
+import org.frankrewrite.recipes.visitors.EditStyleConfigurationVisitor;
 import org.jetbrains.annotations.NotNull;
 import org.openrewrite.ExecutionContext;
 import org.openrewrite.Recipe;
@@ -35,6 +35,6 @@ public class EditStyleConfigurationRecipe extends Recipe {
 
     @Override
     public @NotNull TreeVisitor<?, ExecutionContext> getVisitor() {
-        return new XmlStyleConfigurationVisitor();
+        return new EditStyleConfigurationVisitor();
     }
 }

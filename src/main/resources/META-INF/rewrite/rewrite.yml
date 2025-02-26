@@ -23,11 +23,11 @@
 # You can also have multiple files in `src/main/resources/META-INF/rewrite`, each containing one or more recipes.
 ---
 type: specs.openrewrite.org/v1beta/recipe
-name: org.frankrewrite.myrecipe
-displayName: Placeholder recipe
-description: This is a placeholder.
+name: com.yourorg.7_3_to_7_4
+displayName: Recipe to migrate from 7.3 to 7.4
+description: Migrates franks from 7.3 to 7.4.
 recipeList:
-  - org.frankrewrite.recipes.RemoveAttributeRecipe:
+  - com.yourorg.recipes.RemoveAttributeRecipe:
       attributeName: "xslt2"
-  - org.frankrewrite.recipes.FrameworkVersionRecipe:
+  - com.yourorg.recipes.FrameworkVersionRecipe:
       version: "7.4"
