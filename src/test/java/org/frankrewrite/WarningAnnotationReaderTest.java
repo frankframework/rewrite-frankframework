@@ -30,46 +30,14 @@ public class WarningAnnotationReaderTest implements RewriteTest{
     }
 
     @Test
-    void changesDeprecatedElementNameAndAttributes() {
-        rewriteRun(recipeSpec -> recipeSpec.cycles(2),
-          xml(
-            """
-                <FileLineIteratorPipe charset="utf-8"/>
-            """,
-            """
-                <StreamLineIteratorPipe charset="utf-8"/>
-            """
-          )
-        );
-    }
-
-    @Test
-    void changesDeprecatedElementAttribute1() {
+    void changesDeprecatedElementName() {
         rewriteRun(
           xml(
             """
-                <PutParametersInSessionPipe
-                    name="PutPayloadInSession"
-                    preserveInput="true"
-                >
-                    <param name="payload" 		sessionKey="OriginalRequest" xpathExpression="request/payload" defaultValue="null"/>
-                    <param name="javaListener"  sessionKey="OriginalRequest" xpathExpression="request/javaListener"/>
-            
-                    <forward name="success" path="ChooseMethod"/>
-                    <forward name="exception" path="ServerError" />
-                </PutParametersInSessionPipe>
+                <MyPipeTwo />
             """,
             """
-                <PutInSessionPipe
-                    name="PutPayloadInSession"
-                    preserveInput="true"
-                >
-                    <param name="payload" 		sessionKey="OriginalRequest" xpathExpression="request/payload" defaultValue="null"/>
-                    <param name="javaListener"  sessionKey="OriginalRequest" xpathExpression="request/javaListener"/>
-            
-                    <forward name="success" path="ChooseMethod"/>
-                    <forward name="exception" path="ServerError" />
-                </PutInSessionPipe>
+                <MySecondPipe />
             """
           )
         );
@@ -80,31 +48,26 @@ public class WarningAnnotationReaderTest implements RewriteTest{
         rewriteRun(recipeSpec -> recipeSpec.cycles(1),
           xml(
             """
-                <XmlSwitch serviceSelectionStylesheetFilename="x">
+                <MySecondPipe pipeAttribute="x">
 
-                </XmlSwitch>
+                </MySecondPipe>
             """,
             """
-                <XmlSwitch styleSheetName="x">
+                <MySecondPipe myPipeAttribute="x">
 
-                </XmlSwitch>
+                </MySecondPipe>
             """
           )
         );
     }
     @Test
-    void changesDeprecatedElementAttributes() {
-        rewriteRun(recipeSpec -> recipeSpec.cycles(1),
+    void dontChangeDeprecatedElementNamesForInvalidWarnings() {
+        rewriteRun(
           xml(
             """
-                <XmlSwitch serviceSelectionStylesheetFilename="x">
+                <MyPipe>
 
-                </XmlSwitch>
-            """,
-            """
-                <XmlSwitch styleSheetName="x">
-
-                </XmlSwitch>
+                </MyPipe>
             """
           )
         );
