@@ -16,10 +16,6 @@
 
 package org.frankrewrite.recipes.util;
 
-import jakarta.el.MethodNotFoundException;
-import org.jetbrains.annotations.NotNull;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -55,12 +51,10 @@ public class ElementMapper {
                         result.put(deprecatedClass, newClass);
                         deprecatedClassToNewClassMapCache.putIfAbsent(deprecatedClass, newClass);
                     } catch (Exception e) {
-                        System.out.println(e.getMessage()); // Log the issue
+                        AnnotationExtractor.getLog().add(e.getMessage()); // Log the issue
                     }
                 });
 
-        // Cache the result for future calls
-//        deprecatedClassToNewClassMapCache.putIfAbsent();
         return result;
     }
 
@@ -84,7 +78,7 @@ public class ElementMapper {
                                 Method newMethod = AnnotationExtractor.extractNewAttributesFromConfigurationWarning(warning, classIn, deprecatedMethod);
                                 deprecatedMethodNewMethodMap.put(deprecatedMethod, newMethod);
                             } catch (Exception e) {
-                                System.out.println(e.getMessage());
+                                AnnotationExtractor.getLog().add(e.getMessage());
                             }
                         }
                     }
@@ -101,6 +95,7 @@ public class ElementMapper {
     }
 
     private static Map<String, Class<?>> getClassNameToClassMap(Set<Class<?>> classesIn) {
+        //Convert Set<Class<?>> to a Map<String, Class<?>> where map key is the simple name of the map value.
         return classesIn.stream()
                 .collect(Collectors.toMap(
                         Class::getSimpleName,
