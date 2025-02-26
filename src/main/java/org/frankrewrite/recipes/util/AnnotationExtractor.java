@@ -46,7 +46,7 @@ public class AnnotationExtractor {
             });
     }
 
-    public static String getConfigurationWarningValue(AnnotatedElement element) {
+    private static String getConfigurationWarningValue(AnnotatedElement element) {
         try {
             // Retrieve the annotation using the PackageScanner instance
             Annotation annotation = element.getAnnotation(PackageScanner.getInstance().getConfigurationWarningClass());
@@ -68,22 +68,25 @@ public class AnnotationExtractor {
     public static String getConfigurationWarningValue(Class<?> clazz) {
         return getConfigurationWarningValue((AnnotatedElement) clazz);
     }
-
     public static String getConfigurationWarningValue(Method method) {
         return getConfigurationWarningValue((AnnotatedElement) method);
     }
 
     public static @NotNull Class<?> extractNewClassFromConfigurationWarning(String warning,
-                                                                             Map<String, Class<?>> classLookup,
-                                                                             Class<?> deprecatedClass) throws ClassNotFoundException {
+                                                                            Map<String, Class<?>> classLookup,
+                                                                            Class<?> deprecatedClass) throws ClassNotFoundException {
+        // Split the warning message into individual words
         String[] segments = warning.split(" ");
 
+        // First attempt: Find a matching class in the lookup map
         List<Class<?>> foundClasses = Arrays.stream(segments)
                 .map(segment -> classLookup.get(segment.replace(".", "")))
                 .filter(Objects::nonNull)
-                .filter(clazz -> !clazz.equals(deprecatedClass))
+                .filter(clazz -> !clazz.equals(deprecatedClass)) // Exclude the deprecated class itself
                 .distinct()
                 .collect(Collectors.toList());
+
+        // Second attempt: Retry with additional filtering (removing "Pipe" from segments)
         if (foundClasses.isEmpty()) {
             foundClasses = Arrays.stream(segments)
                     .map(segment -> classLookup.get(segment.replace(".", "").replace("Pipe", "")))
@@ -92,20 +95,28 @@ public class AnnotationExtractor {
                     .distinct()
                     .collect(Collectors.toList());
         }
+
+        // If no class is found, log and throw an exception
         if (foundClasses.isEmpty()) {
-            log.add(deprecatedClass.getSimpleName()+": No updated class implementation found in warning: "+warning);
-            throw new ClassNotFoundException(deprecatedClass.getSimpleName()+": No updated class implementation found in warning: " + warning);
-        } else if (foundClasses.size() == 1) {
-            if (warning.toLowerCase().contains("configure")){
-                log.add(deprecatedClass.getSimpleName()+": Cant handle configure warnings properly, warning: "+warning);
-                throw new ClassNotFoundException(deprecatedClass.getSimpleName()+": Cant handle configure warnings properly, warning: "+warning);
+            log.add(deprecatedClass.getSimpleName() + ": No updated class implementation found in warning: " + warning);
+            throw new ClassNotFoundException(deprecatedClass.getSimpleName() + ": No updated class implementation found in warning: " + warning);
+        }
+        // If exactly one class is found, check for specific warning cases
+        else if (foundClasses.size() == 1) {
+            if (warning.toLowerCase().contains("configure")) {
+                log.add(deprecatedClass.getSimpleName() + ": Can't handle configure warnings properly, warning: " + warning);
+                throw new ClassNotFoundException(deprecatedClass.getSimpleName() + ": Can't handle configure warnings properly, warning: " + warning);
             }
-            return foundClasses.get(0);
-        } else {
-            log.add(deprecatedClass.getSimpleName()+": Multiple class names found in warning: "+warning);
-            throw new ClassNotFoundException(deprecatedClass.getSimpleName()+": Multiple class names found in warning: " + warning);
+            return foundClasses.get(0); // Return the found class
+        }
+        // If multiple classes are found, log and throw an exception
+        else {
+            log.add(deprecatedClass.getSimpleName() + ": Multiple class names found in warning: " + warning);
+            throw new ClassNotFoundException(deprecatedClass.getSimpleName() + ": Multiple class names found in warning: " + warning);
         }
     }
+
+    // Make log public for ElementMapper to use it
     public static ArrayList<String> getLog() {
         return log;
     }
