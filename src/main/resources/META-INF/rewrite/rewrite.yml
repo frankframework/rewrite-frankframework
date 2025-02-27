@@ -133,3 +133,51 @@ recipeList:
   - org.frankrewrite.recipes.FrameworkVersionRecipe:
       version: "7.7"
   - org.frankrewrite.recipes.RemoveRecurringExitsRecipe
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.frankrewrite.7_7_to_7_8
+displayName: Recipe to migrate from 7.7 to 7.8
+description: Migrates franks from 7.7 to 7.8.
+recipeList:
+  - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
+  - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
+  - org.frankrewrite.recipes.FrameworkVersionRecipe:
+      version: "7.8"
+  - org.frankrewrite.recipes.ChangeAttributeRecipe:
+      tagNameFilter: "exit"
+      attributeKeyFilter: "path"
+      newKey: "name"
+  - org.frankrewrite.recipes.ChangeAttributeRecipe:
+      tagNameFilter: "forward"
+      attributeKeyFilter: "name"
+      attributeValueFilter: "fail"
+      newKey: "name"
+      newValue: "failure"
+  - org.frankrewrite.recipes.RemoveAttributeRecipe:
+      tagName: "LarvaPipe"
+      attributeName: "writeToSystemOut"
+      value: "false"
+  - org.frankrewrite.recipes.RemoveAttributeRecipe:
+      tag: "FixedQuerySender"
+      attributeName: "jmsRealm"
+  - org.frankrewrite.recipes.MoveReturnedSessionKeysRecipe
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.frankrewrite.7_8_to_7_9_0
+displayName: Recipe to migrate from 7.8 to 7.9.0
+description: Migrates franks from 7.8 to 7.9.0.
+recipeList:
+  - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
+  - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
+  - org.frankrewrite.recipes.FrameworkVersionRecipe:
+      version: "7.9.0"
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.frankrewrite.7_9_0_to_8_0_1
+displayName: Recipe to migrate from 7.9.0 to 8.0.1
+description: Migrates franks from 7.9.0 to 8.0.1.
+recipeList:
+  - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
+  - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
+  - org.frankrewrite.recipes.FrameworkVersionRecipe:
+      version: "8.0.1"
