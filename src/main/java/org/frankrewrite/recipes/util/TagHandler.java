@@ -34,6 +34,10 @@ public class TagHandler {
     public static @NotNull Optional<String> getAttributeValueFromTagByKey(Xml.Tag tag, String attributeKey) {
         return getAttributeFromTagByKey(tag, attributeKey).map(Xml.Attribute::getValueAsString);
     }
+    public static @NotNull Optional<Xml.Attribute> getAttributeFromTagByValue(Xml.Tag tag, String attributeValue) {
+        return tag.getAttributes().stream()
+                .filter(attribute -> attribute.getValueAsString().equalsIgnoreCase(attributeValue)).findFirst();
+    }
     //Checks if tag1 has an attribute that has the attribute name (key) with the expected value (expectedValue)
     public static boolean hasMatchingAttribute(Xml.Tag tag, String key, String expectedValue) {
         return getAttributeValueFromTagByKey(tag, key)
@@ -60,6 +64,9 @@ public class TagHandler {
     }
     public static @NotNull boolean hasAnyAttributeWithValue(Xml.Tag tag, String attributeValue) {
         return tag.getAttributes().stream().anyMatch(attribute -> attribute.getValueAsString().equalsIgnoreCase(attributeValue));
+    }
+    public static @NotNull boolean hasAnyAttributeWithKeyValue(Xml.Tag tag, String attributeKey, String attributeValue) {
+        return tag.getAttributes().stream().anyMatch(attribute -> attribute.getValueAsString().equalsIgnoreCase(attributeValue)&&attribute.getKeyAsString().equalsIgnoreCase(attributeKey));
     }
     public static @NotNull boolean hasAnyAttributeWithValue(Xml.Tag tag, Optional<String> attributeValue) {
         return attributeValue.filter(s -> tag.getAttributes().stream().anyMatch(attribute -> attribute.getValueAsString().equalsIgnoreCase(s))).isPresent();
@@ -100,6 +107,4 @@ public class TagHandler {
         );
         return updatedTag;
     }
-
-
 }
