@@ -38,4 +38,15 @@ public class ReplaceTagNameRecipeTest implements RewriteTest {
           )
         );
     }
+
+    @Test
+    void DontAddAttributeToElement(){
+        rewriteRun(
+          xml(
+            """
+                  <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified"/>
+                  """
+          )
+        );
+    }
 }

@@ -31,11 +31,11 @@ public class ChangeAttributeVisitor extends XmlIsoVisitor<ExecutionContext> {
     String newValue;
 
 
-    public ChangeAttributeVisitor(String tagName, String oldName, String newName, String oldValue, String newValue) {
-        this.tagNameFilter = tagName;
-        this.attributeKeyFilter = oldName;
-        this.newKey = newName;
-        this.attributeValueFilter = oldValue;
+    public ChangeAttributeVisitor(String tagNameFilter, String attributeKeyFilter, String newKey, String attributeValueFilter, String newValue) {
+        this.tagNameFilter = tagNameFilter;
+        this.attributeKeyFilter = attributeKeyFilter;
+        this.newKey = newKey;
+        this.attributeValueFilter = attributeValueFilter;
         this.newValue = newValue;
     }
 
@@ -51,11 +51,11 @@ public class ChangeAttributeVisitor extends XmlIsoVisitor<ExecutionContext> {
             return super.visitTag(tag, executionContext);
         }
         //Check if attribute key/value matches if filter exists
-        if (attributeKeyFilter!=null && attributeValueFilter!=null && !TagHandler.hasAnyAttributeWithKey(tag, attributeKeyFilter)){
+        if (attributeKeyFilter!=null && !TagHandler.hasAnyAttributeWithKey(tag, attributeKeyFilter)){
             return super.visitTag(tag, executionContext);
         }
         //Check if attribute key/value matches if filter exists
-        if (attributeKeyFilter!=null && attributeValueFilter!=null && !TagHandler.hasAnyAttributeWithValue(tag, attributeValueFilter)){
+        if (attributeValueFilter!=null && !TagHandler.hasAnyAttributeWithValue(tag, attributeValueFilter)){
             return super.visitTag(tag, executionContext);
         }
 

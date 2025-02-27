@@ -97,13 +97,11 @@ recipeList:
       tagNameFilter: "exit"
       attributeKeyFilter: "state"
       attributeValueFilter: "succes" #Typo? Misschien beter verplaatsen naar de pom.xml
-      newName: "state"
       newValue: "success"
   - org.frankrewrite.recipes.ChangeAttributeRecipe:
       tagNameFilter: "param"
       attributeKeyFilter: "type"
       attributeValueFilter: "double"
-      newName: "type"
       newValue: "number"
   - org.frankrewrite.recipes.RemoveAttributeRecipe:
       tagName: "param"
@@ -113,19 +111,16 @@ recipeList:
       tagNameFilter: "FixedQuerySender"
       attributeKeyFilter: "queryType"
       attributeValueFilter: "insert into"
-      newName: "queryType"
       newValue: "other"
   - org.frankrewrite.recipes.ChangeAttributeRecipe:
       tagNameFilter: "FixedQuerySender"
       attributeKeyFilter: "queryType"
       attributeValueFilter: "insert"
-      newName: "queryType"
       newValue: "other"
   - org.frankrewrite.recipes.ChangeAttributeRecipe:
       tagNameFilter: "FixedQuerySender"
       attributeKeyFilter: "queryType"
       attributeValueFilter: "update"
-      newName: "queryType"
       newValue: "other"
   - org.frankrewrite.recipes.RemoveAttributeRecipe:
       tag: "FixedQuerySender"

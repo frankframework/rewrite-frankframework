@@ -68,4 +68,19 @@ public class ChangeAttributeTest implements RewriteTest {
           )
         );
     }
+    @Test
+    void changesValueForOldValue2(){
+        rewriteRun(spec-> spec.recipe(new ChangeAttributeRecipe("exit","state", null, "succes", "success")),
+          xml(
+            """
+                <exits>
+                    <exit path="OK" state="succes" />
+                </exits>""",
+                """
+                <exits>
+                    <exit path="OK" state="success" />
+                </exits>"""
+          )
+        );
+    }
 }

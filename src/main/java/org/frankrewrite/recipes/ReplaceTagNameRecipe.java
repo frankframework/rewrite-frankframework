@@ -50,9 +50,10 @@ public class ReplaceTagNameRecipe extends Recipe {
             @Override
             public Xml.Tag visitTag(Xml.Tag tag, ExecutionContext executionContext) {
                 if (!tag.getName().equalsIgnoreCase(oldName)) {
-                    super.visitTag(tag, executionContext);
+                    return super.visitTag(tag, executionContext);
+                }else{
+                    return tag.withName(newName);
                 }
-                return tag.withName(newName);
             }
         };
     }

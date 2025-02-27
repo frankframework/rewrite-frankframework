@@ -43,7 +43,7 @@ public class ChangeAttributeRecipe extends Recipe {
     String newValue;
 
     @JsonCreator
-    public ChangeAttributeRecipe(@JsonProperty("tagName")String tagName, @JsonProperty("oldName")String oldName, @JsonProperty("newName")String newName, @JsonProperty("oldValue")String oldValue, @JsonProperty("newValue")String newValue) {
+    public ChangeAttributeRecipe(@JsonProperty("tagNameFilter")String tagName, @JsonProperty("attributeKeyFilter")String oldName, @JsonProperty("newKey")String newName, @JsonProperty("attributeValueFilter")String oldValue, @JsonProperty("newValue")String newValue) {
         this.tagNameFilter = tagName;
         this.attributeKeyFilter = oldName;
         this.newKey = newName;
