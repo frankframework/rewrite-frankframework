@@ -60,11 +60,11 @@ recipeList:
   - org.frankrewrite.recipes.ReplaceTagNameRecipe:
       oldName: "FilePipe"
       newName: "LocalFileSystemPipe"
-  - org.frankrewrite.recipes.changeAttributeRecipe:
+  - org.frankrewrite.recipes.ChangeAttributeRecipe:
       tagNameFilter: "XmlSwitchPipe"
       attributeKeyFilter: "serviceSelectionStylesheetFilename"
       newKey: "styleSheetName"
-  - org.frankrewrite.recipes.changeAttributeRecipe:
+  - org.frankrewrite.recipes.ChangeAttributeRecipe:
       tagNameFilter: "LocalFileSystemPipe"
       attributeKeyFilter: "outputType"
       newKey: "base64"
@@ -72,4 +72,64 @@ recipeList:
   - org.frankrewrite.recipes.ParameterizedActionsRecipe
   - org.frankrewrite.recipes.FrameworkVersionRecipe:
       version: "7.6"
-      
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.frankrewrite.7_6_to_7_7
+displayName: Recipe to migrate from 7.6 to 7.7
+description: Migrates franks from 7.6 to 7.7.
+recipeList:
+  - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
+  - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
+  - org.frankrewrite.recipes.RemoveAttributeRecipe:
+      # Misschien beter type parameter toevoegen, aangezien het alleen voor job elements is bedoeld.
+      attributeName: "adapterName" # Er staat nergens wat hiermee moet gebeuren dus ik verwijder het.
+  - org.frankrewrite.recipes.ReplaceTagNameRecipe:
+      oldName: "IOS-Adaptering"
+      newName: "Configuration"
+  - org.frankrewrite.recipes.ReplaceTagNameRecipe:
+      oldName: "ibis"
+      newName: "Module"
+  - org.frankrewrite.recipes.RemoveAttributeRecipe:
+      tagName: "ApiListener"
+      attributeName: "method"
+      value: "get"
+  - org.frankrewrite.recipes.ChangeAttributeRecipe:
+      tagNameFilter: "exit"
+      attributeKeyFilter: "state"
+      attributeValueFilter: "succes" #Typo? Misschien beter verplaatsen naar de pom.xml
+      newName: "state"
+      newValue: "success"
+  - org.frankrewrite.recipes.ChangeAttributeRecipe:
+      tagNameFilter: "param"
+      attributeKeyFilter: "type"
+      attributeValueFilter: "double"
+      newName: "type"
+      newValue: "number"
+  - org.frankrewrite.recipes.RemoveAttributeRecipe:
+      tagName: "param"
+      attributeName: "type"
+      value: "string"
+  - org.frankrewrite.recipes.ChangeAttributeRecipe:
+      tagNameFilter: "FixedQuerySender"
+      attributeKeyFilter: "queryType"
+      attributeValueFilter: "insert into"
+      newName: "queryType"
+      newValue: "other"
+  - org.frankrewrite.recipes.ChangeAttributeRecipe:
+      tagNameFilter: "FixedQuerySender"
+      attributeKeyFilter: "queryType"
+      attributeValueFilter: "insert"
+      newName: "queryType"
+      newValue: "other"
+  - org.frankrewrite.recipes.ChangeAttributeRecipe:
+      tagNameFilter: "FixedQuerySender"
+      attributeKeyFilter: "queryType"
+      attributeValueFilter: "update"
+      newName: "queryType"
+      newValue: "other"
+  - org.frankrewrite.recipes.RemoveAttributeRecipe:
+      tag: "FixedQuerySender"
+      attributeName: "jmsRealm"
+  - org.frankrewrite.recipes.FrameworkVersionRecipe:
+      version: "7.7"
+  - org.frankrewrite.recipes.RemoveRecurringExitsRecipe
