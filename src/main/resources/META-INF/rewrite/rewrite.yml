@@ -49,3 +49,27 @@ recipeList:
       newName: "SenderPipe"
   - org.frankrewrite.recipes.FrameworkVersionRecipe:
       version: "7.5"
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.frankrewrite.7_5_to_7_6
+displayName: Recipe to migrate from 7.5 to 7.6
+description: Migrates franks from 7.5 to 7.6.
+recipeList:
+  - org.frankrewrite.recipes.RemoveAttributeRecipe:
+      attributeName: "configurationName"
+  - org.frankrewrite.recipes.ReplaceTagNameRecipe:
+      oldName: "FilePipe"
+      newName: "LocalFileSystemPipe"
+  - org.frankrewrite.recipes.changeAttributeRecipe:
+      tagNameFilter: "XmlSwitchPipe"
+      attributeKeyFilter: "serviceSelectionStylesheetFilename"
+      newKey: "styleSheetName"
+  - org.frankrewrite.recipes.changeAttributeRecipe:
+      tagNameFilter: "LocalFileSystemPipe"
+      attributeKeyFilter: "outputType"
+      newKey: "base64"
+      newValue: "DECODE" #Hoe weet je of je encode of decode moet toepassen?
+  - org.frankrewrite.recipes.ParameterizedActionsRecipe
+  - org.frankrewrite.recipes.FrameworkVersionRecipe:
+      version: "7.6"
+      
