@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.frankrewrite</groupId>
-    <artifactId>frankrewrite</artifactId>
+    <artifactId>${artifactId}</artifactId>
     <version>1.0.1-SNAPSHOT</version>
 
     <licenses>
@@ -25,7 +25,7 @@
         <ff.version>8.0.1</ff.version>
         <artifactName>frankrewrite</artifactName>
         <package>nl.nn.adapterframework</package>
-        <!-- <artifactId>OpenRewrite_test</artifactId> -->
+        <artifactId>frankrewrite</artifactId>
     </properties>
 
     <profiles>
@@ -44,6 +44,12 @@
                     <groupId>org.ibissource</groupId>
                     <artifactId>ibis-adapterframework-larva</artifactId>
                     <version>${iaf.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>javax.servlet</groupId>
+                    <artifactId>javax.servlet-api</artifactId>
+                    <version>3.1.0</version>
+                    <scope>provided</scope>
                 </dependency>
             </dependencies>
         </profile>
@@ -64,6 +70,12 @@
                     <artifactId>ibis-adapterframework-larva</artifactId>
                     <version>${iaf.version}</version>
                 </dependency>
+                <dependency>
+                    <groupId>javax.servlet</groupId>
+                    <artifactId>javax.servlet-api</artifactId>
+                    <version>3.1.0</version>
+                    <scope>provided</scope>
+                </dependency>
             </dependencies>
         </profile>
         <profile>
@@ -82,6 +94,12 @@
                     <groupId>org.ibissource</groupId>
                     <artifactId>ibis-adapterframework-larva</artifactId>
                     <version>${iaf.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>javax.servlet</groupId>
+                    <artifactId>javax.servlet-api</artifactId>
+                    <version>3.1.0</version>
+                    <scope>provided</scope>
                 </dependency>
             </dependencies>
         </profile>
@@ -108,6 +126,12 @@
                     <artifactId>frankframework-batch</artifactId>
                     <version>${ff.version}</version>
                 </dependency>
+                <dependency>
+                    <groupId>javax.servlet</groupId>
+                    <artifactId>javax.servlet-api</artifactId>
+                    <version>3.1.0</version>
+                    <scope>provided</scope>
+                </dependency>
             </dependencies>
         </profile>
         <profile>
@@ -132,6 +156,12 @@
                     <groupId>org.frankframework</groupId>
                     <artifactId>frankframework-batch</artifactId>
                     <version>${ff.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>javax.servlet</groupId>
+                    <artifactId>javax.servlet-api</artifactId>
+                    <version>3.1.0</version>
+                    <scope>provided</scope>
                 </dependency>
             </dependencies>
         </profile>
@@ -159,6 +189,11 @@
                     <artifactId>frankframework-batch</artifactId>
                     <version>${ff.version}</version>
                 </dependency>
+                <dependency>
+                    <groupId>jakarta.servlet</groupId>
+                    <artifactId>jakarta.servlet-api</artifactId>
+                    <version>6.1.0</version>
+                </dependency>
             </dependencies>
         </profile>
 
@@ -184,6 +219,11 @@
                     <groupId>org.frankframework</groupId>
                     <artifactId>frankframework-batch</artifactId>
                     <version>${ff.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>jakarta.servlet</groupId>
+                    <artifactId>jakarta.servlet-api</artifactId>
+                    <version>6.1.0</version>
                 </dependency>
             </dependencies>
         </profile>
@@ -211,6 +251,11 @@
                     <artifactId>frankframework-batch</artifactId>
                     <version>${ff.version}</version>
                 </dependency>
+                <dependency>
+                    <groupId>jakarta.servlet</groupId>
+                    <artifactId>jakarta.servlet-api</artifactId>
+                    <version>6.1.0</version>
+                </dependency>
             </dependencies>
         </profile>
 
@@ -236,6 +281,11 @@
                     <groupId>org.frankframework</groupId>
                     <artifactId>frankframework-batch</artifactId>
                     <version>${ff.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>jakarta.servlet</groupId>
+                    <artifactId>jakarta.servlet-api</artifactId>
+                    <version>6.1.0</version>
                 </dependency>
             </dependencies>
         </profile>
@@ -263,6 +313,11 @@
                     <artifactId>frankframework-batch</artifactId>
                     <version>${ff.version}</version>
                 </dependency>
+                <dependency>
+                    <groupId>jakarta.servlet</groupId>
+                    <artifactId>jakarta.servlet-api</artifactId>
+                    <version>6.1.0</version>
+                </dependency>
             </dependencies>
         </profile>
 
@@ -288,6 +343,11 @@
                     <groupId>org.frankframework</groupId>
                     <artifactId>frankframework-batch</artifactId>
                     <version>${ff.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>jakarta.servlet</groupId>
+                    <artifactId>jakarta.servlet-api</artifactId>
+                    <version>6.1.0</version>
                 </dependency>
             </dependencies>
         </profile>
@@ -315,6 +375,11 @@
                     <artifactId>frankframework-batch</artifactId>
                     <version>${ff.version}</version>
                 </dependency>
+                <dependency>
+                    <groupId>jakarta.servlet</groupId>
+                    <artifactId>jakarta.servlet-api</artifactId>
+                    <version>6.1.0</version>
+                </dependency>
             </dependencies>
         </profile>
 
@@ -341,6 +406,11 @@
                     <artifactId>frankframework-batch</artifactId>
                     <version>${ff.version}</version>
                 </dependency>
+                <dependency>
+                    <groupId>jakarta.servlet</groupId>
+                    <artifactId>jakarta.servlet-api</artifactId>
+                    <version>6.1.0</version>
+                </dependency>
             </dependencies>
         </profile>
 
@@ -366,6 +436,11 @@
                     <groupId>org.frankframework</groupId>
                     <artifactId>frankframework-batch</artifactId>
                     <version>${ff.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>jakarta.servlet</groupId>
+                    <artifactId>jakarta.servlet-api</artifactId>
+                    <version>6.1.0</version>
                 </dependency>
             </dependencies>
         </profile>
@@ -402,19 +477,6 @@
             <artifactId>log4j-slf4j-impl</artifactId>
             <version>2.20.0</version>
         </dependency>
-        <dependency>
-            <groupId>jakarta.el</groupId>
-            <artifactId>jakarta.el-api</artifactId>
-            <version>4.0.0</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
-            <version>2.5</version>
-            <scope>provided</scope>
-        </dependency>
-
         <!-- Rewrite dependencies -->
         <dependency>
             <groupId>org.openrewrite</groupId>
@@ -451,6 +513,12 @@
             <groupId>org.reflections</groupId>
             <artifactId>reflections</artifactId>
             <version>0.10.2</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>javax.servlet</groupId>
+                    <artifactId>javax.servlet-api</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
@@ -458,7 +526,6 @@
             <version>5.15.2</version>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
 
     <build>

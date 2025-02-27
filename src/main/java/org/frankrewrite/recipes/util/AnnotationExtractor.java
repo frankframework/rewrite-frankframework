@@ -16,7 +16,6 @@
 
 package org.frankrewrite.recipes.util;
 
-import jakarta.el.MethodNotFoundException;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.annotation.Annotation;
@@ -29,7 +28,7 @@ import java.util.stream.Collectors;
 public class AnnotationExtractor {
     public static ArrayList<String> log = new ArrayList<>();
 
-    public static Method extractNewAttributesFromConfigurationWarning(String warning, Class<?> clazz, Method deprecatedMethod) {
+    public static Method extractNewAttributesFromConfigurationWarning(String warning, Class<?> clazz, Method deprecatedMethod) throws Exception {
         //Split segments into a list of words
         String[] segments = warning.split(" ");
 
@@ -45,7 +44,7 @@ public class AnnotationExtractor {
             return matchedMethods.get(0); // Java 16+ or matchedMethods.get(0);
         } else {
             log.add(clazz.getSimpleName() + ": No updated method/attribute implementation found in warning: " + warning);
-            throw new MethodNotFoundException("No updated method/attribute implementation found in warning: " + warning);
+            throw new Exception("No updated method/attribute implementation found in warning: " + warning);
         }
     }
 
@@ -77,7 +76,7 @@ public class AnnotationExtractor {
 
     public static @NotNull Class<?> extractNewClassFromConfigurationWarning(String warning,
                                                                             Map<String, Class<?>> classLookup,
-                                                                            Class<?> deprecatedClass) throws ClassNotFoundException {
+                                                                            Class<?> deprecatedClass) throws Exception {
         // Split the warning message into individual words
         String[] segments = warning.split(" ");
 
@@ -102,20 +101,20 @@ public class AnnotationExtractor {
         // If no class is found, log and throw an exception
         if (foundClasses.isEmpty()) {
             log.add(deprecatedClass.getSimpleName() + ": No updated class implementation found in warning: " + warning);
-            throw new ClassNotFoundException(deprecatedClass.getSimpleName() + ": No updated class implementation found in warning: " + warning);
+            throw new Exception(deprecatedClass.getSimpleName() + ": No updated class implementation found in warning: " + warning);
         }
         // If exactly one class is found, check for specific warning cases
         else if (foundClasses.size() == 1) {
             if (warning.toLowerCase().contains("configure")) {
                 log.add(deprecatedClass.getSimpleName() + ": Can't handle configure warnings properly, warning: " + warning);
-                throw new ClassNotFoundException(deprecatedClass.getSimpleName() + ": Can't handle configure warnings properly, warning: " + warning);
+                throw new Exception(deprecatedClass.getSimpleName() + ": Can't handle configure warnings properly, warning: " + warning);
             }
             return foundClasses.get(0); // Return the found class
         }
         // If multiple classes are found, log and throw an exception
         else {
             log.add(deprecatedClass.getSimpleName() + ": Multiple class names found in warning: " + warning);
-            throw new ClassNotFoundException(deprecatedClass.getSimpleName() + ": Multiple class names found in warning: " + warning);
+            throw new Exception(deprecatedClass.getSimpleName() + ": Multiple class names found in warning: " + warning);
         }
     }
 

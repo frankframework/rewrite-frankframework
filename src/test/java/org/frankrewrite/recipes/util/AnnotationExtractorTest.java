@@ -16,7 +16,6 @@
 
 package org.frankrewrite.recipes.util;
 
-import jakarta.el.MethodNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.lang.reflect.Method;
@@ -33,7 +32,7 @@ class AnnotationExtractorTest {
     }
 
     @Test
-    void testExtractNewAttributesFromConfigurationWarning_MethodFound() throws NoSuchMethodException {
+    void testExtractNewAttributesFromConfigurationWarning_MethodFound() throws Exception {
         class TestClass {
             public void setExampleMethod() {}
             @Deprecated
@@ -50,7 +49,7 @@ class AnnotationExtractorTest {
     void testExtractNewAttributesFromConfigurationWarning_MethodNotFound() {
         class TestClass {}
 
-        MethodNotFoundException exception = assertThrows(MethodNotFoundException.class, () ->
+        Exception exception = assertThrows(Exception.class, () ->
           AnnotationExtractor.extractNewAttributesFromConfigurationWarning("nonExistentMethod", TestClass.class, null)
         );
 
@@ -58,7 +57,7 @@ class AnnotationExtractorTest {
     }
 
     @Test
-    void testExtractNewClassFromConfigurationWarning_ClassFound() throws ClassNotFoundException {
+    void testExtractNewClassFromConfigurationWarning_ClassFound() throws Exception {
         Map<String, Class<?>> classLookup = new HashMap<>();
         classLookup.put("NewClass", String.class);
 
@@ -72,7 +71,7 @@ class AnnotationExtractorTest {
     void testExtractNewClassFromConfigurationWarning_ClassNotFound() {
         Map<String, Class<?>> classLookup = new HashMap<>();
 
-        ClassNotFoundException exception = assertThrows(ClassNotFoundException.class, () ->
+        Exception exception = assertThrows(Exception.class, () ->
           AnnotationExtractor.extractNewClassFromConfigurationWarning("UnknownClass", classLookup, Integer.class)
         );
 
@@ -85,7 +84,7 @@ class AnnotationExtractorTest {
         classLookup.put("DuplicateClass", String.class);
         classLookup.put("Kaas", Boolean.class);
 
-        ClassNotFoundException exception = assertThrows(ClassNotFoundException.class, () ->
+        Exception exception = assertThrows(Exception.class, () ->
           AnnotationExtractor.extractNewClassFromConfigurationWarning("DuplicateClass Kaas", classLookup, Double.class)
         );
 

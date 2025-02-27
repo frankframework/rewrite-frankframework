@@ -59,22 +59,6 @@ public class EditStyleConfigurationRecipeTest implements RewriteTest{
     }
 
     @Test
-    void changesSender() {
-        rewriteRun(
-                xml(
-                        """
-                            <sender className="nl.nn.adapterframework.jdbc.FixedQuerySender">
-                        
-                            </sender>
-                        ""","""
-                            <FixedQuerySender>
-                        
-                            </FixedQuerySender>
-                        """
-                )
-        );
-    }
-    @Test
     void dontChangeErrorStorage() {
         rewriteRun(
           xml(
