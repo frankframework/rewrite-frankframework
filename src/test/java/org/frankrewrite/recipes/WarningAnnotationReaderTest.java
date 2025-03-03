@@ -71,4 +71,18 @@ public class WarningAnnotationReaderTest implements RewriteTest{
           )
         );
     }
+    @Test
+    void changesGenericReceiverToReceiver() {
+        rewriteRun(
+          xml(
+            """
+            <GenericReceiver>
+            </GenericReceiver>
+            """, """
+            <Receiver>
+            </Receiver>
+            """
+          )
+        );
+    }
 }

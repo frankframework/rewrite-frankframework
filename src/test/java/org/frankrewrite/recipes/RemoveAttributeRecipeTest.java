@@ -43,7 +43,7 @@ public class RemoveAttributeRecipeTest implements RewriteTest {
     }
 
     @Test
-    void changesXslt2ToXsltAttributeFromSpecifiedNameOnly(){
+    void changesAttributeFromSpecifiedNameOnly(){
         rewriteRun(recipeSpec -> recipeSpec.recipe(new RemoveAttributeRecipe("configurationName","Configuration",null, null)),
           xml(
             """
@@ -59,7 +59,7 @@ public class RemoveAttributeRecipeTest implements RewriteTest {
     }
 
     @Test
-    void notChangesXslt2ToXsltAttributeFromSpecifiedWrongNameOnly(){
+    void notChangesAttributeFromSpecifiedWrongNameOnly(){
         rewriteRun(recipeSpec -> recipeSpec.recipe(new RemoveAttributeRecipe("configurationName","Configuration",null, null)),
           xml(
             """
@@ -70,7 +70,32 @@ public class RemoveAttributeRecipeTest implements RewriteTest {
         );
     }
     @Test
-    void notChangesXslt2ToXsltAttributeFromSpecifiedWrongValueOnly(){
+    void notChangesNotOfType(){
+        rewriteRun(recipeSpec -> recipeSpec.recipe(new RemoveAttributeRecipe("configurationName","Configuration2",null, "null")),
+          xml(
+            """
+                <Configuration2 configurationName="config">
+                </Configuration2>
+            """
+          )
+        );
+    }
+    @Test
+    void changesOfType(){
+        rewriteRun(recipeSpec -> recipeSpec.recipe(new RemoveAttributeRecipe("configurationName","Configuration2",null, "Conf")),
+          xml(
+            """
+                <Configuration2 configurationName="config">
+                </Configuration2>
+            ""","""
+                <Configuration2>
+                </Configuration2>
+            """
+          )
+        );
+    }
+    @Test
+    void notChangesAttributeFromSpecifiedWrongValueOnly(){
         rewriteRun(recipeSpec -> recipeSpec.recipe(new RemoveAttributeRecipe("configurationName","Configuration","config2", null)),
           xml(
             """
@@ -82,7 +107,7 @@ public class RemoveAttributeRecipeTest implements RewriteTest {
     }
 
     @Test
-    void changesXslt2ToXsltAttributeFromSpecifiedNameAndValueOnly(){
+    void changesAttributeFromSpecifiedNameAndValueOnly(){
         rewriteRun(recipeSpec -> recipeSpec.recipe(new RemoveAttributeRecipe("configurationName","Configuration","config2", null)),
           xml(
             """

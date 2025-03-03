@@ -50,7 +50,6 @@ public class RemoveRecurringExitsRecipeTest implements RewriteTest {
                         </exits>
                         <FixedResultPipe
                             name="NotActivatedAccount"
-                            returnString='{ "error" : "Your account associated with your email address has not been activated yet. Is your activation code expired? Try requesting a new activation code." } '
                         >
                             <forward name="success" path="exit2" />
                         </FixedResultPipe>
@@ -64,7 +63,6 @@ public class RemoveRecurringExitsRecipeTest implements RewriteTest {
                         </exits>
                         <FixedResultPipe
                             name="NotActivatedAccount"
-                            returnString='{ "error" : "Your account associated with your email address has not been activated yet. Is your activation code expired? Try requesting a new activation code." } '
                         >
                             <forward name="success" path="exit1" />
                             <forward name="success" path="exit2" />
@@ -82,7 +80,6 @@ public class RemoveRecurringExitsRecipeTest implements RewriteTest {
                         </exits>
                         <FixedResultPipe
                             name="NotActivatedAccount"
-                            returnString='{ "error" : "Your account associated with your email address has not been activated yet. Is your activation code expired? Try requesting a new activation code." } '
                         >
                             <forward name="success" path="exit1" />
                         </FixedResultPipe>
@@ -95,7 +92,6 @@ public class RemoveRecurringExitsRecipeTest implements RewriteTest {
                         </exits>
                         <FixedResultPipe
                             name="NotActivatedAccount"
-                            returnString='{ "error" : "Your account associated with your email address has not been activated yet. Is your activation code expired? Try requesting a new activation code." } '
                         >
                             <forward name="success" path="exit2" />
                             <forward name="success" path="exit2" />
@@ -106,5 +102,37 @@ public class RemoveRecurringExitsRecipeTest implements RewriteTest {
             """)
         );
     }
-
+    @Test
+    public void notChangesExitsNotPresent() {
+        //language=xml
+        rewriteRun(recipeSpec -> recipeSpec.recipe(new RemoveRecurringExitsRecipe()),
+          xml("""
+            <root>
+                <adapter name='adapter1'>
+                    <pipeline>
+                        <exits>
+                        </exits>
+                        <FixedResultPipe
+                            name="NotActivatedAccount"
+                        >
+                            <forward name="success" path="exit2" />
+                        </FixedResultPipe>
+                    </pipeline>
+                </adapter>
+                <adapter name='adapter2'>
+                    <pipeline>
+                        <exits>
+                        </exits>
+                        <FixedResultPipe
+                            name="NotActivatedAccount"
+                        >
+                            <forward name="success" path="exit1" />
+                            <forward name="success" path="exit2" />
+                        </FixedResultPipe>
+                    </pipeline>
+                </adapter>
+            </root>
+            """)
+        );
+    }
 }

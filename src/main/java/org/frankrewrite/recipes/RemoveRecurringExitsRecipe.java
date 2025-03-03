@@ -145,7 +145,7 @@ public class RemoveRecurringExitsRecipe extends ScanningRecipe<ExitScanner> {
                     List<Content> updatedPipelineContent = new ArrayList<>(adapter.getContent().stream()
                             .map(content -> {
                                 if (content instanceof Xml.Tag pipelineTag && pipelineTag.getName().equalsIgnoreCase("pipeline")) {
-                                    return ((Xml.Tag) pipelineTag).withContent(pipelineContentWithoutExits);
+                                    return pipelineTag.withContent(pipelineContentWithoutExits);
                                 }
                                 return content;
                             })

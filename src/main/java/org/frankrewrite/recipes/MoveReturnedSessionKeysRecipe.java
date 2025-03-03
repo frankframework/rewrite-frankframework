@@ -57,7 +57,6 @@ public class MoveReturnedSessionKeysRecipe extends Recipe {
                                 .findFirst();
 
                         if (listener.isPresent()) {
-                            listener.get();
                             Xml.Tag listenerTag = listener.get();
 
                             // Update listener attributes
