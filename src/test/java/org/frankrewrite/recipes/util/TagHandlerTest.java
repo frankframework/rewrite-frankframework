@@ -22,6 +22,7 @@ import org.openrewrite.xml.tree.Xml;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -220,4 +221,66 @@ class TagHandlerTest {
           .filter(attribute -> attribute.getKeyAsString().equalsIgnoreCase("id"))
           .findFirst().get().getValueAsString());
     }
+
+    @Test
+    void testHasAnyAttributeWithValue_String() {
+        Xml.Tag tag = mock(Xml.Tag.class);
+        Xml.Attribute attribute = mock(Xml.Attribute.class);
+        when(attribute.getValueAsString()).thenReturn("testValue");
+        when(tag.getAttributes()).thenReturn(List.of(attribute));
+
+        assertTrue(TagHandler.hasAnyAttributeWithValue(tag, "testValue"));
+        assertFalse(TagHandler.hasAnyAttributeWithValue(tag, "nonMatchingValue"));
+    }
+
+    @Test
+    void testHasAnyAttributeWithValue_Optional() {
+        Xml.Tag tag = mock(Xml.Tag.class);
+        Xml.Attribute attribute = mock(Xml.Attribute.class);
+        when(attribute.getValueAsString()).thenReturn("testValue");
+        when(tag.getAttributes()).thenReturn(List.of(attribute));
+
+        assertTrue(TagHandler.hasAnyAttributeWithValue(tag, Optional.of("testValue")));
+        assertFalse(TagHandler.hasAnyAttributeWithValue(tag, Optional.of("nonMatchingValue")));
+        assertFalse(TagHandler.hasAnyAttributeWithValue(tag, Optional.empty()));
+    }
+
+    @Test
+    void testGetFilteredAttributeOptional() {
+        Xml.Tag tag = mock(Xml.Tag.class);
+        Xml.Attribute attribute1 = mock(Xml.Attribute.class);
+        Xml.Attribute attribute2 = mock(Xml.Attribute.class);
+        when(tag.getAttributes()).thenReturn(List.of(attribute1, attribute2));
+
+        Function<Xml.Attribute, Boolean> filter = attr -> attr == attribute2;
+
+        assertEquals(Optional.of(attribute2), TagHandler.getFilteredAttributeOptional(tag, filter));
+        assertEquals(Optional.empty(), TagHandler.getFilteredAttributeOptional(tag, attr -> false));
+    }
+
+    @Test
+    void testHasAnyFilteredAttribute() {
+        Xml.Tag tag = mock(Xml.Tag.class);
+        Xml.Attribute attribute = mock(Xml.Attribute.class);
+        when(tag.getAttributes()).thenReturn(List.of(attribute));
+
+        Function<Xml.Attribute, Boolean> filter = attr -> true;
+
+        assertTrue(TagHandler.hasAnyFilteredAttribute(tag, filter));
+        assertFalse(TagHandler.hasAnyFilteredAttribute(tag, attr -> false));
+    }
+
+    @Test
+    void testGetAttributeFromTagByValue() {
+        Xml.Tag tag = mock(Xml.Tag.class);
+        Xml.Attribute attribute1 = mock(Xml.Attribute.class);
+        Xml.Attribute attribute2 = mock(Xml.Attribute.class);
+        when(attribute1.getValueAsString()).thenReturn("value1");
+        when(attribute2.getValueAsString()).thenReturn("value2");
+        when(tag.getAttributes()).thenReturn(List.of(attribute1, attribute2));
+
+        assertEquals(Optional.of(attribute2), TagHandler.getAttributeFromTagByValue(tag, "value2"));
+        assertEquals(Optional.empty(), TagHandler.getAttributeFromTagByValue(tag, "nonMatchingValue"));
+    }
+
 }
