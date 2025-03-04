@@ -26,13 +26,17 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class TagHandler {
+    public static @NotNull Optional<Xml.Attribute> getAttributeFromTagByKeyAndValue(Xml.Tag tag, String attributeKey, String attributeValue) {
+        return tag.getAttributes().stream()
+                .filter(attribute -> attribute.getKeyAsString().equalsIgnoreCase(attributeKey)&&attribute.getValueAsString().equalsIgnoreCase(attributeValue)).findFirst();
+    }
     public static @NotNull Optional<Xml.Attribute> getAttributeFromTagByKey(Xml.Tag tag, String attributeKey) {
         return tag.getAttributes().stream()
                 .filter(attribute -> attribute.getKeyAsString().equalsIgnoreCase(attributeKey)).findFirst();
     }
 
     public static @NotNull Optional<String> getAttributeValueFromTagByKey(Xml.Tag tag, String attributeKey) {
-        return getAttributeFromTagByKey(tag, attributeKey).map(Xml.Attribute::getValueAsString);
+        return getAttributeFromTagByKey(tag, attributeKey).flatMap(attr->Optional.ofNullable(attr.getValueAsString()));
     }
     public static @NotNull Optional<Xml.Attribute> getAttributeFromTagByValue(Xml.Tag tag, String attributeValue) {
         return tag.getAttributes().stream()

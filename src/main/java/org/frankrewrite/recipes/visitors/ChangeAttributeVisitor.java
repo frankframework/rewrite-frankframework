@@ -60,13 +60,16 @@ public class ChangeAttributeVisitor extends XmlIsoVisitor<ExecutionContext> {
         }
 
         // GET SPECIFIED ATTRIBUTE
-        Optional<Xml.Attribute> toChangeOptional = (attributeKeyFilter != null) ?
-                TagHandler.getAttributeFromTagByKey(tag, attributeKeyFilter) :
+        Optional<Xml.Attribute> toChangeOptional =
+                (attributeKeyFilter != null && attributeValueFilter != null) ?
+                    TagHandler.getAttributeFromTagByKeyAndValue(tag, attributeKeyFilter, attributeValueFilter) :
+                (attributeKeyFilter != null) ?
+                    TagHandler.getAttributeFromTagByKey(tag, attributeKeyFilter) :
                 (attributeValueFilter != null) ?
-                        TagHandler.getAttributeFromTagByValue(tag, attributeValueFilter) :
-                        Optional.empty();
+                    TagHandler.getAttributeFromTagByValue(tag, attributeValueFilter) :
+                Optional.empty();
 
-        //MAKE ATTRIBUTE CHANGES
+        //MAKE ATTRIBUTE CHANGES IF ANY FILTER IS NOT NULL
         if (toChangeOptional.isPresent()&&(newKey!=null||newValue!=null)) {
             Xml.Attribute toChange = toChangeOptional.get();
             tag = TagHandler.getTagWithoutAttribute(tag, toChange.getKey().getName());

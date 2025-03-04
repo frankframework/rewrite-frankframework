@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.frankrewrite.recipes.scanners;
+package org.frankrewrite.recipes.scanresults;
 
 import org.frankrewrite.recipes.util.TagHandler;
 import org.openrewrite.xml.tree.Xml;
 
 import java.util.*;
 
-public class ExitScanner {
+public class ExitScanResult {
     public final Map<Xml.Document, Map<Xml.Tag, List<Xml.Tag>>> foundExitsPerAdapterPerDocument = new HashMap<>();
     public final Map<Xml.Document, Map<Xml.Tag, List<Xml.Tag>>> foundRecurringExitsPerAdapterPerDocument = new HashMap<>();
 

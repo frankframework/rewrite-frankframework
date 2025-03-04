@@ -44,7 +44,7 @@ public class EditStyleConfigurationRecipeTest implements RewriteTest {
     }
 
     @Test
-    void updatesTagBasedOnClassNameAttribute() {
+    void updatesTagBasedOnClassNameAttributeWithTypeExtention() {
         rewriteRun(recipeSpec -> recipeSpec.recipe(new EditStyleConfigurationRecipe()),
           xml(
             """
@@ -52,6 +52,45 @@ public class EditStyleConfigurationRecipeTest implements RewriteTest {
             """,
             """
             <TheBestPipe/>
+            """
+          )
+        );
+    }
+    @Test
+    void updatesTagBasedOnClassNameAttributeForFrankFramework() {
+        rewriteRun(recipeSpec -> recipeSpec.recipe(new EditStyleConfigurationRecipe()),
+          xml(
+            """
+            <SomeTag className="org.frankframework.pipes.MyPipe"/>
+            """,
+            """
+            <MyPipe/>
+            """
+          )
+        );
+    }
+    @Test
+    void updatesNotPipeBasedOnClassNameAttribute() {
+        rewriteRun(recipeSpec -> recipeSpec.recipe(new EditStyleConfigurationRecipe()),
+          xml(
+            """
+            <SomeTag className="nl.nn.adapterframework.senders.MyNot"/>
+            """,
+            """
+            <MyNot/>
+            """
+          )
+        );
+    }
+    @Test
+    void updatesTagBasedOnClassNameAttributeForAdapterFramework() {
+        rewriteRun(recipeSpec -> recipeSpec.recipe(new EditStyleConfigurationRecipe()),
+          xml(
+            """
+            <SomeTag className="nl.nn.adapterframework.pipes.MyPipe"/>
+            """,
+            """
+            <MyPipe/>
             """
           )
         );
@@ -99,6 +138,16 @@ public class EditStyleConfigurationRecipeTest implements RewriteTest {
           xml(
             """
             <SomeOtherTag/>
+            """
+          )
+        );
+    }
+    @Test
+    void doesNotChangeTagWithWrongClassNamePackage() {
+        rewriteRun(recipeSpec -> recipeSpec.recipe(new EditStyleConfigurationRecipe()),
+          xml(
+            """
+            <pipe className="org.nonexistingorg.pipes.TheBest"/>
             """
           )
         );

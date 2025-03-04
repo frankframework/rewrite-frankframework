@@ -15,10 +15,16 @@
  */
 package org.frankrewrite.recipes;
 
+import org.frankrewrite.recipes.visitors.ExitScanningVisitor;
 import org.junit.jupiter.api.Test;
+import org.mockito.MockitoAnnotations;
 import org.openrewrite.test.RecipeSpec;
 import org.openrewrite.test.RewriteTest;
+import org.openrewrite.xml.XmlIsoVisitor;
+import org.openrewrite.xml.tree.Xml;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import static org.openrewrite.xml.Assertions.xml;
 
 public class RemoveRecurringExitsRecipeTest implements RewriteTest {
@@ -135,4 +141,205 @@ public class RemoveRecurringExitsRecipeTest implements RewriteTest {
             """)
         );
     }
+    //TODO: implement feature (not very likely this occurs often)
+//    @Test
+//    public void testMultipleRecurringExitsAreRemoved() {
+//        //language=xml
+//        rewriteRun(recipeSpec -> recipeSpec.recipe(new RemoveRecurringExitsRecipe()),
+//          xml("""
+//        <root>
+//            <adapter name='adapter1'>
+//                <pipeline>
+//                    <exits>
+//                        <exit code="403" path="exit1"/>
+//                        <exit code="403" path="exit1"/>
+//                        <exit code="403" path="exit2"/>
+//                    </exits>
+//                </pipeline>
+//            </adapter>
+//        </root>
+//        """,
+//        """
+//        <root>
+//            <adapter name='adapter1'>
+//                <pipeline>
+//                    <exits>
+//                        <exit code="403" path="exit1"/>
+//                        <exit code="403" path="exit2"/>
+//                    </exits>
+//                </pipeline>
+//            </adapter>
+//        </root>
+//        """)
+//        );
+//    }
+
+    @Test
+    public void testNoChangeWhenNoRecurringExits() {
+        //language=xml
+        rewriteRun(recipeSpec -> recipeSpec.recipe(new RemoveRecurringExitsRecipe()),
+          xml("""
+        <root>
+            <adapter name='adapter1'>
+                <pipeline>
+                    <exits>
+                        <exit code="200" path="exit1"/>
+                        <exit code="404" path="exit2"/>
+                    </exits>
+                </pipeline>
+            </adapter>
+        </root>
+        """)
+        );
+    }
+
+    @Test
+    public void testExitRemovalRetainsUniqueCodes() {
+        //language=xml
+        rewriteRun(recipeSpec -> recipeSpec.recipe(new RemoveRecurringExitsRecipe()),
+          xml("""
+        <root>
+            <adapter name='adapter1'>
+                <pipeline>
+                    <exits>
+                        <exit code="500" path="exit1"/>
+                        <exit code="500" path="exit1"/>
+                        <exit code="200" path="exit2"/>
+                    </exits>
+                </pipeline>
+            </adapter>
+        </root>
+        """,
+            """
+            <root>
+                <adapter name='adapter1'>
+                    <pipeline>
+                        <exits>
+                            <exit code="500" path="exit1"/>
+                            <exit code="200" path="exit2"/>
+                        </exits>
+                    </pipeline>
+                </adapter>
+            </root>
+            """)
+        );
+    }
+
+    @Test
+    public void testExitForwardPathIsUpdatedWhenExitIsRemoved() {
+        //language=xml
+        rewriteRun(recipeSpec -> recipeSpec.recipe(new RemoveRecurringExitsRecipe()),
+          xml("""
+        <root>
+            <adapter name='adapter1'>
+                <pipeline>
+                    <exits>
+                        <exit code="403" path="exit1"/>
+                        <exit code="403" path="exit2"/>
+                    </exits>
+                    <FixedResultPipe name="TestPipe">
+                        <forward name="success" path="exit2"/>
+                    </FixedResultPipe>
+                </pipeline>
+            </adapter>
+        </root>
+        """,
+            """
+            <root>
+                <adapter name='adapter1'>
+                    <pipeline>
+                        <exits>
+                            <exit code="403" path="exit1"/>
+                        </exits>
+                        <FixedResultPipe name="TestPipe">
+                            <forward name="success" path="exit1"/>
+                        </FixedResultPipe>
+                    </pipeline>
+                </adapter>
+            </root>
+            """)
+        );
+    }
+    @Test
+    public void testNoExitTagsPresent() {
+        // Covers case where <exits> tag is missing
+        rewriteRun(recipeSpec -> recipeSpec.recipe(new RemoveRecurringExitsRecipe()),
+          xml("""
+        <root>
+            <adapter name='adapter1'>
+                <pipeline>
+                </pipeline>
+            </adapter>
+        </root>
+        """)
+        );
+    }
+
+    @Test
+    public void testEmptyExitsTagDoesNotCauseIssues() {
+        // Covers case where <exits> tag exists but is empty
+        rewriteRun(recipeSpec -> recipeSpec.recipe(new RemoveRecurringExitsRecipe()),
+          xml("""
+        <root>
+            <adapter name='adapter1'>
+                <pipeline>
+                    <exits></exits>
+                </pipeline>
+            </adapter>
+        </root>
+        """)
+        );
+    }
+
+    @Test
+    public void testExitTagWithoutCodeAttributeIsNotRemoved() {
+        // Covers case where an <exit> tag is missing "code" attribute
+        rewriteRun(recipeSpec -> recipeSpec.recipe(new RemoveRecurringExitsRecipe()),
+          xml("""
+        <root>
+            <adapter name='adapter1'>
+                <pipeline>
+                    <exits>
+                        <exit path="exit1"/>
+                        <exit code="403" path="exit2"/>
+                    </exits>
+                </pipeline>
+            </adapter>
+        </root>
+        """)
+        );
+    }
+
+    @Test
+    public void testExitTagWithDifferentCaseNames() {
+        // Covers case where <exit> tag names use different cases ("Exit" vs "exit")
+        rewriteRun(recipeSpec -> recipeSpec.recipe(new RemoveRecurringExitsRecipe()),
+          xml("""
+        <root>
+            <adapter name='adapter1'>
+                <pipeline>
+                    <exits>
+                        <Exit code="403" path="exit1"/>
+                        <exit code="403" path="exit2"/>
+                    </exits>
+                </pipeline>
+            </adapter>
+        </root>
+        """,
+        """
+        <root>
+            <adapter name='adapter1'>
+                <pipeline>
+                    <exits>
+                        <Exit code="403" path="exit1"/>
+                    </exits>
+                </pipeline>
+            </adapter>
+        </root>
+        """)
+        );
+    }
+
+
+
 }

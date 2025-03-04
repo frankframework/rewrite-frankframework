@@ -59,9 +59,11 @@ public class AnnotationExtractor {
             // Invoke the 'value' method and return its result as a string
             Object result = valueMethod.invoke(annotation);
             return result.toString(); // or cast to the appropriate type if needed
-        } catch (NoSuchMethodException e) {
+        }
+        catch (NoSuchMethodException e) {
             throw new IllegalStateException("The annotation does not have a 'value()' method.", e);
-        } catch (IllegalAccessException | InvocationTargetException e) {
+        }
+        catch (IllegalAccessException | InvocationTargetException e) {
             throw new RuntimeException("Failed to invoke 'value()' on the annotation.", e);
         }
     }

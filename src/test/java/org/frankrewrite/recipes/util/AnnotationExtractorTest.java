@@ -16,13 +16,21 @@
 
 package org.frankrewrite.recipes.util;
 
+import nl.nn.adapterframework.configuration.ConfigurationWarning;
+import nl.nn.adapterframework.configuration.WrongAnnotation2;
+import nl.nn.adapterframework.pipes.MyPipe;
+import org.frankframework.pipes.WronglyAnnotatedClass;
+import org.frankframework.configuration.WrongAnnotation;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.MockedStatic;
+
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 class AnnotationExtractorTest {
 
@@ -89,5 +97,32 @@ class AnnotationExtractorTest {
         );
 
         assertTrue(exception.getMessage().contains("Multiple class names found"));
+    }
+
+    @Test
+    void testGetConfigurationWarningValue_ThrowsIllegalStateException() {
+        try (MockedStatic<PackageScanner> staticPackageScanner = mockStatic(PackageScanner.class)) {
+            PackageScanner packageScanner = mock(PackageScanner.class);
+            // Use doAnswer to mock the method that returns a wildcard Class<? extends Annotation>
+            doAnswer(invocation -> WrongAnnotation.class) // Returning the specific annotation class
+                    .when(packageScanner).getConfigurationWarningClass();
+            List<Class<?>> classes = new ArrayList<>();
+            classes.add(WronglyAnnotatedClass.class);
+
+            when(packageScanner.getClasses()).thenReturn(new HashSet<>(classes));
+            staticPackageScanner.when(PackageScanner::getInstance).thenReturn(packageScanner);
+
+            Set<Class<?>> getClasses = PackageScanner.getInstance().getClasses();
+            Class<?> annotatedClass =
+                    getClasses.stream()
+                            .filter(clazz -> clazz.getSimpleName().equalsIgnoreCase("WronglyAnnotatedClass"))
+                            .findFirst().get();
+
+            Exception exception = assertThrows(RuntimeException.class, () ->
+                    AnnotationExtractor.getConfigurationWarningValue(annotatedClass));
+
+            assertEquals("The annotation does not have a 'value()' method.", exception.getMessage());
+
+        }
     }
 }

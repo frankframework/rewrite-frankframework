@@ -58,13 +58,13 @@ public class ChangeAttributeTest implements RewriteTest {
         rewriteRun(spec-> spec.recipe(new ChangeAttributeRecipe("sender","queryType", "queryType", "insert into", "insert")),
           xml(
             """
-                <sender jmsRealm="jdbc" queryType="insert into" query="INSERT INTO BACKLOGS (TEAM_ID) VALUES (?)" className="nl.nn.adapterframework.jdbc.FixedQuerySender">
-					<param name="teamId" type="integer" sessionKey="teamId"/>
-				</sender>""",
-                """
-                <sender jmsRealm="jdbc" query="INSERT INTO BACKLOGS (TEAM_ID) VALUES (?)" className="nl.nn.adapterframework.jdbc.FixedQuerySender" queryType="insert">
-					<param name="teamId" type="integer" sessionKey="teamId"/>
-				</sender>"""
+            <sender jmsRealm="jdbc" queryType="insert into" query="INSERT INTO BACKLOGS (TEAM_ID) VALUES (?)" className="nl.nn.adapterframework.jdbc.FixedQuerySender">
+                <param name="teamId" type="integer" sessionKey="teamId"/>
+            </sender>""",
+            """
+            <sender jmsRealm="jdbc" query="INSERT INTO BACKLOGS (TEAM_ID) VALUES (?)" className="nl.nn.adapterframework.jdbc.FixedQuerySender" queryType="insert">
+                <param name="teamId" type="integer" sessionKey="teamId"/>
+            </sender>"""
           )
         );
     }
@@ -76,11 +76,138 @@ public class ChangeAttributeTest implements RewriteTest {
                 <exits>
                     <exit path="OK" state="succes" />
                 </exits>""",
-                """
+            """
+            <exits>
+                <exit path="OK" state="success" />
+            </exits>"""
+          )
+        );
+    }
+    @Test
+    void changesKey(){
+        rewriteRun(spec-> spec.recipe(new ChangeAttributeRecipe(null,"state", "statetete", null, null)),
+          xml(
+            """
                 <exits>
-                    <exit path="OK" state="success" />
+                    <exit path="OK" state="succes" />
+                </exits>""",
+            """
+            <exits>
+                <exit path="OK" statetete="succes" />
+            </exits>"""
+          )
+        );
+    }
+    @Test
+    void changesKeyWhenValueFilterMatches(){
+        rewriteRun(spec-> spec.recipe(new ChangeAttributeRecipe(null,"state", "statetete", "succes", null)),
+          xml(
+            """
+                <exits>
+                    <exit path="OK" state="succes" />
+                </exits>""",
+            """
+            <exits>
+                <exit path="OK" statetete="succes" />
+            </exits>"""
+          )
+        );
+    }
+    @Test
+    void changesKeyAndValue(){
+        rewriteRun(spec-> spec.recipe(new ChangeAttributeRecipe(null,"state", "statetete", null, "doodoo")),
+          xml(
+            """
+                <exits>
+                    <exit path="OK" state="succes" />
+                </exits>""",
+            """
+            <exits>
+                <exit path="OK" statetete="doodoo" />
+            </exits>"""
+          )
+        );
+    }
+    @Test
+    void notChangesAttributeWhenNoneMatchAndNoNewValuesOrKeysPassed(){
+        rewriteRun(spec-> spec.recipe(new ChangeAttributeRecipe(null,null,null,null,null)),
+          xml(
+            """
+                <exits>
+                    <exit path="OK" state="succes" />
                 </exits>"""
           )
         );
     }
+    @Test
+    void changesAttributeWhenAttributeValueFilterMatch(){
+        rewriteRun(spec-> spec.recipe(new ChangeAttributeRecipe(null,null, null, "succes","doodoo")),
+          xml(
+            """
+                <exits>
+                    <exit path="OK" state="succes" />
+                </exits>""",
+            """
+            <exits>
+                <exit path="OK" state="doodoo" />
+            </exits>"""
+          )
+        );
+    }
+    @Test
+    void doesNotChangeWhenOptionalIsEmpty() {
+        rewriteRun(spec -> spec.recipe(new ChangeAttributeRecipe("NonExistingTag", "state", "newState", null, "newValue")),
+          xml(
+            """
+            <exits>
+                <exit path="OK" state="succes" />
+            </exits>"""
+          )
+        );
+    }
+
+    @Test
+    void changesOnlyWhenNewKeyIsPresent() {
+        rewriteRun(spec -> spec.recipe(new ChangeAttributeRecipe(null, "state", "newState", "succes", null)),
+          xml(
+            """
+            <exits>
+                <exit path="OK" state="succes" />
+            </exits>""",
+            """
+            <exits>
+                <exit path="OK" newState="succes" />
+            </exits>"""
+          )
+        );
+    }
+
+    @Test
+    void changesOnlyWhenNewValueIsPresent() {
+        rewriteRun(spec -> spec.recipe(new ChangeAttributeRecipe(null, "state", null, "succes", "newValue")),
+          xml(
+            """
+            <exits>
+                <exit path="OK" state="succes" />
+            </exits>""",
+            """
+            <exits>
+                <exit path="OK" state="newValue" />
+            </exits>"""
+          )
+        );
+    }
+
+    @Test
+    void doesNotChangeWhenNewKeyAndNewValueAreNull() {
+        rewriteRun(spec -> spec.recipe(new ChangeAttributeRecipe(null, "state", null, "succes", null)),
+          xml(
+            """
+            <exits>
+                <exit path="OK" state="succes" />
+            </exits>"""
+          )
+        );
+    }
+
 }
