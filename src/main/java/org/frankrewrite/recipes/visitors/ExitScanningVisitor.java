@@ -15,7 +15,7 @@ public class ExitScanningVisitor extends XmlIsoVisitor<ExecutionContext> {
     @Override
     public Xml.Tag visitTag(Xml.Tag tag, ExecutionContext executionContext) {
         Xml.Document document = getCursor().firstEnclosing(Xml.Document.class);
-        if (document!=null&&tag.getName().equalsIgnoreCase("adapter")) {
+        if (tag.getName().equalsIgnoreCase("adapter")) {
             tag.getChildren().stream()
                     .filter(pipeline -> pipeline.getName().equalsIgnoreCase("pipeline"))
                     .flatMap(pipelineTag -> pipelineTag.getChildren().stream())

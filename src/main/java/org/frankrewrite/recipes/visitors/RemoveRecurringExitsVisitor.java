@@ -20,7 +20,8 @@ public class RemoveRecurringExitsVisitor extends XmlIsoVisitor<ExecutionContext>
     @Override
     public Xml.Tag visitTag(Xml.Tag tag, ExecutionContext executionContext) {
         Xml.Document document = getCursor().firstEnclosing(Xml.Document.class);
-        if (!isAdapterTag(document, tag))
+        //check if tag is an adapter
+        if (!tag.getName().equalsIgnoreCase("adapter"))
             return super.visitTag(tag, executionContext);
 
         Map<Xml.Tag, List<Xml.Tag>> recurringExits = acc.foundRecurringExitsPerAdapterPerDocument
@@ -31,6 +32,7 @@ public class RemoveRecurringExitsVisitor extends XmlIsoVisitor<ExecutionContext>
 
         if (exitsForTag != null && !exitsForTag.isEmpty()) {
             List<? extends Content> updatedContent = updateRecurringExits(tag, exitsForTag, document);
+            //check if any exits have been removed to avoid unnecessary cycles
             if (exitCount != countExits(tag.withContent(updatedContent)))
                 return tag.withContent(updatedContent);
         }
@@ -70,47 +72,47 @@ public class RemoveRecurringExitsVisitor extends XmlIsoVisitor<ExecutionContext>
                 .filter(content -> content instanceof Xml.Tag t && t.getName().equalsIgnoreCase("exits"))
                 .findFirst();
 
-        if (exitsOptional.isPresent()) {
-            // Filter child tags in "exits", keeping only those in filteredRecurringExits
-            List<? extends Content> updatedExitChildren = ((Xml.Tag) exitsOptional.get()).getContent()
-                    .stream()
-                    .filter(content -> content instanceof Xml.Tag t && filteredRecurringExits.contains(t))
-                    .toList();
+        // Filter child tags in "exits", keeping only those in filteredRecurringExits
+        List<? extends Content> updatedExitChildren = ((Xml.Tag) exitsOptional.get()).getContent()
+                .stream()
+                .filter(content -> content instanceof Xml.Tag t && filteredRecurringExits.contains(t))
+                .toList();
 
-            // Remove the existing "exits" tag from the pipeline content
-            List<Content> pipelineContentWithoutExits = new ArrayList<>(adapter.getContent().stream()
-                    .filter(content -> content instanceof Xml.Tag pipelineTag && pipelineTag.getName().equalsIgnoreCase("pipeline"))
-                    .flatMap(pipelineContent -> ((Xml.Tag) pipelineContent).getContent().stream())
-                    .filter(content -> !(content instanceof Xml.Tag t && t.getName().equalsIgnoreCase("exits")))
-                    .toList());
+        // Remove the existing "exits" tag from the pipeline content
+        List<Content> pipelineContentWithoutExits = new ArrayList<>(adapter.getContent().stream()
+                .filter(content -> content instanceof Xml.Tag pipelineTag && pipelineTag.getName().equalsIgnoreCase("pipeline"))
+                .flatMap(pipelineContent -> ((Xml.Tag) pipelineContent).getContent().stream())
+                .filter(content -> !(content instanceof Xml.Tag t && t.getName().equalsIgnoreCase("exits")))
+                .toList());
 
-            // Create a new "exits" tag with the updated children
-            Xml.Tag updatedExitsTag = ((Xml.Tag) exitsOptional.get()).withContent(updatedExitChildren);
+        // Create a new "exits" tag with the updated children
+        Xml.Tag updatedExitsTag = ((Xml.Tag) exitsOptional.get()).withContent(updatedExitChildren);
 
-            // Add the updated "exits" tag back to the pipeline content
-            pipelineContentWithoutExits.add(0, updatedExitsTag);
+        // Add the updated "exits" tag back to the pipeline content
+        pipelineContentWithoutExits.add(0, updatedExitsTag);
 
-            // Update the "pipeline" content in the adapter
-            List<Content> updatedPipelineContent = new ArrayList<>(adapter.getContent().stream()
-                    .map(content -> {
-                        if (content instanceof Xml.Tag pipelineTag && pipelineTag.getName().equalsIgnoreCase("pipeline")) {
-                            return pipelineTag.withContent(pipelineContentWithoutExits);
-                        }
-                        return content;
-                    })
-                    .toList());
+        // Update the "pipeline" content in the adapter
+        List<Content> updatedPipelineContent = new ArrayList<>(adapter.getContent().stream()
+                .map(content -> {
+                    if (content instanceof Xml.Tag pipelineTag && pipelineTag.getName().equalsIgnoreCase("pipeline")) {
+                        return pipelineTag.withContent(pipelineContentWithoutExits);
+                    }
+                    return content;
+                })
+                .toList());
 
-            adapter = adapter.withContent(updatedPipelineContent);
-        }
+        adapter = adapter.withContent(updatedPipelineContent);
+
 
         Xml.Tag finalAdapter = adapter;
-        return adapter.getContent() == null ? Collections.emptyList() :
-                adapter.getContent().stream()
+        //adapter.getContent() always returns a not null value, because it contains exits tag
+        return adapter.getContent().stream()
                         .map(child -> updateTagContent(document, finalAdapter, child))
                         .toList();
     }
 
     private Content updateTagContent(Xml.Document document, Xml.Tag adapter, Content content) {
+        //Check if content is a tag to avoid invalid cast (necessary for tag text values)
         if (!(content instanceof Xml.Tag tag))
             return content;
 
@@ -132,7 +134,4 @@ public class RemoveRecurringExitsVisitor extends XmlIsoVisitor<ExecutionContext>
         return updatedAttributes;
     }
 
-    private boolean isAdapterTag(Xml.Document document, Xml.Tag tag) {
-        return document != null && tag.getName().equalsIgnoreCase("adapter");
-    }
 }

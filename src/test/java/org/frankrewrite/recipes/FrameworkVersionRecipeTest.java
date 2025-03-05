@@ -26,7 +26,7 @@ import static org.openrewrite.yaml.Assertions.yaml;
 public class FrameworkVersionRecipeTest implements RewriteTest {
 
     @Test
-    public void test() {
+    public void changeVersionBothFiles() {
         rewriteRun(recipeSpec -> recipeSpec.recipe(new FrameworkVersionRecipe("7.7")),
           xml("""
             <iaf.version>7.6</iaf.version>""","""
@@ -38,7 +38,7 @@ public class FrameworkVersionRecipeTest implements RewriteTest {
 
     }
     @Test
-    public void test2() {
+    public void notChangesPropertyWhenKeyIsNotMatching() {
         rewriteRun(recipeSpec -> recipeSpec.recipe(new FrameworkVersionRecipe("7.7")),
           xml("""
             <random>7.6</random>"""),
@@ -49,7 +49,7 @@ public class FrameworkVersionRecipeTest implements RewriteTest {
 
     }
     @Test
-    public void notChangesYaml() {
+    public void notChangesYamlFile() {
         rewriteRun(recipeSpec -> recipeSpec.recipe(new FrameworkVersionRecipe("7.7")),
           xml("""
             <ff.version>7.6</ff.version>""","""

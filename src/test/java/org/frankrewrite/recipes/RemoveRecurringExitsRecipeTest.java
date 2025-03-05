@@ -25,6 +25,7 @@ import org.openrewrite.xml.tree.Xml;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.openrewrite.properties.Assertions.properties;
 import static org.openrewrite.xml.Assertions.xml;
 
 public class RemoveRecurringExitsRecipeTest implements RewriteTest {
@@ -338,8 +339,94 @@ public class RemoveRecurringExitsRecipeTest implements RewriteTest {
         </root>
         """)
         );
+    }    @Test
+    public void testRemovesNonExitContentInExitsTag() {
+        // Covers case where <exit> tag names use different cases ("Exit" vs "exit")
+        rewriteRun(recipeSpec -> recipeSpec.recipe(new RemoveRecurringExitsRecipe()),
+          xml("""
+        <root>
+            <adapter name='adapter1'>
+                <pipeline>
+                    <exits>
+                        dfghfdg
+                        <Exit code="403" path="exit1"/>
+                        <exit code="403" path="exit2"/>
+                    </exits>
+                </pipeline>
+            </adapter>
+        </root>
+        """,
+        """
+        <root>
+            <adapter name='adapter1'>
+                <pipeline>
+                    <exits><Exit code="403" path="exit1"/>
+                    </exits>
+                </pipeline>
+            </adapter>
+        </root>
+        """)
+        );
     }
 
+    @Test
+    public void testDontRemoveNonTagContentInAdapterAndPipeline() {
+        // Covers case where <exit> tag names use different cases ("Exit" vs "exit")
+        rewriteRun(recipeSpec -> recipeSpec.recipe(new RemoveRecurringExitsRecipe()),
+          xml("""
+        <root>
+            <adapter name='adapter1'>
+                <pipeline>
+                    <exits>
+                        <Exit code="403" path="exit1"/>
+                        <exit code="403" path="exit2"/>
+                    </exits>
+                    testcontent
+                </pipeline>
+                testcontent
+            </adapter>
+        </root>
+        ""","""
+        <root>
+            <adapter name='adapter1'>
+                <pipeline>
+                    <exits>
+                        <Exit code="403" path="exit1"/>
+                    </exits>
+                    testcontent
+                </pipeline>
+                testcontent
+            </adapter>
+        </root>
+        """)
+        );
+    }
 
-
+    @Test
+    public void testAdapterWithoutContent() {
+        // Covers case where <exit> tag names use different cases ("Exit" vs "exit")
+        rewriteRun(recipeSpec -> recipeSpec.recipe(new RemoveRecurringExitsRecipe()),
+          xml("""
+        <root>
+            <adapter name='adapter1'>
+            </adapter>
+        </root>
+        """)
+        );
+    }
+    @Test
+    public void testDontUpdateExitsWithoutCodeAttribute() {
+        //language=xml
+        rewriteRun(recipeSpec -> recipeSpec.recipe(new RemoveRecurringExitsRecipe()),
+          xml("""
+        <root>
+            <adapter name='adapter1'>
+                <exits>
+                    <exit path="exit1"/>
+                </exits>
+            </adapter>
+        </root>
+        """)
+        );
+    }
 }

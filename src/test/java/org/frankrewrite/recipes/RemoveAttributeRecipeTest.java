@@ -122,4 +122,16 @@ public class RemoveAttributeRecipeTest implements RewriteTest {
         );
     }
 
+    @Test
+    void changesAttributeFromWrongNameAndRightValue(){
+        rewriteRun(recipeSpec -> recipeSpec.recipe(new RemoveAttributeRecipe("asdfasdf","Configuration","config2", null)),
+          xml(
+            """
+                <Configuration configurationName="config2">
+                </Configuration>
+            """
+          )
+        );
+    }
+
 }

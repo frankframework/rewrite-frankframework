@@ -9,6 +9,7 @@ import org.openrewrite.xml.XmlIsoVisitor;
 import org.openrewrite.xml.tree.Content;
 import org.openrewrite.xml.tree.Xml;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -49,9 +50,9 @@ public class RemoveInvalidChildrenRecipe extends Recipe {
             }
 
             private List<? extends Content> getInvalidTextChildren(Xml.Tag tag) {
-                return tag.getContent().stream()
+                return (tag.getContent()!=null)?tag.getContent().stream()
                         .filter(child -> child instanceof Xml.CharData charData && !charData.getText().startsWith("&"))
-                        .toList();
+                        .toList(): Collections.emptyList();
             }
 
             private List<? extends Content> getInvalidAdapterChildren(Xml.Tag tag) {

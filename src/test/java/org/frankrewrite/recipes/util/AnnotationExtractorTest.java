@@ -16,16 +16,12 @@
 
 package org.frankrewrite.recipes.util;
 
-import nl.nn.adapterframework.configuration.ConfigurationWarning;
-import nl.nn.adapterframework.configuration.WrongAnnotation2;
-import nl.nn.adapterframework.pipes.MyPipe;
 import org.frankframework.pipes.WronglyAnnotatedClass;
 import org.frankframework.configuration.WrongAnnotation;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.*;
 
@@ -98,6 +94,21 @@ class AnnotationExtractorTest {
 
         assertTrue(exception.getMessage().contains("Multiple class names found"));
     }
+//    @Test
+//    void test() throws NoSuchMethodException {
+//        Class<?> c = FixedErrorMessageFormatter.class;
+//
+//        Method m = Arrays.stream(c.getMethods()).filter(it->it.getName().equalsIgnoreCase("setFileName")).findFirst().get();
+//        Method res;
+//        try {
+//            res = AnnotationExtractor.extractNewAttributesFromConfigurationWarning("attribute 'fileName' is replaced with 'filename", FixedErrorMessageFormatter.class, m);
+//            assertTrue(res.getName().equals("setFilename"));
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
+//        assertNotNull(res);
+//
+//    }
 
     @Test
     void testGetConfigurationWarningValue_ThrowsIllegalStateException() {

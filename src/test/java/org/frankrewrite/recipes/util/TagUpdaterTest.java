@@ -61,18 +61,18 @@ class TagUpdaterTest {
 
     @Test
     void testGetTagWithNewAttributes_WhenAttributesAreDeprecated_ShouldReturnUpdatedTag() throws NoSuchMethodException {
-        Method oldMethod = OldClass.class.getMethod("setOldAttribute", String.class);
+        Method oldMethod = NewClass.class.getMethod("setOldAttribute", String.class);
         Method newMethod = NewClass.class.getMethod("setNewAttribute", String.class);
 
         Map<Method, Method> mockAttributeMap = Map.of(oldMethod, newMethod);
-        when(mockTag.getName()).thenReturn("NewClass");
-        when(mockTag.getAttributes()).thenReturn(Collections.emptyList());
-        when(mockTag.withAttributes(anyList())).thenReturn(mockTag);
+        //language=xml
+        Xml.Tag tag = Xml.Tag.build("""
+                <NewClass oldAttribute="oldAttributeValue"/>""");
 
         try (var mocked = mockStatic(ElementMapper.class)) {
             mocked.when(() -> ElementMapper.getDeprecatedMethodToNewMethodMapForClass("NewClass"))
               .thenReturn(mockAttributeMap);
-            Xml.Tag result = TagUpdater.getTagWithNewAttributes(mockTag);
+            Xml.Tag result = TagUpdater.getTagWithNewAttributes(tag);
             assertNotNull(result);
         }
     }
@@ -82,6 +82,7 @@ class TagUpdaterTest {
     }
 
     static class NewClass {
+        public void setOldAttribute(String value) {}
         public void setNewAttribute(String value) {}
     }
 }

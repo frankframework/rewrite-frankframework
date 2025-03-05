@@ -34,18 +34,32 @@ public class AnnotationExtractor {
 
         List<Method> matchedMethods = Arrays.stream(segments)
                 // Replace invalid keys from warning segment and format it to match setter methods
-                .map(segment -> "set" + segment.replace(".", "").replace("'", "").replace("\"", "").toLowerCase())
+                .map(segment -> toSetter(segment.replace(".", "").replace("'", "").replace("\"", "")))
                 // Lookup methods referring to the segment
                 .flatMap(expectedMethodName -> Arrays.stream(clazz.getMethods())
-                        .filter(method -> method.getName().equalsIgnoreCase(expectedMethodName) && !method.equals(deprecatedMethod)))
+                        .filter(method -> method.getName().equals(expectedMethodName) && !method.getName().equals(deprecatedMethod.getName())))
                 .toList(); // Collect results into a list
 
         if (matchedMethods.size() == 1) {
-            return matchedMethods.get(0); // Java 16+ or matchedMethods.get(0);
+            return matchedMethods.get(0);
         } else {
             log.add(clazz.getSimpleName() + ": No updated method/attribute implementation found in warning: " + warning);
             throw new Exception("No updated method/attribute implementation found in warning: " + warning);
         }
+    }
+
+    private static String toSetter(String segment){
+        String processedSegment = new StringBuilder(segment)
+                .replace(0, segment.length(), segment.replace(".", "").replace("'", "").replace("\"", ""))
+                .toString();
+
+        if (!processedSegment.isEmpty()) {
+            processedSegment = new StringBuilder(processedSegment)
+                    .replace(0, 1, String.valueOf(Character.toUpperCase(processedSegment.charAt(0))))
+                    .toString();
+        }
+
+        return "set"+processedSegment;
     }
 
     private static String getConfigurationWarningValue(AnnotatedElement element) {

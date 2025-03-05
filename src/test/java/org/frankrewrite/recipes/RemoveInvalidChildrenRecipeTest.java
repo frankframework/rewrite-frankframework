@@ -18,8 +18,8 @@ public class RemoveInvalidChildrenRecipeTest implements RewriteTest {
     public void removesInvalidAdapterChildren() {
         rewriteRun(recipeSpec -> recipeSpec.recipe(new RemoveInvalidChildrenRecipe()),
             xml("""
-              <adapter>&ijfoj;<doodoo/>ioijfoijfo</adapter>""", """
-              <adapter>&ijfoj;</adapter>""")
+              <adapter>&ijfoj;<xFormatter/><pipeline/><receiver/><doodoo/>ioijfoijfo</adapter>""", """
+              <adapter>&ijfoj;<xFormatter/><pipeline/><receiver/></adapter>""")
         );
     }
     @Test

@@ -85,4 +85,20 @@ public class WarningAnnotationReaderTest implements RewriteTest{
           )
         );
     }
+    @Test
+    void changesAttributeKeysWhenCapitalizationIsUpdated() {
+        //language=xml
+        rewriteRun(recipeSpec -> recipeSpec.cycles(1),
+          xml(
+            """
+            <FixedErrorMessageFormatter fileName=''>
+            </FixedErrorMessageFormatter>
+            """, """
+            <FixedErrorMessageFormatter filename=''>
+            </FixedErrorMessageFormatter>
+            """
+          )
+        );
+    }
+
 }

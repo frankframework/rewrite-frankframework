@@ -28,6 +28,19 @@ public class AddNameAttributeToTagTest implements RewriteTest {
     }
 
     @Test
+    void notAddNameAttributeIfNameAttributeAlreadyExists() {
+        //language=xml
+        rewriteRun(
+          xml(
+            """
+             <XmlValidatorPipe name='myPipe'>
+             
+             </XmlValidatorPipe>"""
+          )
+        );
+    }
+
+    @Test
     void addsNameAttributeToXmlValidatorPipe(){
         rewriteRun(recipeSpec -> recipeSpec.cycles(1),
           xml(

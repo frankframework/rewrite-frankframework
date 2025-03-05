@@ -22,7 +22,7 @@ import static org.openrewrite.xml.Assertions.xml;
 
 public class MoveReturnedSessionsKeyRecipeTest implements RewriteTest {
     @Test
-    public void test(){
+    public void testReturnedSessionKeysNotRemovedWhenListenerPresent(){
         //language=xml
         rewriteRun(recipeSpec -> recipeSpec.recipe(new MoveReturnedSessionKeysRecipe()),
           xml(
@@ -46,6 +46,23 @@ public class MoveReturnedSessionsKeyRecipeTest implements RewriteTest {
                         name="forEachTag"
                     returnedSessionKeys="backlogItem,team_Id,OriginalXML"
                     />
+                </Receiver>
+            </Adapter>
+            """
+          )
+        );
+    }
+    @Test
+    public void testReturnedSessionKeysNotRemovedWhenListenerNotPresent(){
+        //language=xml
+        rewriteRun(recipeSpec -> recipeSpec.recipe(new MoveReturnedSessionKeysRecipe()),
+          xml(
+            """
+            <Adapter>
+                <Receiver
+                    name="forEachTag"
+                    returnedSessionKeys="backlogItem,team_Id,OriginalXML"
+                >
                 </Receiver>
             </Adapter>
             """
