@@ -3,14 +3,14 @@
 // (powered by FernFlower decompiler)
 //
 
-package org.frankframework.errormessageformatters;
+package nl.nn.adapterframework.errormessageformatters;
 
-import org.frankframework.configuration.ConfigurationWarning;
+import nl.nn.adapterframework.configuration.ConfigurationWarning;
 
-public class FixedErrorMessageFormatter {
+public class FixedErrorMessage {
     private String filename = null;
 
-    public FixedErrorMessageFormatter() {
+    public FixedErrorMessage() {
     }
     /** @deprecated */
     @Deprecated

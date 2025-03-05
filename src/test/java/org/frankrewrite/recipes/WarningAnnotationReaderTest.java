@@ -91,11 +91,23 @@ public class WarningAnnotationReaderTest implements RewriteTest{
         rewriteRun(recipeSpec -> recipeSpec.cycles(1),
           xml(
             """
-            <FixedErrorMessageFormatter fileName=''>
-            </FixedErrorMessageFormatter>
+            <FixedErrorMessage fileName=''>
+            </FixedErrorMessage>
             """, """
-            <FixedErrorMessageFormatter filename=''>
-            </FixedErrorMessageFormatter>
+            <FixedErrorMessage filename=''>
+            </FixedErrorMessage>
+            """
+          )
+        );
+    }
+    @Test
+    void dontCapitalizeDotAnnotation() {
+        //language=xml
+        rewriteRun(
+          xml(
+            """
+            <EmptyAnnotatedClass test=''>
+            </EmptyAnnotatedClass>
             """
           )
         );
