@@ -165,7 +165,7 @@ recipeList:
   - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
   - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
   - org.frankrewrite.recipes.FrameworkVersionRecipe:
-      version: "7.9.0"
+      version: "7.9.5"
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: org.frankrewrite.7_9_0_to_8_0_1
