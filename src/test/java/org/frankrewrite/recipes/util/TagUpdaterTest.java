@@ -58,6 +58,15 @@ class TagUpdaterTest {
         Xml.Tag result = TagUpdater.getUpdatedTagWithNewName(mockTag);
         assertEquals(mockTag, result);
     }
+    @Test
+    void testGetUpdatedPipeTagWithNewName_WhenTagNameIsNotDeprecated_ShouldReturnSameTag() {
+        when(mockTag.getName()).thenReturn("OldPipe");
+        when(mockTag.withName("NewPipe")).thenReturn(mockTag);
+
+        Xml.Tag result = TagUpdater.getUpdatedTagWithNewName(mockTag);
+        assertNotNull(result);
+        verify(mockTag).withName("NewPipe");
+    }
 
     @Test
     void testGetTagWithNewAttributes_WhenAttributesAreDeprecated_ShouldReturnUpdatedTag() throws NoSuchMethodException {

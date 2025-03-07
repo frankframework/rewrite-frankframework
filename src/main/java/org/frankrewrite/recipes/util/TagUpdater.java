@@ -37,6 +37,8 @@ public class TagUpdater {
 
                 if (tag.getName().equalsIgnoreCase(oldName)) {
                     return tag.withName(newName);
+                }else if (tag.getName().contains(newName)) {
+                    return tag.withName(oldName+"Pipe");
                 }
             }
         }
