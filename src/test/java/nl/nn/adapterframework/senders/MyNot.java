@@ -13,8 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package nl.nn.adapterframework.senders;
 
-package org.frankrewrite;
-public class Main {
-    public static void main(String[] args) {}
+
+import nl.nn.adapterframework.configuration.ConfigurationWarning;
+
+@Deprecated
+@ConfigurationWarning("Replace with MyPipeTwo or MySecondPipe.")
+public class MyNot {
 }

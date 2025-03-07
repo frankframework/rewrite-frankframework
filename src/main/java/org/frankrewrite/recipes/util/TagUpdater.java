@@ -79,8 +79,8 @@ public class TagUpdater {
                 //Replace the attribute
                 newAttributes.remove(existingAttribute);
                 newAttributes.add(existingAttribute.withKey(existingAttribute.getKey().withName(getAttributeName(replacementAttribute))));
+                changed = true;
             }
-            changed = true;
         }
 
         return changed?tag.withAttributes(newAttributes):null;
@@ -88,7 +88,7 @@ public class TagUpdater {
 
     private static Xml.@Nullable Attribute getExistingAttribute(List<Xml.Attribute> newAttributes, String deprecatedAttributesToNewElementMapEntry) {
         return newAttributes.stream()
-                .filter(attr -> attr.getKey().getName().equalsIgnoreCase(deprecatedAttributesToNewElementMapEntry))
+                .filter(attr -> attr.getKey().getName().equals(deprecatedAttributesToNewElementMapEntry))
                 .findFirst()
                 .orElse(null);
     }

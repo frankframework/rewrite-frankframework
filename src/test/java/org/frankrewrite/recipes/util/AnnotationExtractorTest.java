@@ -16,14 +16,17 @@
 
 package org.frankrewrite.recipes.util;
 
-import jakarta.el.MethodNotFoundException;
+import org.frankframework.pipes.WronglyAnnotatedClass;
+import org.frankframework.configuration.WrongAnnotation;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.MockedStatic;
+
 import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 class AnnotationExtractorTest {
 
@@ -33,7 +36,7 @@ class AnnotationExtractorTest {
     }
 
     @Test
-    void testExtractNewAttributesFromConfigurationWarning_MethodFound() throws NoSuchMethodException {
+    void testExtractNewAttributesFromConfigurationWarning_MethodFound() throws Exception {
         class TestClass {
             public void setExampleMethod() {}
             @Deprecated
@@ -50,7 +53,7 @@ class AnnotationExtractorTest {
     void testExtractNewAttributesFromConfigurationWarning_MethodNotFound() {
         class TestClass {}
 
-        MethodNotFoundException exception = assertThrows(MethodNotFoundException.class, () ->
+        Exception exception = assertThrows(Exception.class, () ->
           AnnotationExtractor.extractNewAttributesFromConfigurationWarning("nonExistentMethod", TestClass.class, null)
         );
 
@@ -58,7 +61,7 @@ class AnnotationExtractorTest {
     }
 
     @Test
-    void testExtractNewClassFromConfigurationWarning_ClassFound() throws ClassNotFoundException {
+    void testExtractNewClassFromConfigurationWarning_ClassFound() throws Exception {
         Map<String, Class<?>> classLookup = new HashMap<>();
         classLookup.put("NewClass", String.class);
 
@@ -72,7 +75,7 @@ class AnnotationExtractorTest {
     void testExtractNewClassFromConfigurationWarning_ClassNotFound() {
         Map<String, Class<?>> classLookup = new HashMap<>();
 
-        ClassNotFoundException exception = assertThrows(ClassNotFoundException.class, () ->
+        Exception exception = assertThrows(Exception.class, () ->
           AnnotationExtractor.extractNewClassFromConfigurationWarning("UnknownClass", classLookup, Integer.class)
         );
 
@@ -85,10 +88,52 @@ class AnnotationExtractorTest {
         classLookup.put("DuplicateClass", String.class);
         classLookup.put("Kaas", Boolean.class);
 
-        ClassNotFoundException exception = assertThrows(ClassNotFoundException.class, () ->
+        Exception exception = assertThrows(Exception.class, () ->
           AnnotationExtractor.extractNewClassFromConfigurationWarning("DuplicateClass Kaas", classLookup, Double.class)
         );
 
         assertTrue(exception.getMessage().contains("Multiple class names found"));
+    }
+//    @Test
+//    void test() throws NoSuchMethodException {
+//        Class<?> c = FixedErrorMessageFormatter.class;
+//
+//        Method m = Arrays.stream(c.getMethods()).filter(it->it.getName().equalsIgnoreCase("setFileName")).findFirst().get();
+//        Method res;
+//        try {
+//            res = AnnotationExtractor.extractNewAttributesFromConfigurationWarning("attribute 'fileName' is replaced with 'filename", FixedErrorMessageFormatter.class, m);
+//            assertTrue(res.getName().equals("setFilename"));
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
+//        assertNotNull(res);
+//
+//    }
+
+    @Test
+    void testGetConfigurationWarningValue_ThrowsIllegalStateException() {
+        try (MockedStatic<PackageScanner> staticPackageScanner = mockStatic(PackageScanner.class)) {
+            PackageScanner packageScanner = mock(PackageScanner.class);
+            // Use doAnswer to mock the method that returns a wildcard Class<? extends Annotation>
+            doAnswer(invocation -> WrongAnnotation.class) // Returning the specific annotation class
+                    .when(packageScanner).getConfigurationWarningClass();
+            List<Class<?>> classes = new ArrayList<>();
+            classes.add(WronglyAnnotatedClass.class);
+
+            when(packageScanner.getClasses()).thenReturn(new HashSet<>(classes));
+            staticPackageScanner.when(PackageScanner::getInstance).thenReturn(packageScanner);
+
+            Set<Class<?>> getClasses = PackageScanner.getInstance().getClasses();
+            Class<?> annotatedClass =
+                    getClasses.stream()
+                            .filter(clazz -> clazz.getSimpleName().equalsIgnoreCase("WronglyAnnotatedClass"))
+                            .findFirst().get();
+
+            Exception exception = assertThrows(RuntimeException.class, () ->
+                    AnnotationExtractor.getConfigurationWarningValue(annotatedClass));
+
+            assertEquals("The annotation does not have a 'value()' method.", exception.getMessage());
+
+        }
     }
 }

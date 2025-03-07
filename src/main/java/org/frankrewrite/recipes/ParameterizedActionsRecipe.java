@@ -13,28 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.frankrewrite.recipes;
 
-import org.frankrewrite.recipes.visitors.EditStyleConfigurationVisitor;
+import org.frankrewrite.recipes.visitors.ParameterizedActionsVisitor;
 import org.jetbrains.annotations.NotNull;
 import org.openrewrite.ExecutionContext;
+import org.openrewrite.NlsRewrite;
 import org.openrewrite.Recipe;
 import org.openrewrite.TreeVisitor;
 
-public class EditStyleConfigurationRecipe extends Recipe {
+public class ParameterizedActionsRecipe extends Recipe {
     @Override
-    public @NotNull String getDisplayName() {
-        return "Edit configuration style";
+    public @NlsRewrite.DisplayName @NotNull String getDisplayName() {
+        return "Parameterized actions recipe";
     }
 
     @Override
-    public @NotNull String getDescription() {
-        return "Converts old style configuration into new style without the className attribute.";
+    public @NlsRewrite.Description @NotNull String getDescription() {
+        return "Make action parameters in element as child from actions attribute.";
     }
 
     @Override
     public @NotNull TreeVisitor<?, ExecutionContext> getVisitor() {
-        return new EditStyleConfigurationVisitor();
+        return new ParameterizedActionsVisitor();
     }
 }

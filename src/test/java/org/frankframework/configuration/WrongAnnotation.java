@@ -1,0 +1,17 @@
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by FernFlower decompiler)
+//
+
+package org.frankframework.configuration;
+
+import com.mongodb.lang.Nullable;
+
+import java.lang.annotation.*;
+
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.METHOD, ElementType.TYPE, ElementType.FIELD})
+@Inherited
+public @interface WrongAnnotation {
+}

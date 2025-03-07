@@ -27,7 +27,7 @@ import org.openrewrite.xml.tree.Xml;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class XmlStyleConfigurationVisitor extends XmlIsoVisitor<ExecutionContext> {
+public class EditStyleConfigurationVisitor extends XmlIsoVisitor<ExecutionContext> {
     @Override
     public Xml.Tag visitTag(Xml.Tag tag, ExecutionContext ctx) {
         //Handle exceptional cases, these produce warnings when refactored
@@ -38,16 +38,16 @@ public class XmlStyleConfigurationVisitor extends XmlIsoVisitor<ExecutionContext
         //Check if className Attribute exists in tag
         else if (tag.getAttributes().stream().anyMatch(attribute -> attribute.getKeyAsString().equals("className"))) {
             Optional<Xml.Attribute> classNameAttribute = TagHandler.getAttributeFromTagByKey(tag, "className");
-            if (classNameAttribute.isPresent()){
-                String classSimpleName = classNameAttribute.get().getValue().getValue().substring(classNameAttribute.get().getValue().getValue().lastIndexOf(".")+1);
-                if (!isCustomElement(classSimpleName)){
-                    // Get the result tag and use getElementName to prevent bad element name casing
-                    Xml.Tag updatedTag = getTagWithClassNameValueAsTagName(tag, getElementName(classSimpleName));
-                    if (updatedTag != null) {
-                        return updatedTag;
-                    }
-                }else return super.visitTag(tag, ctx);
-            }
+            //Already sure that className Attribute exists, ignore warning
+            String classSimpleName = classNameAttribute.get().getValue().getValue().substring(classNameAttribute.get().getValue().getValue().lastIndexOf(".")+1);
+            if (!isCustomElement(classSimpleName)){
+                // Get the result tag and use getElementName to prevent bad element name casing
+                Xml.Tag updatedTag = getTagWithClassNameValueAsTagName(tag, getElementName(classSimpleName));
+                if (updatedTag != null) {
+                    return updatedTag;
+                }
+            }else return super.visitTag(tag, ctx);
+
         }else if (tag.getName().equalsIgnoreCase("job")){
             Optional<Xml.Attribute> functionOptional = tag.getAttributes().stream().filter(attribute -> attribute.getKeyAsString().equalsIgnoreCase("function")).findFirst();
             if (functionOptional.isPresent()){
@@ -67,33 +67,31 @@ public class XmlStyleConfigurationVisitor extends XmlIsoVisitor<ExecutionContext
 
     private Xml.@Nullable Tag getTagWithClassNameValueAsTagName(Xml.@NotNull Tag tag, String classSimpleName) {
         Optional<Xml.Attribute> classNameAttribute = TagHandler.getAttributeFromTagByKey(tag, "className");
-        //Check if className Attribute exists (not really necessary but recommended by Optional.get method annotation)
-        if (classNameAttribute.isPresent()){
-            //Get the className Xml.Attribute from the tag
-            String className = classNameAttribute.get().getValue().getValue();
-            @NotNull String[] subPackage = className.split("\\.");
+        //Get the className Xml.Attribute from the tag
+        //ClassNameAttribute optional is for sure not empty, ignore warning
+        String className = classNameAttribute.get().getValue().getValue();
+        @NotNull String[] subPackage = className.split("\\.");
 
-            if (className.startsWith("org.frankframework.")
-                || className.startsWith("nl.nn.adapterframework.")
-            ) {
-                //Extract the class name without package names
-                String type = subPackage[subPackage.length-2];
+        if (className.startsWith("org.frankframework.")
+            || className.startsWith("nl.nn.adapterframework.")
+        ) {
+            //Extract the class name without package names
+            String type = subPackage[subPackage.length-2];
 
-                //Check if tag className is in the *.pipe.{pipe's simple class name} namespace and if it doesn't yet end with "Pipe"
-                if (!classSimpleName.endsWith("Pipe")&&type.equals("pipes")){
-                    //Add "Pipe" at the end of the tag's name if it does not end with it already.
-                    //Some pipe classes don't end with pipe (in java), but need to (in xml) in order to make some properties accessible.
-                    // For instance Json2XmlValidator class needs to be implemented like <Json2XmlValidatorPipe .../> because Json2XmlValidator.setSender() is a protected method
-                    classSimpleName=classSimpleName+"Pipe";
-                }
-
-                //Update the tag name to the indexed class name
-                Xml.Tag updatedTag = tag.withName(classSimpleName);
-
-                //Remove the className attribute
-                updatedTag = TagHandler.getTagWithoutAttribute(updatedTag, "className");
-                return updatedTag.withContent(updatedTag.getContent());
+            //Check if tag className is in the *.pipe.{pipe's simple class name} namespace and if it doesn't yet end with "Pipe"
+            if (!classSimpleName.endsWith("Pipe")&&type.equals("pipes")){
+                //Add "Pipe" at the end of the tag's name if it does not end with it already.
+                //Some pipe classes don't end with pipe (in java), but need to (in xml) in order to make some properties accessible.
+                // For instance Json2XmlValidator class needs to be implemented like <Json2XmlValidatorPipe .../> because Json2XmlValidator.setSender() is a protected method
+                classSimpleName=classSimpleName+"Pipe";
             }
+
+            //Update the tag name to the indexed class name
+            Xml.Tag updatedTag = tag.withName(classSimpleName);
+
+            //Remove the className attribute
+            updatedTag = TagHandler.getTagWithoutAttribute(updatedTag, "className");
+            return updatedTag.withContent(updatedTag.getContent());
         }
         return null;
     }

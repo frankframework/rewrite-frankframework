@@ -71,4 +71,46 @@ public class WarningAnnotationReaderTest implements RewriteTest{
           )
         );
     }
+    @Test
+    void changesGenericReceiverToReceiver() {
+        rewriteRun(
+          xml(
+            """
+            <GenericReceiver>
+            </GenericReceiver>
+            """, """
+            <Receiver>
+            </Receiver>
+            """
+          )
+        );
+    }
+    @Test
+    void changesAttributeKeysWhenCapitalizationIsUpdated() {
+        //language=xml
+        rewriteRun(recipeSpec -> recipeSpec.cycles(1),
+          xml(
+            """
+            <FixedErrorMessage fileName=''>
+            </FixedErrorMessage>
+            """, """
+            <FixedErrorMessage filename=''>
+            </FixedErrorMessage>
+            """
+          )
+        );
+    }
+    @Test
+    void dontCapitalizeDotAnnotation() {
+        //language=xml
+        rewriteRun(
+          xml(
+            """
+            <EmptyAnnotatedClass test=''>
+            </EmptyAnnotatedClass>
+            """
+          )
+        );
+    }
+
 }

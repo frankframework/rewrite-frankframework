@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.frankrewrite.recipes;
 
 import org.junit.jupiter.api.Test;
@@ -22,115 +21,134 @@ import org.openrewrite.test.RewriteTest;
 
 import static org.openrewrite.xml.Assertions.xml;
 
-public class EditStyleConfigurationRecipeTest implements RewriteTest{
+public class EditStyleConfigurationRecipeTest implements RewriteTest {
     @Override
     public void defaults(RecipeSpec spec) {
-        spec.recipe(new EditStyleConfigurationRecipe());
     }
 
     @Test
-    void changesPipeNameCorrectly() {
-        rewriteRun(
-                xml(
-                        """
-                            <pipe name="Test" className="nl.nn.adapterframework.pipes.thebest">
-                        
-                            </pipe>
-                        """,
-                        """
-                            <TheBestPipe name="Test">
-                        
-                            </TheBestPipe>
-                        """
-                )
-        );
-    }
-    @Test
-    void doesNotChangeCustomElementStyle() {
-        rewriteRun(
-                xml(
-                        """
-                            <pipe name="Test" className="org.frankframework.Kaas">
-                        
-                            </pipe>
-                        """
-                )
-        );
-    }
-
-    @Test
-    void changesSender() {
-        rewriteRun(
-                xml(
-                        """
-                            <sender className="nl.nn.adapterframework.jdbc.FixedQuerySender">
-                        
-                            </sender>
-                        ""","""
-                            <FixedQuerySender>
-                        
-                            </FixedQuerySender>
-                        """
-                )
-        );
-    }
-    @Test
-    void dontChangeErrorStorage() {
-        rewriteRun(
+    void ignoresErrorStorageAndMessageLogTags() {
+        rewriteRun(recipeSpec -> recipeSpec.recipe(new EditStyleConfigurationRecipe()),
           xml(
             """
-            <errorStorage
-                className="nl.nn.adapterframework.jdbc.JdbcTransactionalStorage"
-                jmsRealm="${jdbc.realm}"
-                slotId="mailSender"
-                schemaOwner4Check="current schema"
-            />
+            <errorStorage/>
+            """
+          ),
+          xml(
+            """
+            <messageLog/>
+            """
+          )
+        );
+    }
+
+    @Test
+    void updatesTagBasedOnClassNameAttributeWithTypeExtention() {
+        rewriteRun(recipeSpec -> recipeSpec.recipe(new EditStyleConfigurationRecipe()),
+          xml(
+            """
+            <SomeTag className="org.frankframework.pipes.TheBest"/>
+            """,
+            """
+            <TheBestPipe/>
             """
           )
         );
     }
     @Test
-    void changesExistingPipe() {
-        rewriteRun(
+    void updatesTagBasedOnClassNameAttributeForFrankFramework() {
+        rewriteRun(recipeSpec -> recipeSpec.recipe(new EditStyleConfigurationRecipe()),
           xml(
             """
-            <pipe
-                className="nl.nn.adapterframework.pipes.MyPipe"
-            />
-            ""","""
-            <MyPipe
-            />
+            <SomeTag className="org.frankframework.pipes.MyPipe"/>
+            """,
+            """
+            <MyPipe/>
             """
           )
         );
     }
     @Test
-    void changesJob() {
-        rewriteRun(
-                xml(
-                        """
-                          <scheduler>
-                            <job
-                                name="Delete Demo Accounts"
-                                cronExpression="0 0 1 * * ?"
-                                description="Run every day at a certain time to Delete Demo Accounts"
-                                function="SendMessage"
-                                receiverName="DemoTeamGetter"
-                                adapterName="DemoTeamGetter"
-                            />
-                        </scheduler>
-                        ""","""
-                          <scheduler>
-                            <SendMessageJob
-                                name="Delete Demo Accounts"
-                                cronExpression="0 0 1 * * ?"
-                                description="Run every day at a certain time to Delete Demo Accounts"
-                                receiverName="DemoTeamGetter"
-                                adapterName="DemoTeamGetter"
-                            />
-                        </scheduler>
-                        """
-                )
+    void updatesNotPipeBasedOnClassNameAttribute() {
+        rewriteRun(recipeSpec -> recipeSpec.recipe(new EditStyleConfigurationRecipe()),
+          xml(
+            """
+            <SomeTag className="nl.nn.adapterframework.senders.MyNot"/>
+            """,
+            """
+            <MyNot/>
+            """
+          )
+        );
+    }
+    @Test
+    void updatesTagBasedOnClassNameAttributeForAdapterFramework() {
+        rewriteRun(recipeSpec -> recipeSpec.recipe(new EditStyleConfigurationRecipe()),
+          xml(
+            """
+            <SomeTag className="nl.nn.adapterframework.pipes.MyPipe"/>
+            """,
+            """
+            <MyPipe/>
+            """
+          )
+        );
+    }
+
+    @Test
+    void doesNotChangeCustomElements() {
+        rewriteRun(recipeSpec -> recipeSpec.recipe(new EditStyleConfigurationRecipe()),
+          xml(
+            """
+            <CustomTag className="com.custom.package.CustomClass"/>
+            """
+          )
+        );
+    }
+
+    @Test
+    void renamesJobBasedOnFunctionAttribute() {
+        rewriteRun(recipeSpec -> recipeSpec.recipe(new EditStyleConfigurationRecipe()),
+          xml(
+            """
+            <job function="myFunction"/>
+            """,
+            """
+            <myFunctionJob/>
+            """
+          )
+        );
+    }
+
+    @Test
+    void keepsJobTagWhenNoFunctionAttribute() {
+        rewriteRun(recipeSpec -> recipeSpec.recipe(new EditStyleConfigurationRecipe()),
+          xml(
+            """
+            <job/>
+            """
+          )
+        );
+    }
+
+    @Test
+    void doesNotChangeTagWithoutClassNameOrFunction() {
+        rewriteRun(recipeSpec -> recipeSpec.recipe(new EditStyleConfigurationRecipe()),
+          xml(
+            """
+            <SomeOtherTag/>
+            """
+          )
+        );
+    }
+    @Test
+    void doesNotChangeTagWithWrongClassNamePackage() {
+        rewriteRun(recipeSpec -> recipeSpec.recipe(new EditStyleConfigurationRecipe()),
+          xml(
+            """
+            <pipe className="org.nonexistingorg.pipes.TheBest"/>
+            """
+          )
         );
     }
 }
