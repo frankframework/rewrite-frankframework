@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class changeDependencyRecipe extends Recipe {
+public class ChangeDependencyRecipe extends Recipe {
     @Option(displayName = "The old groupId value",
             description = "The old groupId to update in the pom file.",
             required = true)
@@ -32,7 +32,7 @@ public class changeDependencyRecipe extends Recipe {
             required = false)
     private String version;
 
-    public changeDependencyRecipe(@JsonProperty("oldGroupId")String oldGroupId, @JsonProperty("oldArtifactId")String oldArtifactId, @JsonProperty("newGroupId")String newGroupId, @JsonProperty("newArtifactId")String newArtifactId, @JsonProperty("version")String version) {
+    public ChangeDependencyRecipe(@JsonProperty("oldGroupId")String oldGroupId, @JsonProperty("oldArtifactId")String oldArtifactId, @JsonProperty("newGroupId")String newGroupId, @JsonProperty("newArtifactId")String newArtifactId, @JsonProperty("version")String version) {
         this.oldGroupId = oldGroupId;
         this.oldArtifactId = oldArtifactId;
         this.newGroupId = newGroupId;
@@ -57,6 +57,9 @@ public class changeDependencyRecipe extends Recipe {
             public Xml.Tag visitTag(Xml.Tag tag, ExecutionContext executionContext) {
                 if (tag.getName().equals("dependency")) {
                     List<? extends Content> content = tag.getContent();
+                    if (content==null) //If for some reason tag is like this <dependency/>
+                        return super.visitTag(tag, executionContext); // Avoid null pointer
+
                     //Get groupId tag expression
                     Optional<Xml.Tag> groupId = (Optional<Xml.Tag>) content.stream().filter(c ->
                             c instanceof Xml.Tag t //Check if content is tag

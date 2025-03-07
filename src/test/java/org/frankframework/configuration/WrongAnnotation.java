@@ -5,8 +5,6 @@
 
 package org.frankframework.configuration;
 
-import com.mongodb.lang.Nullable;
-
 import java.lang.annotation.*;
 
 @Documented

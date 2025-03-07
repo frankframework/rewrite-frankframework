@@ -16,7 +16,7 @@ public class ChangeDependencyRecipeTest implements RewriteTest {
         String newVersion = "2.0.0";
 
         rewriteRun(
-          recipeSpec -> recipeSpec.recipe(new changeDependencyRecipe(oldGroupId, oldArtifactId, newGroupId, newArtifactId, newVersion)),
+          recipeSpec -> recipeSpec.recipe(new ChangeDependencyRecipe(oldGroupId, oldArtifactId, newGroupId, newArtifactId, newVersion)),
 
           // language=xml
           xml(
@@ -64,7 +64,7 @@ public class ChangeDependencyRecipeTest implements RewriteTest {
         String newVersion = "2.0.0";
 
         rewriteRun(
-          recipeSpec -> recipeSpec.recipe(new changeDependencyRecipe(oldGroupId, oldArtifactId, newGroupId, newArtifactId, newVersion)),
+          recipeSpec -> recipeSpec.recipe(new ChangeDependencyRecipe(oldGroupId, oldArtifactId, newGroupId, newArtifactId, newVersion)),
 
           // language=xml
           xml(
@@ -96,7 +96,7 @@ public class ChangeDependencyRecipeTest implements RewriteTest {
         String newVersion = "2.0.0";
 
         rewriteRun(
-          recipeSpec -> recipeSpec.recipe(new changeDependencyRecipe(oldGroupId, oldArtifactId, newGroupId, newArtifactId, newVersion)),
+          recipeSpec -> recipeSpec.recipe(new ChangeDependencyRecipe(oldGroupId, oldArtifactId, newGroupId, newArtifactId, newVersion)),
 
           // language=xml
           xml(
@@ -121,7 +121,7 @@ public class ChangeDependencyRecipeTest implements RewriteTest {
         String newVersion = "2.0.0";
 
         rewriteRun(
-          recipeSpec -> recipeSpec.recipe(new changeDependencyRecipe(oldGroupId, oldArtifactId, newGroupId, newArtifactId, newVersion)),
+          recipeSpec -> recipeSpec.recipe(new ChangeDependencyRecipe(oldGroupId, oldArtifactId, newGroupId, newArtifactId, newVersion)),
 
           // language=xml
           xml(
@@ -147,7 +147,7 @@ public class ChangeDependencyRecipeTest implements RewriteTest {
         String newVersion = "2.0.0";
 
         rewriteRun(
-          recipeSpec -> recipeSpec.recipe(new changeDependencyRecipe(oldGroupId, oldArtifactId, newGroupId, newArtifactId, newVersion)),
+          recipeSpec -> recipeSpec.recipe(new ChangeDependencyRecipe(oldGroupId, oldArtifactId, newGroupId, newArtifactId, newVersion)),
 
           // language=xml
           xml(
@@ -175,7 +175,7 @@ public class ChangeDependencyRecipeTest implements RewriteTest {
         String newArtifactId = "new-artifact";
 
         rewriteRun(
-          recipeSpec -> recipeSpec.recipe(new changeDependencyRecipe(oldGroupId, oldArtifactId, newGroupId, newArtifactId, null)),
+          recipeSpec -> recipeSpec.recipe(new ChangeDependencyRecipe(oldGroupId, oldArtifactId, newGroupId, newArtifactId, null)),
           // language=xml
           xml(
             """
@@ -222,7 +222,7 @@ public class ChangeDependencyRecipeTest implements RewriteTest {
         String newVersion = "2.0.0";
 
         rewriteRun(
-          recipeSpec -> recipeSpec.recipe(new changeDependencyRecipe(oldGroupId, oldArtifactId, newGroupId, newArtifactId, newVersion)),
+          recipeSpec -> recipeSpec.recipe(new ChangeDependencyRecipe(oldGroupId, oldArtifactId, newGroupId, newArtifactId, newVersion)),
 
           xml(
             """
@@ -240,6 +240,24 @@ public class ChangeDependencyRecipeTest implements RewriteTest {
                     </dependency>
                 </dependencies>
             </project>
+            """
+          )
+        );
+    }
+    @Test
+    void testHandleNullPointerForDependencyContent() {
+        String oldGroupId = "com.old";
+        String oldArtifactId = "old-artifact";
+        String newGroupId = "com.new";
+        String newArtifactId = "new-artifact";
+        String newVersion = "2.0.0";
+
+        rewriteRun(
+          recipeSpec -> recipeSpec.recipe(new ChangeDependencyRecipe(oldGroupId, oldArtifactId, newGroupId, newArtifactId, newVersion)),
+
+          xml(
+            """
+            <dependency/>
             """
           )
         );
