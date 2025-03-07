@@ -24,8 +24,8 @@
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: org.frankrewrite.7_3_to_7_4
-displayName: Recipe to migrate from 7.3 to 7.4
-description: Migrates franks from 7.3 to 7.4.
+displayName: Recipe to migrate from 7.3.x to 7.4
+description: Migrates franks from 7.3.x to 7.4.
 recipeList:
   - org.frankrewrite.recipes.RemoveAttributeRecipe:
       attributeName: "xslt2"
@@ -34,8 +34,8 @@ recipeList:
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: org.frankrewrite.7_4_to_7_5
-displayName: Recipe to migrate from 7.4 to 7.5
-description: Migrates franks from 7.4 to 7.5.
+displayName: Recipe to migrate from 7.4.x to 7.5.2
+description: Migrates franks from 7.4.x to 7.5.2.
 recipeList:
   - org.frankrewrite.recipes.EditStyleConfigurationRecipe
   - org.frankrewrite.recipes.EditStyleConfigurationRecipe
@@ -48,12 +48,12 @@ recipeList:
       oldName: "GenericMessageSendingPipe"
       newName: "SenderPipe"
   - org.frankrewrite.recipes.FrameworkVersionRecipe:
-      version: "7.5"
+      version: "7.5.2"
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: org.frankrewrite.7_5_to_7_6
-displayName: Recipe to migrate from 7.5 to 7.6
-description: Migrates franks from 7.5 to 7.6.
+displayName: Recipe to migrate from 7.5.x to 7.6.5
+description: Migrates franks from 7.5.x to 7.6.5.
 recipeList:
   - org.frankrewrite.recipes.RemoveAttributeRecipe:
       attributeName: "configurationName"
@@ -71,12 +71,12 @@ recipeList:
       newValue: "DECODE" #Hoe weet je of je encode of decode moet toepassen?
   - org.frankrewrite.recipes.ParameterizedActionsRecipe
   - org.frankrewrite.recipes.FrameworkVersionRecipe:
-      version: "7.6"
+      version: "7.6.5"
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: org.frankrewrite.7_6_to_7_7
-displayName: Recipe to migrate from 7.6 to 7.7
-description: Migrates franks from 7.6 to 7.7.
+displayName: Recipe to migrate from 7.6.x to 7.7.7
+description: Migrates franks from 7.6.x to 7.7.7.
 recipeList:
   - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
   - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
@@ -126,18 +126,18 @@ recipeList:
       tag: "FixedQuerySender"
       attributeName: "jmsRealm"
   - org.frankrewrite.recipes.FrameworkVersionRecipe:
-      version: "7.7"
+      version: "7.7.7"
   - org.frankrewrite.recipes.RemoveRecurringExitsRecipe
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: org.frankrewrite.7_7_to_7_8
-displayName: Recipe to migrate from 7.7 to 7.8
-description: Migrates franks from 7.7 to 7.8.
+displayName: Recipe to migrate from 7.7.x to 8.3.0
+description: Migrates franks from 7.7.x to 8.3.0.
 recipeList:
   - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
   - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
   - org.frankrewrite.recipes.FrameworkVersionRecipe:
-      version: "7.8"
+      version: "8.3.0"
   - org.frankrewrite.recipes.ChangeAttributeRecipe:
       tagNameFilter: "exit"
       attributeKeyFilter: "path"
@@ -158,21 +158,84 @@ recipeList:
   - org.frankrewrite.recipes.MoveReturnedSessionKeysRecipe
 ---
 type: specs.openrewrite.org/v1beta/recipe
-name: org.frankrewrite.7_8_to_7_9_0
-displayName: Recipe to migrate from 7.8 to 7.9.0
-description: Migrates franks from 7.8 to 7.9.0.
+name: org.frankrewrite.7_8_to_7_9
+displayName: Recipe to migrate from 7.8.x to 7.9.5
+description: Migrates franks from 7.8.x to 7.9.5.
 recipeList:
   - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
   - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
   - org.frankrewrite.recipes.FrameworkVersionRecipe:
       version: "7.9.5"
+  - org.frankrewrite.recipes.RemoveAttributeRecipe:
+      tag: "ApiListener"
+      attributeName: "updateEtag"
+      value: "false"
+  - org.frankrewrite.recipes.RemoveAttributeRecipe:
+      tag: "ZipWriterPipe"
+      attributeName: "action"
+      value: "write"
 ---
 type: specs.openrewrite.org/v1beta/recipe
-name: org.frankrewrite.7_9_0_to_8_0_1
-displayName: Recipe to migrate from 7.9.0 to 8.0.1
-description: Migrates franks from 7.9.0 to 8.0.1.
+name: org.frankrewrite.7_9_to_8_0
+displayName: Recipe to migrate from 7.9.x to 8.0.3
+description: Migrates franks from 7.9.x to 8.0.3.
 recipeList:
   - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
   - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
   - org.frankrewrite.recipes.FrameworkVersionRecipe:
-      version: "8.0.1"
+      version: "8.0.3"
+  - org.frankrewrite.recipes.ChangeDependencyRecipe:
+      oldGroupId: "org.ibissource"
+      newGroupId: "org.frankframework"
+      oldArtifactId: "ibis-adapterframework-core"
+      newArtifactId: "frankframework-batch"
+  - org.frankrewrite.recipes.ChangeDependencyRecipe:
+      oldGroupId: "org.ibissource"
+      newGroupId: "org.frankframework"
+      oldArtifactId: "ibis-adapterframework-larva"
+      newArtifactId: "frankframework-larva"
+  - org.frankrewrite.recipes.ChangeDependencyRecipe:
+      oldGroupId: "org.ibissource"
+      newGroupId: "org.frankframework"
+      oldArtifactId: "ibis-adapterframework-webapp"
+      newArtifactId: "frankframework-webapp"
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.frankrewrite.8_0_to_8_1
+displayName: Recipe to migrate from 8.0.x to 8.1.1
+description: Migrates franks from 8.0.x to 8.1.1.
+recipeList:
+  - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
+  - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
+  - org.frankrewrite.recipes.FrameworkVersionRecipe:
+      version: "8.1.1"
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.frankrewrite.8_1_to_8_2
+displayName: Recipe to migrate from 8.1.x to 8.2.0
+description: Migrates franks from 8.1.x to 8.2.0.
+recipeList:
+  - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
+  - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
+  - org.frankrewrite.recipes.FrameworkVersionRecipe:
+      version: "8.2.0"
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.frankrewrite.8_2_to_8_3
+displayName: Recipe to migrate from 8.2.x to 8.3.0
+description: Migrates franks from 8.2.x to 8.3.0.
+recipeList:
+  - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
+  - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
+  - org.frankrewrite.recipes.FrameworkVersionRecipe:
+      version: "8.3.0"
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.frankrewrite.8_3_to_9_0
+displayName: Recipe to migrate from 8.3.x to 9.0.0
+description: Migrates franks from 8.3.x to 9.0.0.
+recipeList:
+  - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
+  - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
+  - org.frankrewrite.recipes.FrameworkVersionRecipe:
+      version: "9.0.0"

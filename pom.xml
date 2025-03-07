@@ -82,7 +82,7 @@
             <id>7_9</id>
             <properties>
                 <iaf.version>7.9.5</iaf.version>
-                <artifactId>${artifactName}-7_9_0</artifactId>
+                <artifactId>${artifactName}-7_9</artifactId>
             </properties>
             <dependencies>
                 <dependency>
