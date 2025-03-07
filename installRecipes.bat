@@ -1,6 +1,6 @@
 @echo off
 
-set profiles=default 7_8 7_9 8_0_1 8_1_0 8_2_0 8_3_0 9_0_0
+set profiles=default 7_8 7_9 8_0 8_1 8_2 8_3 9_0
 
 for %%p in (%profiles%) do (
     if "%%p"=="default" (
