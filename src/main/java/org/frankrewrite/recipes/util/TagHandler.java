@@ -19,6 +19,7 @@ package org.frankrewrite.recipes.util;
 import org.jetbrains.annotations.NotNull;
 import org.openrewrite.xml.tree.Xml;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
@@ -110,5 +111,10 @@ public class TagHandler {
                         .collect(Collectors.toList())
         );
         return updatedTag;
+    }
+    public static Xml.Tag getTagWithUpdatedAttributeValue(Xml.Tag updatedTag, Xml.Attribute attribute, String attributeValue) {
+        List<Xml.Attribute> attributeList = new ArrayList<>(updatedTag.getAttributes().stream().filter(attr -> attr!=attribute).toList());
+        attributeList.add(attribute.withValue(attribute.getValue().withValue(attributeValue)));
+        return updatedTag.withAttributes(attributeList);
     }
 }

@@ -225,6 +225,10 @@ recipeList:
   - org.frankrewrite.recipes.FrameworkVersionRecipe:
       version: "8.2.0"
   - org.frankrewrite.recipes.HandleReturnStringAttributeRecipe
+  - org.frankrewrite.recipes.IntroduceReplacerPipeFromFixedResultPipeRecipe
+  - org.frankrewrite.recipes.CapitalizeAttributeValueRecipe:
+      attributeKey: "logLevel"
+      tagName: "LarvaPipe"
 
 ---
 type: specs.openrewrite.org/v1beta/recipe

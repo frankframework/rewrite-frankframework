@@ -20,10 +20,10 @@ import org.openrewrite.test.RewriteTest;
 
 import static org.openrewrite.xml.Assertions.xml;
 
-public class HandleReturnStringAttributeRecipeTest implements RewriteTest {
+public class IntroduceReplacerPipeFromFixedResultPipeRecipeTest implements RewriteTest {
     @Test
     void IntroducesEchoPipeAndUpdatesPathStringsAccordingly() {
-        rewriteRun(specs->specs.recipe(new HandleReturnStringAttributeRecipe()),
+        rewriteRun(specs->specs.recipe(new IntroduceReplacerPipeFromFixedResultPipeRecipe()),
           //language=xml
           xml(
             """
@@ -33,16 +33,14 @@ public class HandleReturnStringAttributeRecipeTest implements RewriteTest {
                         <Exit code='200' path='READY'/>
                     </Exits>
                     <FixedResultPipe
-                      name="noBacklogitems"
-                      returnString='{"backlogitems": []}'
+                      name="noBacklogitems" replaceFrom="%reasonCode" replaceTo="NOT_WELL_FORMED_XML"
                     >
                     dfghdgfh
                       <test name="success" path="myEchoPipe" />
                       <forward name="success" path="READY" />
                     </FixedResultPipe>
                     <FixedResultPipe
-                      name="noBacklogitemsSecond"
-                      returnString='{"backlogitems": []}'
+                      name="noBacklogitemsSecond" replaceFrom="%reasonCode" replaceTo="NOT_WELL_FORMED_XML"
                     >
                       <forward name="success" path="READY" />
                     </FixedResultPipe>
@@ -60,13 +58,13 @@ public class HandleReturnStringAttributeRecipeTest implements RewriteTest {
                     >
                     dfghdgfh
                       <test name="success" path="myEchoPipe" />
-                      <forward name="success" path="myEchoPipe" />
-                    </FixedResultPipe><EchoPipe name="myEchoPipe" getInputFromFixedValue='{"backlogitems": []}'><forward name="success" path="READY"/></EchoPipe>
+                      <forward name="success" path="myReplacerPipe" />
+                    </FixedResultPipe><ReplacerPipe name="myReplacerPipe" find="%reasonCode" replace="NOT_WELL_FORMED_XML"><forward name="success" path="READY"/></ReplacerPipe>
                     <FixedResultPipe
                       name="noBacklogitemsSecond"
                     >
-                      <forward name="success" path="myEchoPipe2" />
-                    </FixedResultPipe><EchoPipe name="myEchoPipe2" getInputFromFixedValue='{"backlogitems": []}'><forward name="success" path="READY"/></EchoPipe>
+                      <forward name="success" path="myReplacerPipe2" />
+                    </FixedResultPipe><ReplacerPipe name="myReplacerPipe2" find="%reasonCode" replace="NOT_WELL_FORMED_XML"><forward name="success" path="READY"/></ReplacerPipe>
                     <test/>
                 </pipeline>
                 """
