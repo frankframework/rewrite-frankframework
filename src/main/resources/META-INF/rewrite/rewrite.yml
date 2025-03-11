@@ -214,7 +214,6 @@ recipeList:
       tag: "FixedQuerySender"
       attributeName: "queryType"
       value: "other"
-
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: org.frankrewrite.8_1_to_8_2
@@ -225,6 +224,8 @@ recipeList:
   - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
   - org.frankrewrite.recipes.FrameworkVersionRecipe:
       version: "8.2.0"
+  - org.frankrewrite.recipes.HandleReturnStringAttributeRecipe
+
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: org.frankrewrite.8_2_to_8_3
