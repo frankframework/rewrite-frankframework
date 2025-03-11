@@ -199,6 +199,7 @@ recipeList:
       newGroupId: "org.frankframework"
       oldArtifactId: "ibis-adapterframework-webapp"
       newArtifactId: "frankframework-webapp"
+#     TODO: Configuration [Util] - LocalFileSystemPipe [OpenZipStream] does not have an attribute [base64] to set to value [DECODE]
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: org.frankrewrite.8_0_to_8_1
@@ -209,6 +210,11 @@ recipeList:
   - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
   - org.frankrewrite.recipes.FrameworkVersionRecipe:
       version: "8.1.1"
+  - org.frankrewrite.recipes.RemoveAttributeRecipe:
+      tag: "FixedQuerySender"
+      attributeName: "queryType"
+      value: "other"
+
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: org.frankrewrite.8_1_to_8_2
