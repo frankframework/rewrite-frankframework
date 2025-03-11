@@ -8,7 +8,7 @@ import org.openrewrite.xml.tree.Xml;
 
 import java.util.Optional;
 
-public class CapitalizeAttributeValueRecipe extends Recipe {
+public class ChangeAttributeValueToUnionTypeRecipe extends Recipe {
     @Option(displayName = "Attribute key",
             description = "The attribute key of which to capitalize the value for.",
             required = true)
@@ -18,14 +18,14 @@ public class CapitalizeAttributeValueRecipe extends Recipe {
             required = false)
     String tagName;
 
-    public CapitalizeAttributeValueRecipe(@JsonProperty("attributeKey")String attributeKey, @JsonProperty("tagName")String tagName) {
+    public ChangeAttributeValueToUnionTypeRecipe(@JsonProperty("attributeKey")String attributeKey, @JsonProperty("tagName")String tagName) {
         this.attributeKey = attributeKey;
         this.tagName = tagName;
     }
 
     @Override
     public @NlsRewrite.DisplayName String getDisplayName() {
-        return "Capitalize attribute value";
+        return "Capitalize attribute value and seperate spaces with underscores";
     }
 
     @Override
@@ -42,14 +42,16 @@ public class CapitalizeAttributeValueRecipe extends Recipe {
                 }
                 Optional<Xml.Attribute> attr= TagHandler.getAttributeFromTagByKey(tag, attributeKey);
                 if (attr.isPresent()) {
-                    if (attr.get().getValueAsString().toUpperCase().equals(attr.get().getValueAsString())) {
+                    String newValue = attr.get().getValueAsString().toUpperCase()
+                            .replace(" ","_");
+                    if (newValue.equals(attr.get().getValueAsString())) {
                         return super.visitTag(tag, executionContext);
                     }
-
                     return TagHandler.getTagWithUpdatedAttributeValue(
                             tag,
                             attr.get(),
-                            attr.get().getValueAsString().toUpperCase());
+                            newValue
+                        );
             }
 
                 return super.visitTag(tag, executionContext);
