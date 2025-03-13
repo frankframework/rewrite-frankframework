@@ -17,7 +17,7 @@ jobs:
       strategy:
         fail-fast: false
         matrix:
-          java: [ '8', '11' ]
+          java: [ '11' ]
 
       steps:
       - name: Cache SonarCloud packages
@@ -40,4 +40,4 @@ jobs:
           jdk11: true # allows the use of the JDK11 profile, when running JDK11
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # SonarCloud
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }} # SonarCloud
-        run: ./mvnw -B -T1 ${{env.MAVEN_GOALS}} -P${{env.PROFILES}} -Dsonar.projectKey=frankframework_rewrite-frankframework
+        run: ./mvnw -B -T1 ${{env.MAVEN_GOALS}} -Dsonar.projectKey=frankframework_rewrite-frankframework
