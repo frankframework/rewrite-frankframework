@@ -241,6 +241,17 @@ recipeList:
   - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
   - org.frankrewrite.recipes.FrameworkVersionRecipe:
       version: "8.3.0"
+  - org.frankrewrite.recipes.ChangeAttributeRecipe: #spelfout in priooo denk ik
+      tagNameFilter: "forward"
+      attributeKeyFilter: "name"
+      attributeValueFilter: "succes"
+      newValue: "success"
+  - org.frankrewrite.recipes.ChangeChildAttributeRecipe: #spelfout in priooo denk ik
+      tagNameFilter: "XsltPipe"
+      childTagNameFilter: "forward"
+      attributeKeyFilter: "name"
+      attributeValueFilter: "failure"
+      newValue: "exception"
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: org.frankrewrite.8_3_to_9_0
