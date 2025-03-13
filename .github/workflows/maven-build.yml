@@ -55,11 +55,14 @@ jobs:
       - name: Debug - Show Current Directory
         run: pwd
 
+      - name: Debug - List All Files (Recursive)
+        run: ls -Rla
+
       - name: Fix Line Endings
         run: sed -i -e 's/\r$//' mvnw
 
-      - name: Grant execute permission to Maven Wrapper
-        run: chmod +x ./mvnw
+      - name: Make `mvnw` Executable
+        run: chmod +x /home/runner/work/rewrite-frankframework/rewrite-frankframework/mvnw
 
       - name: Debug - List Files Again
         run: ls -la
