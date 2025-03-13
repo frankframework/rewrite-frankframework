@@ -41,11 +41,11 @@ jobs:
           distribution: 'zulu'
           java-version: ${{ matrix.java }}
 
-#      - name: Create Maven settings.xml file
-#        if: ${{ env.USE_PROPRIETARY == 'true' }}
-#        uses: s4u/maven-settings-action@v2.8.0
-#        with:
-#          servers: '[{"id": "proprietary", "username": "${{ secrets.CI_USER }}", "password": "${{ secrets.CI_PASS }}"}]'
+      - name: Create Maven settings.xml file
+        if: ${{ env.USE_PROPRIETARY == 'true' }}
+        uses: s4u/maven-settings-action@v2.8.0
+        with:
+          servers: '[{"id": "proprietary", "username": "${{ secrets.CI_USER }}", "password": "${{ secrets.CI_PASS }}"}]'
 
       - name: Update environment when JDK == 11
         if: ${{ matrix.java == '11' }}
@@ -60,5 +60,4 @@ jobs:
           jdk11: true # allows the use of the JDK11 profile, when running JDK11
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # SonarCloud
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }} # SonarCloud
-        run: ls
-#  ./mvnw -B -T1 ${{env.MAVEN_GOALS}} -Dsonar.projectKey=frankframework_rewrite-frankframework
+        run: ./mvnw -B -T1 ${{env.MAVEN_GOALS}} -Dsonar.projectKey=frankframework_rewrite-frankframework
