@@ -21,7 +21,7 @@
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <iaf.version>7.7</iaf.version>
+        <iaf.version>7.7.7</iaf.version>
         <ff.version>8.0.1</ff.version>
         <artifactName>frankrewrite</artifactName>
         <package>nl.nn.adapterframework</package>
@@ -104,10 +104,10 @@
             </dependencies>
         </profile>
         <profile>
-            <id>8_0_1</id>
+            <id>8_0</id>
             <properties>
-                <ff.version>8.0.1</ff.version>
-                <artifactId>${artifactName}-8_0_1</artifactId>
+                <ff.version>8.0.3</ff.version>
+                <artifactId>${artifactName}-8_0</artifactId>
                 <package>org.frankframework</package>
             </properties>
             <dependencies>
@@ -135,10 +135,10 @@
             </dependencies>
         </profile>
         <profile>
-            <id>8_1_0</id>
+            <id>8_1</id>
             <properties>
-                <ff.version>8.1.0</ff.version>
-                <artifactId>${artifactName}-8_1_0</artifactId>
+                <ff.version>8.1.1</ff.version>
+                <artifactId>${artifactName}-8_1</artifactId>
                 <package>org.frankframework</package>
             </properties>
             <dependencies>
@@ -167,10 +167,10 @@
         </profile>
 
         <profile>
-            <id>8_2_0</id>
+            <id>8_2</id>
             <properties>
                 <ff.version>8.2.0</ff.version>
-                <artifactId>${artifactName}-8_2_0</artifactId>
+                <artifactId>${artifactName}-8_2</artifactId>
                 <package>org.frankframework</package>
             </properties>
             <dependencies>
@@ -198,10 +198,10 @@
         </profile>
 
         <profile>
-            <id>8_3_0</id>
+            <id>8_3</id>
             <properties>
                 <ff.version>8.3.0</ff.version>
-                <artifactId>${artifactName}-8_3_0</artifactId>
+                <artifactId>${artifactName}-8_3</artifactId>
                 <package>org.frankframework</package>
             </properties>
             <dependencies>
@@ -229,196 +229,10 @@
         </profile>
 
         <profile>
-            <id>8_4_0</id>
-            <properties>
-                <ff.version>8.4.0</ff.version>
-                <artifactId>${artifactName}-8_4_0</artifactId>
-                <package>org.frankframework</package>
-            </properties>
-            <dependencies>
-                <dependency>
-                    <groupId>org.frankframework</groupId>
-                    <artifactId>frankframework-akamai</artifactId>
-                    <version>${ff.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>org.frankframework</groupId>
-                    <artifactId>frankframework-larva</artifactId>
-                    <version>${ff.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>org.frankframework</groupId>
-                    <artifactId>frankframework-batch</artifactId>
-                    <version>${ff.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>jakarta.servlet</groupId>
-                    <artifactId>jakarta.servlet-api</artifactId>
-                    <version>6.1.0</version>
-                </dependency>
-            </dependencies>
-        </profile>
-
-        <profile>
-            <id>8_5_0</id>
-            <properties>
-                <ff.version>8.5.0</ff.version>
-                <artifactId>${artifactName}-8_5_0</artifactId>
-                <package>org.frankframework</package>
-            </properties>
-            <dependencies>
-                <dependency>
-                    <groupId>org.frankframework</groupId>
-                    <artifactId>frankframework-akamai</artifactId>
-                    <version>${ff.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>org.frankframework</groupId>
-                    <artifactId>frankframework-larva</artifactId>
-                    <version>${ff.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>org.frankframework</groupId>
-                    <artifactId>frankframework-batch</artifactId>
-                    <version>${ff.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>jakarta.servlet</groupId>
-                    <artifactId>jakarta.servlet-api</artifactId>
-                    <version>6.1.0</version>
-                </dependency>
-            </dependencies>
-        </profile>
-
-        <profile>
-            <id>8_6_0</id>
-            <properties>
-                <ff.version>8.6.0</ff.version>
-                <artifactId>${artifactName}-8_6_0</artifactId>
-                <package>org.frankframework</package>
-            </properties>
-            <dependencies>
-                <dependency>
-                    <groupId>org.frankframework</groupId>
-                    <artifactId>frankframework-akamai</artifactId>
-                    <version>${ff.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>org.frankframework</groupId>
-                    <artifactId>frankframework-larva</artifactId>
-                    <version>${ff.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>org.frankframework</groupId>
-                    <artifactId>frankframework-batch</artifactId>
-                    <version>${ff.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>jakarta.servlet</groupId>
-                    <artifactId>jakarta.servlet-api</artifactId>
-                    <version>6.1.0</version>
-                </dependency>
-            </dependencies>
-        </profile>
-
-        <profile>
-            <id>8_7_0</id>
-            <properties>
-                <ff.version>8.7.0</ff.version>
-                <artifactId>${artifactName}-8_7_0</artifactId>
-                <package>org.frankframework</package>
-            </properties>
-            <dependencies>
-                <dependency>
-                    <groupId>org.frankframework</groupId>
-                    <artifactId>frankframework-akamai</artifactId>
-                    <version>${ff.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>org.frankframework</groupId>
-                    <artifactId>frankframework-larva</artifactId>
-                    <version>${ff.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>org.frankframework</groupId>
-                    <artifactId>frankframework-batch</artifactId>
-                    <version>${ff.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>jakarta.servlet</groupId>
-                    <artifactId>jakarta.servlet-api</artifactId>
-                    <version>6.1.0</version>
-                </dependency>
-            </dependencies>
-        </profile>
-
-        <profile>
-            <id>8_8_0</id>
-            <properties>
-                <ff.version>8.8.0</ff.version>
-                <artifactId>${artifactName}-8_8_0</artifactId>
-                <package>org.frankframework</package>
-            </properties>
-            <dependencies>
-                <dependency>
-                    <groupId>org.frankframework</groupId>
-                    <artifactId>frankframework-akamai</artifactId>
-                    <version>${ff.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>org.frankframework</groupId>
-                    <artifactId>frankframework-larva</artifactId>
-                    <version>${ff.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>org.frankframework</groupId>
-                    <artifactId>frankframework-batch</artifactId>
-                    <version>${ff.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>jakarta.servlet</groupId>
-                    <artifactId>jakarta.servlet-api</artifactId>
-                    <version>6.1.0</version>
-                </dependency>
-            </dependencies>
-        </profile>
-
-        <profile>
-            <id>8_9_0</id>
-            <properties>
-                <ff.version>8.9.0</ff.version>
-                <artifactId>${artifactName}-8_9_0</artifactId>
-                <package>org.frankframework</package>
-            </properties>
-            <dependencies>
-                <dependency>
-                    <groupId>org.frankframework</groupId>
-                    <artifactId>frankframework-akamai</artifactId>
-                    <version>${ff.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>org.frankframework</groupId>
-                    <artifactId>frankframework-larva</artifactId>
-                    <version>${ff.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>org.frankframework</groupId>
-                    <artifactId>frankframework-batch</artifactId>
-                    <version>${ff.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>jakarta.servlet</groupId>
-                    <artifactId>jakarta.servlet-api</artifactId>
-                    <version>6.1.0</version>
-                </dependency>
-            </dependencies>
-        </profile>
-
-        <profile>
-            <id>9_0_0</id>
+            <id>9_0</id>
             <properties>
                 <ff.version>9.0.0</ff.version>
-                <artifactId>${artifactName}-9_0_0</artifactId>
+                <artifactId>${artifactName}-9_0</artifactId>
                 <package>org.frankframework</package>
             </properties>
             <dependencies>

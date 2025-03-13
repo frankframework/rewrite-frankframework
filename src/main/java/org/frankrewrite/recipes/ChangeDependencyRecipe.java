@@ -1,3 +1,18 @@
+/*
+ * Copyright 2024 the original author or authors.
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * https://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.frankrewrite.recipes;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -10,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class changeDependencyRecipe extends Recipe {
+public class ChangeDependencyRecipe extends Recipe {
     @Option(displayName = "The old groupId value",
             description = "The old groupId to update in the pom file.",
             required = true)
@@ -32,7 +47,7 @@ public class changeDependencyRecipe extends Recipe {
             required = false)
     private String version;
 
-    public changeDependencyRecipe(@JsonProperty("oldGroupId")String oldGroupId, @JsonProperty("oldArtifactId")String oldArtifactId, @JsonProperty("newGroupId")String newGroupId, @JsonProperty("newArtifactId")String newArtifactId, @JsonProperty("version")String version) {
+    public ChangeDependencyRecipe(@JsonProperty("oldGroupId")String oldGroupId, @JsonProperty("oldArtifactId")String oldArtifactId, @JsonProperty("newGroupId")String newGroupId, @JsonProperty("newArtifactId")String newArtifactId, @JsonProperty("version")String version) {
         this.oldGroupId = oldGroupId;
         this.oldArtifactId = oldArtifactId;
         this.newGroupId = newGroupId;
@@ -57,6 +72,9 @@ public class changeDependencyRecipe extends Recipe {
             public Xml.Tag visitTag(Xml.Tag tag, ExecutionContext executionContext) {
                 if (tag.getName().equals("dependency")) {
                     List<? extends Content> content = tag.getContent();
+                    if (content==null) //If for some reason tag is like this <dependency/>
+                        return super.visitTag(tag, executionContext); // Avoid null pointer
+
                     //Get groupId tag expression
                     Optional<Xml.Tag> groupId = (Optional<Xml.Tag>) content.stream().filter(c ->
                             c instanceof Xml.Tag t //Check if content is tag

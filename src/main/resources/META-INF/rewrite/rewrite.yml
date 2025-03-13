@@ -131,13 +131,13 @@ recipeList:
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: org.frankrewrite.7_7_to_7_8
-displayName: Recipe to migrate from 7.7.x to 8.3.0
-description: Migrates franks from 7.7.x to 8.3.0.
+displayName: Recipe to migrate from 7.7.x to 7.8.
+description: Migrates franks from 7.7.x to 7.8.5.
 recipeList:
   - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
   - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
   - org.frankrewrite.recipes.FrameworkVersionRecipe:
-      version: "8.3.0"
+      version: "7.8.5"
   - org.frankrewrite.recipes.ChangeAttributeRecipe:
       tagNameFilter: "exit"
       attributeKeyFilter: "path"
@@ -199,6 +199,7 @@ recipeList:
       newGroupId: "org.frankframework"
       oldArtifactId: "ibis-adapterframework-webapp"
       newArtifactId: "frankframework-webapp"
+#     TODO: Configuration [Util] - LocalFileSystemPipe [OpenZipStream] does not have an attribute [base64] to set to value [DECODE]
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: org.frankrewrite.8_0_to_8_1
@@ -209,6 +210,10 @@ recipeList:
   - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
   - org.frankrewrite.recipes.FrameworkVersionRecipe:
       version: "8.1.1"
+  - org.frankrewrite.recipes.RemoveAttributeRecipe:
+      tag: "FixedQuerySender"
+      attributeName: "queryType"
+      value: "other"
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: org.frankrewrite.8_1_to_8_2
@@ -219,6 +224,13 @@ recipeList:
   - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
   - org.frankrewrite.recipes.FrameworkVersionRecipe:
       version: "8.2.0"
+  - org.frankrewrite.recipes.HandleReturnStringAttributeRecipe
+  - org.frankrewrite.recipes.IntroduceReplacerPipeFromFixedResultPipeRecipe
+  - org.frankrewrite.recipes.IntroduceBase64PipeForAttributeRecipe
+  - org.frankrewrite.recipes.ChangeAttributeValueToUnionTypeRecipe:
+      attributeKey: "logLevel"
+      tagName: "LarvaPipe"
+
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: org.frankrewrite.8_2_to_8_3
@@ -229,6 +241,17 @@ recipeList:
   - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
   - org.frankrewrite.recipes.FrameworkVersionRecipe:
       version: "8.3.0"
+  - org.frankrewrite.recipes.ChangeAttributeRecipe: #spelfout in priooo denk ik
+      tagNameFilter: "forward"
+      attributeKeyFilter: "name"
+      attributeValueFilter: "succes"
+      newValue: "success"
+  - org.frankrewrite.recipes.ChangeChildAttributeRecipe: #spelfout in priooo denk ik
+      tagNameFilter: "XsltPipe"
+      childTagNameFilter: "forward"
+      attributeKeyFilter: "name"
+      attributeValueFilter: "failure"
+      newValue: "exception"
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: org.frankrewrite.8_3_to_9_0
