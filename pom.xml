@@ -26,6 +26,8 @@
         <artifactName>frankrewrite</artifactName>
         <package>nl.nn.adapterframework</package>
         <artifactId>frankrewrite</artifactId>
+        <sonar.organization>frank-framework</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     </properties>
 
     <profiles>
