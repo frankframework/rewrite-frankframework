@@ -28,7 +28,6 @@
         <artifactId>frankrewrite</artifactId>
         <sonar.organization>frank-framework</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-        <sonar.binaries>target/classes</sonar.binaries>
     </properties>
 
     <profiles>
