@@ -19,7 +19,14 @@ jobs:
         matrix:
           java: [ '11' ]
 
+
       steps:
+      - name: Checkout full repository with all branches
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.ref }}  # Ensures PR branch is fully checked out
+
       - name: Cache local Maven repository
         uses: actions/cache@v3
         with:
