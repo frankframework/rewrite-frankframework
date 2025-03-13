@@ -52,12 +52,13 @@ jobs:
         run: |
           echo "MAVEN_GOALS=${{ env.MAVEN_GOALS }} org.sonarsource.scanner.maven:sonar-maven-plugin:sonar" >> $GITHUB_ENV
 
-      - name: Checkout code
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0 # Ensures full history and all files are available
+      - name: Debug - Show Current Directory
+        run: pwd
 
-      - name: Debug - List project files
+      - name: Grant execute permission to Maven Wrapper
+        run: chmod +x ./mvnw
+
+      - name: Debug - List Files Again
         run: ls -la
 
       - name: Build with Maven
