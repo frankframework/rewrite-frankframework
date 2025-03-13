@@ -19,7 +19,6 @@ jobs:
         matrix:
           java: [ '11' ]
 
-
       steps:
       - name: Checkout full repository with all branches
         uses: actions/checkout@v3
@@ -47,12 +46,6 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: ${{ matrix.java }}
-
-#      - name: Create Maven settings.xml file
-#        if: ${{ env.USE_PROPRIETARY == 'true' }}
-#        uses: s4u/maven-settings-action@v2.8.0
-#        with:
-#          servers: '[{"id": "proprietary", "username": "${{ secrets.CI_USER }}", "password": "${{ secrets.CI_PASS }}"}]'
 
       - name: Update environment when JDK == 11
         if: ${{ matrix.java == '11' }}
