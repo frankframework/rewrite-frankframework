@@ -52,6 +52,14 @@ jobs:
         run: |
           echo "MAVEN_GOALS=${{ env.MAVEN_GOALS }} org.sonarsource.scanner.maven:sonar-maven-plugin:sonar" >> $GITHUB_ENV
 
+      - name: Grant execute permission to Maven Wrapper
+        run: chmod +x mvnw
+
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # Ensures full history and all files are available
+
       - name: Build with Maven
         env:
           CI_SERVICE: GITHUB
