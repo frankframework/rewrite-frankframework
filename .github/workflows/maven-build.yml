@@ -54,9 +54,9 @@ jobs:
 
       - name: Debug - Show Current Directory
         run: pwd
-        
-      - name: Convert `mvnw` to Unix format
-        run: dos2unix mvnw || true
+
+      - name: Fix Line Endings
+        run: sed -i -e 's/\r$//' mvnw
 
       - name: Grant execute permission to Maven Wrapper
         run: chmod +x ./mvnw
