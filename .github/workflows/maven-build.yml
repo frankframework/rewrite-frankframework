@@ -1,5 +1,8 @@
 name: rewrite-frankframework
 
+env:
+  PROFILES: default,codecoverage
+
 on:
   push:
     branches:
@@ -66,4 +69,4 @@ jobs:
           jdk11: true # allows the use of the JDK11 profile, when running JDK11
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # SonarCloud
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }} # SonarCloud
-        run: mvn -B -T1 ${{env.MAVEN_GOALS}} -Dsonar.projectKey=frankframework_rewrite-frankframework
+        run: mvn -B -T1 ${{env.MAVEN_GOALS}} -P${{env.PROFILES}} -Dsonar.projectKey=frankframework_rewrite-frankframework
