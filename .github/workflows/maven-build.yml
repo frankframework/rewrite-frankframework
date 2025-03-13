@@ -24,16 +24,13 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-          ref: ${{ github.event.pull_request.head.ref }}  # Ensures PR branch is fully checked out
+          ref: ${{ github.event.pull_request.head.ref }}
 
       - name: Make `mvnw` executable
         run: chmod +x mvnw
 
       - name: Build with Maven
         run: ./mvnw clean verify
-
-      - name: Run SonarCloud Analysis
-        run: ./mvnw sonar:sonar -Dsonar.projectKey=frankframework_rewrite-frankframework -Dsonar.java.binaries=target/classes
 
       - name: Cache local Maven repository
         uses: actions/cache@v3
