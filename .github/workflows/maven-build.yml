@@ -41,28 +41,16 @@ jobs:
           distribution: 'zulu'
           java-version: ${{ matrix.java }}
 
-      - name: Create Maven settings.xml file
-        if: ${{ env.USE_PROPRIETARY == 'true' }}
-        uses: s4u/maven-settings-action@v2.8.0
-        with:
-          servers: '[{"id": "proprietary", "username": "${{ secrets.CI_USER }}", "password": "${{ secrets.CI_PASS }}"}]'
+#      - name: Create Maven settings.xml file
+#        if: ${{ env.USE_PROPRIETARY == 'true' }}
+#        uses: s4u/maven-settings-action@v2.8.0
+#        with:
+#          servers: '[{"id": "proprietary", "username": "${{ secrets.CI_USER }}", "password": "${{ secrets.CI_PASS }}"}]'
 
       - name: Update environment when JDK == 11
         if: ${{ matrix.java == '11' }}
         run: |
           echo "MAVEN_GOALS=${{ env.MAVEN_GOALS }} org.sonarsource.scanner.maven:sonar-maven-plugin:sonar" >> $GITHUB_ENV
-
-      - name: Debug - Show Current Directory
-        run: pwd
-
-      - name: Debug - List All Files (Recursive)
-        run: ls -Rla
-
-      - name: Make `mvnw` Executable
-        run: chmod +x /home/runner/work/rewrite-frankframework/rewrite-frankframework/mvnw
-
-      - name: Debug - List Files Again
-        run: ls -la
 
       - name: Build with Maven
         env:
@@ -72,4 +60,4 @@ jobs:
           jdk11: true # allows the use of the JDK11 profile, when running JDK11
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # SonarCloud
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }} # SonarCloud
-        run: ./mvnw -B -T1 ${{env.MAVEN_GOALS}} -Dsonar.projectKey=frankframework_rewrite-frankframework
+        run: mvn -B -T1 ${{env.MAVEN_GOALS}} -Dsonar.projectKey=frankframework_rewrite-frankframework
