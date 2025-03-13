@@ -57,6 +57,9 @@ jobs:
         with:
           fetch-depth: 0 # Ensures full history and all files are available
 
+      - name: Debug - List project files
+        run: ls -la
+
       - name: Build with Maven
         env:
           CI_SERVICE: GITHUB
