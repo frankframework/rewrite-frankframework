@@ -226,6 +226,7 @@ recipeList:
       version: "8.2.0"
   - org.frankrewrite.recipes.HandleReturnStringAttributeRecipe
   - org.frankrewrite.recipes.IntroduceReplacerPipeFromFixedResultPipeRecipe
+  - org.frankrewrite.recipes.IntroduceBase64PipeForAttributeRecipe
   - org.frankrewrite.recipes.ChangeAttributeValueToUnionTypeRecipe:
       attributeKey: "logLevel"
       tagName: "LarvaPipe"
