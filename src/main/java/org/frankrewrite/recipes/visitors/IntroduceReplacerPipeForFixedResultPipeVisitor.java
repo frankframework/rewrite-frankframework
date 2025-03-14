@@ -28,28 +28,11 @@ import java.util.stream.Collectors;
 
 import static org.frankrewrite.recipes.util.TagHandler.getContent;
 
-public class IntroduceReplacerPipeForFixedResultPipeVisitor extends XmlIsoVisitor<ExecutionContext>{
+public class IntroduceReplacerPipeForFixedResultPipeVisitor extends AbstractPipeIntroducer{
     private static int amountRefactored = 1;
 
     @Override
-    public Xml.Tag visitTag(Xml.Tag tag, ExecutionContext ctx) {
-        if (!tag.getName().equalsIgnoreCase("pipeline")) {
-            return super.visitTag(tag, ctx);
-        }
-
-        //Track if tag changed to prevent unnecessary refactors
-        AtomicBoolean changed = new AtomicBoolean(false);
-
-        //Update pipeline children with new ReplacerPipe and remove replaceFrom/-To attributes from FixedResultPipe
-        List<Content> updatedChildren = getUpdatedChildren(tag, changed);
-
-        if (changed.get())
-            return tag.withContent(updatedChildren);
-
-        return super.visitTag(tag, ctx);
-    }
-
-    private static @NotNull List<Content> getUpdatedChildren(Xml.Tag tag, AtomicBoolean changed) {
+    protected @NotNull List<Content> getUpdatedChildren(Xml.Tag tag, AtomicBoolean changed) {
         return getContent(tag).stream().map(content -> {
             if (content instanceof Xml.Tag child
                     && shouldIntroduceReplacerPipeForChild(child)) {

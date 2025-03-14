@@ -17,8 +17,6 @@ package org.frankrewrite.recipes.visitors;
 
 import org.frankrewrite.recipes.util.TagHandler;
 import org.jetbrains.annotations.NotNull;
-import org.openrewrite.ExecutionContext;
-import org.openrewrite.xml.XmlIsoVisitor;
 import org.openrewrite.xml.tree.Content;
 import org.openrewrite.xml.tree.Xml;
 
@@ -29,26 +27,9 @@ import java.util.stream.Collectors;
 
 import static org.frankrewrite.recipes.util.TagHandler.getContent;
 
-public class IntroduceBase64PipeForAttributeVisitor extends XmlIsoVisitor<ExecutionContext> {
+public class IntroduceBase64PipeForAttributeVisitor extends AbstractPipeIntroducer {
     @Override
-    public Xml.Tag visitTag(Xml.Tag tag, ExecutionContext ctx) {
-        if (!tag.getName().equalsIgnoreCase("pipeline")) {
-            return super.visitTag(tag, ctx);
-        }
-
-        //Track if tag changed to prevent unnecessary refactors
-        AtomicBoolean changed = new AtomicBoolean(false);
-
-        //Update the children for tag
-        List<Content> updatedChildren = getUpdatedChildren(tag, changed);
-
-        if (changed.get())
-            return tag.withContent(updatedChildren);
-
-        return super.visitTag(tag, ctx);
-    }
-
-    private @NotNull List<Content> getUpdatedChildren(Xml.Tag tag, AtomicBoolean changed) {
+    protected List<Content> getUpdatedChildren(Xml.Tag tag, AtomicBoolean changed) {
         return getContent(tag).stream().map(content -> {
             if (content instanceof Xml.Tag child && shouldIntroduceBase64PipeForChildTag(child)) {
                 String storeResultInSessionKeyValue = TagHandler.getAttributeValueFromTagByKey(child, "storeResultInSessionKey").orElse("");
@@ -90,7 +71,7 @@ public class IntroduceBase64PipeForAttributeVisitor extends XmlIsoVisitor<Execut
         }).flatMap(List::stream).collect(Collectors.toList());
     }
 
-    private Xml.Tag createBase64Pipe(String pipeName, String base64Value, String storeResultInSessionKeyValue, String exceptionPathValue, String successPathValue) {
+    protected Xml.Tag createBase64Pipe(String pipeName, String base64Value, String storeResultInSessionKeyValue, String exceptionPathValue, String successPathValue) {
         return Xml.Tag.build(
                 "<Base64Pipe name=\"" + pipeName + "\" direction=\"" + base64Value + "\" storeResultInSessionKey=\"" + storeResultInSessionKeyValue + "\">" +
                         (exceptionPathValue.isEmpty() ?"":"\n       <forward name=\"exception\" path=\""+exceptionPathValue+"\"/>") +
@@ -114,7 +95,7 @@ public class IntroduceBase64PipeForAttributeVisitor extends XmlIsoVisitor<Execut
                 .collect(Collectors.toList());
     }
 
-    private boolean shouldIntroduceBase64PipeForChildTag(Xml.Tag childTag) {
+    protected boolean shouldIntroduceBase64PipeForChildTag(Xml.Tag childTag) {
         return childTag.getName().equals("LocalFileSystemPipe")
                 && TagHandler.hasAnyAttributeWithKey(childTag, "base64")
                 && TagHandler.hasAnyAttributeWithKey(childTag, "storeResultInSessionKey")
