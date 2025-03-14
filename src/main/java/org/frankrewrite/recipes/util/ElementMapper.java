@@ -28,7 +28,7 @@ public class ElementMapper {
     // Cache for deprecated method to new method mapping per class
     private static final Map<String, Map<Method, Method>> deprecatedMethodToNewMethodMapCache = new ConcurrentHashMap<>();
 
-    // List for debugging
+    private ElementMapper() {}
 
     public static Map<Class<?>, Class<?>> getDeprecatedClassToNewClassMapInPackage() {
         // Check cache first
@@ -51,7 +51,7 @@ public class ElementMapper {
                         result.put(deprecatedClass, newClass);
                         deprecatedClassToNewClassMapCache.putIfAbsent(deprecatedClass, newClass);
                     } catch (Exception e) {
-                        AnnotationExtractor.getLog().add(e.getMessage()); // Log the issue
+                        Logger.getINSTANCE().log(e.getMessage()); // Log the issue
                     }
                 });
 
@@ -78,7 +78,7 @@ public class ElementMapper {
                                 Method newMethod = AnnotationExtractor.extractNewAttributesFromConfigurationWarning(warning, classIn, deprecatedMethod);
                                 deprecatedMethodNewMethodMap.put(deprecatedMethod, newMethod);
                             } catch (Exception e) {
-                                AnnotationExtractor.getLog().add(e.getMessage());
+                                Logger.getINSTANCE().log(e.getMessage());
                             }
                         }
                     }
@@ -90,7 +90,6 @@ public class ElementMapper {
 
         // Cache the result for future calls
         deprecatedMethodToNewMethodMapCache.put(className, result);
-        AnnotationExtractor.getLog().forEach(System.out::println);
         return result;
     }
 

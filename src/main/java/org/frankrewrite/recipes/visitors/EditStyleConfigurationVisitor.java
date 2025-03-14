@@ -62,7 +62,7 @@ public class EditStyleConfigurationVisitor extends XmlIsoVisitor<ExecutionContex
                 return tag
                         .withName(newName)
                         .withAttributes(tag.getAttributes().stream()
-                                .filter(attribute -> !attribute.getKeyAsString().equalsIgnoreCase("function")).collect(Collectors.toList()));
+                                .filter(attribute -> !attribute.getKeyAsString().equalsIgnoreCase("function")).toList());
             }
         }
 

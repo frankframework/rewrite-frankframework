@@ -57,7 +57,7 @@ public class RemoveAttributeVisitor extends XmlIsoVisitor<ExecutionContext> {
         if (TagHandler.hasAnyAttributeWithKey(tag, attributeName)){
             List<Xml.Attribute> attributes = tag.getAttributes().stream()
                     .filter(attr -> !attr.getKeyAsString().equalsIgnoreCase(attributeName))
-                    .collect(Collectors.toList());
+                    .toList();
 
             //Return tag without filtered attribute
             return tag.withAttributes(attributes);

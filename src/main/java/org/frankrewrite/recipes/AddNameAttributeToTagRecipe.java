@@ -31,6 +31,10 @@ public class AddNameAttributeToTagRecipe extends Recipe {
 
     private static int elementsWithName=0;
 
+    private static void increaseElementsWithName(){
+        elementsWithName++;
+    }
+
     public AddNameAttributeToTagRecipe(String tagName) {
         this.tagName = tagName;
     }
@@ -56,7 +60,7 @@ public class AddNameAttributeToTagRecipe extends Recipe {
                     Xml.Attribute attributeToAdd = Xml.Tag.build("<x name=\"my"+tag.getName()+(elementsWithName==0?"":elementsWithName+1)+"\"></x>").getAttributes().get(0);
                     attributes.add(attributeToAdd);
                     //avoid conflicting names
-                    elementsWithName++;
+                    increaseElementsWithName();
                     return tag.withAttributes(attributes);
                 }
 

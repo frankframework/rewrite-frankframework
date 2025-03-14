@@ -24,6 +24,8 @@ import java.util.List;
 import java.util.Map;
 
 public class TagUpdater {
+    private TagUpdater() {
+    }
 
     public static Xml.Tag getUpdatedTagWithNewName(Xml.Tag tag){
         Map<Class<?>, Class<?>> oldNew = ElementMapper.getDeprecatedClassToNewClassMapInPackage();

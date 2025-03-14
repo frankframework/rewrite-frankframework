@@ -60,9 +60,8 @@ public class FrameworkVersionRecipe extends Recipe {
                         public Xml.Tag visitTag(Xml.Tag tag, ExecutionContext executionContext) {
                             Optional<String> tagValue = tag.getValue();
                             if (tagValue.isPresent()) {
-                                if (tag.getName().equals("iaf.version")&&!tagValue.get().equals(version)) {
-                                    return tag.withValue(version);
-                                }else if (tag.getName().equals("ff.version")&&!tagValue.get().equals(version)) {
+                                if (tag.getName().equals("iaf.version")&&!tagValue.get().equals(version)||
+                                        tag.getName().equals("ff.version")&&!tagValue.get().equals(version)) {
                                     return tag.withValue(version);
                                 }
                             }

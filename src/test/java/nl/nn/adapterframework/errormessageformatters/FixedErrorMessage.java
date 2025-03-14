@@ -8,9 +8,9 @@ package nl.nn.adapterframework.errormessageformatters;
 import nl.nn.adapterframework.configuration.ConfigurationWarning;
 
 public class FixedErrorMessage {
-    private String filename = null;
 
     public FixedErrorMessage() {
+        //empty constructor needed for test
     }
     /** @deprecated */
     @Deprecated
@@ -20,6 +20,6 @@ public class FixedErrorMessage {
     }
 
     public void setFilename(String filename) {
-        this.filename = filename;
+//        this.filename = filename;
     }
 }

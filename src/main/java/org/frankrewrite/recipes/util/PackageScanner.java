@@ -20,6 +20,7 @@ import org.reflections.Reflections;
 import org.reflections.scanners.Scanners;
 import org.reflections.util.ConfigurationBuilder;
 
+import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -27,7 +28,7 @@ import java.util.stream.Stream;
 
 public class PackageScanner {
     private static PackageScanner INSTANCE;
-    private static Set<Class<?>> CLASSES;
+    private Set<Class<?>> classes;
     private Class<? extends Annotation> configurationWarningClass;
 
     public static PackageScanner getInstance() {
@@ -49,15 +50,15 @@ public class PackageScanner {
             String dependency = p.getProperty("package");
             try {
                 configurationWarningClass = (Class<? extends Annotation>) (dependency.equals("nl.nn.adapterframework")?Class.forName("nl.nn.adapterframework.configuration.ConfigurationWarning"):Class.forName("org.frankframework.configuration.ConfigurationWarning"));
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                Logger.getINSTANCE().log("Could not find configuration warning class");
             }
             Reflections reflections = new Reflections(new ConfigurationBuilder()
                     .addScanners(Scanners.SubTypes.filterResultsBy(s->true)/*Override the default behavior which exclude Object class*/)
                     .forPackages(dependency));
 
             List<String> packages = Arrays.asList("pipes", "receivers", "parameters", "senders", "processors", "util", "jdbc", "http", "compression", "errormessageformatters", "ftp", "scheduler");
-            CLASSES = reflections.getSubTypesOf(Object.class);
+            classes = reflections.getSubTypesOf(Object.class);
             List<Class<?>> classes = new ArrayList<>();
             packages.forEach(pack -> classes.addAll(Stream.of(dependency+ "." + pack)
                     .flatMap(pkg -> {
@@ -67,18 +68,18 @@ public class PackageScanner {
                         }else return Stream.empty();
                     })
                     .toList()));
-            CLASSES = new HashSet<>(classes);
-        }catch (Exception e){
-            e.printStackTrace();
+            this.classes = new HashSet<>(classes);
+        }catch (IOException e){
+            Logger.getINSTANCE().log("Could not load properties file in target/classes");
         }
     }
 
     public Set<Class<?>> getClasses() {
-        return CLASSES;
+        return classes;
     }
 
     private Set<Class<?>> getClassesIn(String scanTarget){
-        return CLASSES.stream().filter(c->c.getPackage().getName().startsWith(scanTarget)).collect(Collectors.toSet()); /*Default filter doesn't work, so we have to make our own filter*/
+        return classes.stream().filter(c->c.getPackage().getName().startsWith(scanTarget)).collect(Collectors.toSet()); /*Default filter doesn't work, so we have to make our own filter*/
     }
 
 }

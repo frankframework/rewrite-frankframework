@@ -20,6 +20,7 @@ import org.openrewrite.ExecutionContext;
 import org.openrewrite.xml.XmlIsoVisitor;
 import org.openrewrite.xml.tree.Xml;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -60,14 +61,14 @@ public class ChangeAttributeVisitor extends XmlIsoVisitor<ExecutionContext> {
         }
 
         // GET SPECIFIED ATTRIBUTE
-        Optional<Xml.Attribute> toChangeOptional =
-                (attributeKeyFilter != null && attributeValueFilter != null) ?
-                    TagHandler.getAttributeFromTagByKeyAndValue(tag, attributeKeyFilter, attributeValueFilter) :
-                (attributeKeyFilter != null) ?
-                    TagHandler.getAttributeFromTagByKey(tag, attributeKeyFilter) :
-                (attributeValueFilter != null) ?
-                    TagHandler.getAttributeFromTagByValue(tag, attributeValueFilter) :
-                Optional.empty();
+        Optional<Xml.Attribute> toChangeOptional= Optional.empty();
+        if(attributeKeyFilter != null && attributeValueFilter != null) {
+            toChangeOptional=TagHandler.getAttributeFromTagByKeyAndValue(tag, attributeKeyFilter, attributeValueFilter);
+        }else if(attributeKeyFilter != null){
+            toChangeOptional=TagHandler.getAttributeFromTagByKey(tag, attributeKeyFilter);
+        }else if(attributeValueFilter != null){
+            toChangeOptional=TagHandler.getAttributeFromTagByValue(tag, attributeValueFilter);
+        }
 
         //MAKE ATTRIBUTE CHANGES IF ANY FILTER IS NOT NULL
         if (toChangeOptional.isPresent()&&(newKey!=null||newValue!=null)) {
@@ -79,7 +80,7 @@ public class ChangeAttributeVisitor extends XmlIsoVisitor<ExecutionContext> {
             if (newValue!=null){
                 toChange = toChange.withValue(toChange.getValue().withValue(newValue));
             }
-            List<Xml.Attribute> resultAttributes = tag.getAttributes();
+            List<Xml.Attribute> resultAttributes = new ArrayList<>(tag.getAttributes());
             resultAttributes.add(toChange);
             return tag.withAttributes(resultAttributes);
         }
