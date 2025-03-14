@@ -34,7 +34,7 @@ public class RemoveRecurringExitsVisitor extends XmlIsoVisitor<ExecutionContext>
 
     @Override
     public Xml.Tag visitTag(Xml.Tag tag, ExecutionContext executionContext) {
-        if (!tag.getName().equalsIgnoreCase("adapter")) {
+        if (!tag.getName().equalsIgnoreCase("adapter")||tag.getContent()==null) {
             return super.visitTag(tag, executionContext);
         }
 

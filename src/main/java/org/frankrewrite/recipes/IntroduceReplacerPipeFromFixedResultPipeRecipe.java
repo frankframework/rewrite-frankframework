@@ -45,7 +45,7 @@ public class IntroduceReplacerPipeFromFixedResultPipeRecipe extends Recipe {
         return new XmlIsoVisitor<>() {
             @Override
             public Xml.Tag visitTag(Xml.Tag tag, ExecutionContext ctx) {
-                if (tag.getName().equalsIgnoreCase("pipeline")) {
+                if (tag.getName().equalsIgnoreCase("pipeline")&&tag.getContent()!=null) {
                     AtomicBoolean changed = new AtomicBoolean(false);
                     List<Content> updatedChildren = tag.getContent().stream().map(content -> {
                         if (content instanceof Xml.Tag child) {
