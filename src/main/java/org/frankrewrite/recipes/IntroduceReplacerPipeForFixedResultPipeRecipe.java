@@ -15,24 +15,25 @@
  */
 package org.frankrewrite.recipes;
 
-import org.frankrewrite.recipes.visitors.MoveReturnedSessionKeysVisitor;
+import org.frankrewrite.recipes.visitors.IntroduceReplacerPipeForFixedResultPipeVisitor;
 import org.openrewrite.ExecutionContext;
 import org.openrewrite.Recipe;
-import org.openrewrite.TreeVisitor;
+import org.openrewrite.xml.XmlIsoVisitor;
 
-public class MoveReturnedSessionKeysRecipe extends Recipe {
+public class IntroduceReplacerPipeForFixedResultPipeRecipe extends Recipe {
 
     @Override
     public String getDisplayName() {
-        return "Move returned session keys";
-    }
-    @Override
-    public String getDescription() {
-        return "Move returned session keys to the top of the file.";
+        return "Introduce ReplacerPipe and update path strings";
     }
 
     @Override
-    public TreeVisitor<?, ExecutionContext> getVisitor() {
-        return new MoveReturnedSessionKeysVisitor();
+    public String getDescription() {
+        return "Replaces replaceFrom/To attributes in FixedResultPipe with an ReplacerPipe and updates path references.";
+    }
+
+    @Override
+    public XmlIsoVisitor<ExecutionContext> getVisitor() {
+        return new IntroduceReplacerPipeForFixedResultPipeVisitor() ;
     }
 }

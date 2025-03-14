@@ -23,6 +23,8 @@ import org.openrewrite.xml.tree.Xml;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import static org.frankrewrite.recipes.util.TagHandler.getContent;
+
 public class ChangeChildAttributeVisitor extends XmlIsoVisitor<ExecutionContext> {
     String tagNameFilter;
     String childTagNameFilter;
@@ -42,13 +44,13 @@ public class ChangeChildAttributeVisitor extends XmlIsoVisitor<ExecutionContext>
 
     @Override
     public Xml.Tag visitTag(Xml.Tag tag, ExecutionContext executionContext) {
-        if (tagNameFilter != null && !tag.getName()
-                .equals(tagNameFilter)) {
+        if (tagNameFilter != null
+                && !tag.getName().equals(tagNameFilter)) {
             return super.visitTag(tag, executionContext);
-        } else if (tag.getContent() != null) {
+        } else {
             AtomicBoolean changed = new AtomicBoolean(false);
             // Create a new list with updated child tags
-            List<Content> updatedChildren = tag.getContent().stream()
+            List<Content> updatedChildren = getContent(tag).stream()
                     .map(child -> {
                         if (child instanceof Xml.Tag t && t.getName().equals(childTagNameFilter)) {
                             Xml.Tag result = new ChangeAttributeVisitor(
@@ -67,7 +69,6 @@ public class ChangeChildAttributeVisitor extends XmlIsoVisitor<ExecutionContext>
 
             return changed.get()?tag.withContent(updatedChildren):super.visitTag(tag, executionContext);
         }
-        return super.visitTag(tag, executionContext);
     }
     // Helper method to compare attributes between the original and modified tag
     private boolean areAttributesEqual(Xml.Tag original, Xml.Tag modified) {

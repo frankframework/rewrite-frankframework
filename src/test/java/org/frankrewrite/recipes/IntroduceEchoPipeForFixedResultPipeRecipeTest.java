@@ -20,10 +20,10 @@ import org.openrewrite.test.RewriteTest;
 
 import static org.openrewrite.xml.Assertions.xml;
 
-public class HandleReturnStringAttributeRecipeTest implements RewriteTest {
+public class IntroduceEchoPipeForFixedResultPipeRecipeTest implements RewriteTest {
     @Test
     void IntroducesEchoPipeAndUpdatesPathStringsAccordingly() {
-        rewriteRun(specs->specs.recipe(new HandleReturnStringAttributeRecipe()),
+        rewriteRun(specs->specs.recipe(new IntroduceEchoPipeForFixedResultPipeRecipe()),
           //language=xml
           xml(
             """

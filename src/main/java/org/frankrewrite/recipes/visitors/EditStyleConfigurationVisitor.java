@@ -27,6 +27,8 @@ import org.openrewrite.xml.tree.Xml;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static org.frankrewrite.recipes.util.TagHandler.getContent;
+
 public class EditStyleConfigurationVisitor extends XmlIsoVisitor<ExecutionContext> {
     @Override
     public Xml.Tag visitTag(Xml.Tag tag, ExecutionContext ctx) {
@@ -96,7 +98,7 @@ public class EditStyleConfigurationVisitor extends XmlIsoVisitor<ExecutionContex
 
             //Remove the className attribute
             updatedTag = TagHandler.getTagWithoutAttribute(updatedTag, "className");
-            return updatedTag.withContent(updatedTag.getContent());
+            return updatedTag.withContent(getContent(updatedTag));
         }
         return null;
     }
