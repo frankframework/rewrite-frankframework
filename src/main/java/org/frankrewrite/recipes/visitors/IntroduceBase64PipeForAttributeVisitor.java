@@ -20,60 +20,60 @@ public class IntroduceBase64PipeForAttributeVisitor extends XmlIsoVisitor<Execut
         if (tag.getName().equalsIgnoreCase("pipeline")) {
             AtomicBoolean changed = new AtomicBoolean(false);
             List<Content> updatedChildren = getContent(tag).stream().map(content -> {
-                if (content instanceof Xml.Tag child) {
-                    if (child.getName().equals("LocalFileSystemPipe") && TagHandler.hasAnyAttributeWithKey(child, "base64")
-                            && TagHandler.hasAnyAttributeWithKey(child, "storeResultInSessionKey")
-                            &&TagHandler.hasAnyAttributeWithKey(child, "name")) {
-                        String storeResultInSessionKeyValue = TagHandler.getAttributeValueFromTagByKey(child, "storeResultInSessionKey").orElse("");
-                        String base64Value = TagHandler.getAttributeValueFromTagByKey(child, "base64").orElse("");
-                        String pipeName = TagHandler.getAttributeValueFromTagByKey(child, "name").get()+(base64Value.equals("ENCODE")?"Encoder":"Decoder");
+                if (content instanceof Xml.Tag child
+                    && child.getName().equals("LocalFileSystemPipe") && TagHandler.hasAnyAttributeWithKey(child, "base64")
+                        && TagHandler.hasAnyAttributeWithKey(child, "storeResultInSessionKey")
+                        && TagHandler.hasAnyAttributeWithKey(child, "name")) {
+                    String storeResultInSessionKeyValue = TagHandler.getAttributeValueFromTagByKey(child, "storeResultInSessionKey").orElse("");
+                    String base64Value = TagHandler.getAttributeValueFromTagByKey(child, "base64").orElse("");
+                    String pipeName = TagHandler.getAttributeValueFromTagByKey(child, "name").get()+(base64Value.equals("ENCODE")?"Encoder":"Decoder");
 
-                        child = TagHandler.getTagWithoutAttribute(child,"base64");
-                        List<Content> childContent = getContent(child).stream()
-                                .map(grandchild -> {
-                                    if (grandchild instanceof Xml.Tag && ((Xml.Tag) grandchild).getName().equalsIgnoreCase("forward")) {
-                                        return ((Xml.Tag) grandchild).withAttributes(
-                                                ((Xml.Tag) grandchild).getAttributes().stream()
-                                                        .map(attr -> (attr.getKeyAsString().equals("path")&&attr.getValueAsString().equals("success")) ? attr.withValue(attr.getValue().withValue(pipeName)) : attr)
-                                                        .collect(Collectors.toList())
-                                        );
+                    child = TagHandler.getTagWithoutAttribute(child,"base64");
+                    List<Content> childContent = getContent(child).stream()
+                            .map(grandchild -> {
+                                if (grandchild instanceof Xml.Tag t && t.getName().equalsIgnoreCase("forward")) {
+                                    return t.withAttributes(
+                                            t.getAttributes().stream()
+                                                .map(attr -> (attr.getKeyAsString().equals("path")&&attr.getValueAsString().equals("success")) ? attr.withValue(attr.getValue().withValue(pipeName)) : attr)
+                                                .toList()
+                                    );
+                                }
+                                return grandchild;
+                            })
+                            .collect(Collectors.toList());
+
+                    // Get path attribute value with corresponding forward tag in child
+                    String exceptionPathValue = getForwardPathValue(child, "exception");
+                    String successPathValue = getForwardPathValue(child, "success");
+
+                    if (!successPathValue.isEmpty()) {
+                        childContent.stream()
+                                .filter(grandChild -> grandChild instanceof Xml.Tag t
+                                        && TagHandler.hasAnyAttributeWithKeyValue(t, "name", "success"))
+                                .findFirst()
+                                .map(Xml.Tag.class::cast)
+                                .ifPresent(successForwardTag -> {
+                                    Xml.Tag updatedSuccessTag = TagHandler.getTagWithNewAttributeValueByAttributeName(successForwardTag, pipeName, "path");
+                                    if (updatedSuccessTag != null) {
+                                        childContent.set(childContent.indexOf(successForwardTag), updatedSuccessTag);
                                     }
-                                    return grandchild;
-                                })
-                                .collect(Collectors.toList());
-
-                        // Get path attribute value with corresponding forward tag in child
-                        String exceptionPathValue = getForwardPathValue(child, "exception");
-                        String successPathValue = getForwardPathValue(child, "success");
-
-                        if (!successPathValue.isEmpty()) {
-                            childContent.stream()
-                                    .filter(grandChild -> grandChild instanceof Xml.Tag t
-                                            && TagHandler.hasAnyAttributeWithKeyValue(t, "name", "success"))
-                                    .findFirst()
-                                    .map(Xml.Tag.class::cast)
-                                    .ifPresent(successForwardTag -> {
-                                        Xml.Tag updatedSuccessTag = TagHandler.getTagWithNewAttributeValueByAttributeName(successForwardTag, pipeName, "path");
-                                        if (updatedSuccessTag != null) {
-                                            childContent.set(childContent.indexOf(successForwardTag), updatedSuccessTag);
-                                        }
-                                    });
-                        }
-
-                        // Update forward path
-                        child = child.withContent(childContent);
-
-                        // Create new EchoPipe element
-                        Xml.Tag echoPipe = Xml.Tag.build(
-                                "<Base64Pipe name=\"" + pipeName + "\" direction=\"" + base64Value + "\" storeResultInSessionKey=\"" + storeResultInSessionKeyValue + "\">" +
-                                        (exceptionPathValue.isEmpty() ?"":"\n       <forward name=\"exception\" path=\""+exceptionPathValue+"\"/>") +
-                                        (successPathValue.isEmpty() ?"": "\n       <forward name=\"success\" path=\""+successPathValue+"\"/>") +
-                                        "\n   </Base64Pipe>"
-                        );
-                        changed.set(true);
-
-                        return List.of(child, echoPipe);
+                                });
                     }
+
+                    // Update forward path
+                    child = child.withContent(childContent);
+
+                    // Create new EchoPipe element
+                    Xml.Tag echoPipe = Xml.Tag.build(
+                            "<Base64Pipe name=\"" + pipeName + "\" direction=\"" + base64Value + "\" storeResultInSessionKey=\"" + storeResultInSessionKeyValue + "\">" +
+                                    (exceptionPathValue.isEmpty() ?"":"\n       <forward name=\"exception\" path=\""+exceptionPathValue+"\"/>") +
+                                    (successPathValue.isEmpty() ?"": "\n       <forward name=\"success\" path=\""+successPathValue+"\"/>") +
+                                    "\n   </Base64Pipe>"
+                    );
+                    changed.set(true);
+
+                    return List.of(child, echoPipe);
+
                 }
                 return new ArrayList<>(List.of(content));
             }).flatMap(List::stream).collect(Collectors.toList());

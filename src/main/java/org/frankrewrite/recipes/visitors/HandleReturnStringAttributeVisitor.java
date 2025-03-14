@@ -20,51 +20,53 @@ public class HandleReturnStringAttributeVisitor extends XmlIsoVisitor<ExecutionC
         if (tag.getName().equalsIgnoreCase("pipeline")) {
             AtomicBoolean changed = new AtomicBoolean(false);
             List<Content> updatedChildren = getContent(tag).stream().map(content -> {
-                if (content instanceof Xml.Tag child) {
-                    if (child.getName().equals("FixedResultPipe") && TagHandler.hasAnyAttributeWithKey(child, "returnString")) {
-                        String returnStringValue = TagHandler.getAttributeValueFromTagByKey(child, "returnString").orElse("");
-                        String pipeName = "myEchoPipe"+ (amountRefactored!=1?amountRefactored:"");
+                if (content instanceof Xml.Tag child
+                    && child.getName().equals("FixedResultPipe")
+                        && TagHandler.hasAnyAttributeWithKey(child, "returnString")) {
 
-                        // Remove returnString attribute
-                        child = child.withAttributes(
-                                child.getAttributes().stream()
-                                        .filter(attr -> !attr.getKeyAsString().equals("returnString"))
-                                        .collect(Collectors.toList())
-                        );
+                    String returnStringValue = TagHandler.getAttributeValueFromTagByKey(child, "returnString").orElse("");
+                    String pipeName = "myEchoPipe"+ (amountRefactored!=1?amountRefactored:"");
 
-                        child = TagHandler.getTagWithoutAttribute(child,"returnString");
-                        List<Content> childContent = getContent(child).stream()
-                                .map(grandchild -> {
-                                    if (grandchild instanceof Xml.Tag && ((Xml.Tag) grandchild).getName().equalsIgnoreCase("forward")) {
-                                        return ((Xml.Tag) grandchild).withAttributes(
-                                                ((Xml.Tag) grandchild).getAttributes().stream()
-                                                        .map(attr -> attr.getKeyAsString().equals("path") ? attr.withValue(attr.getValue().withValue(pipeName)) : attr)
-                                                        .collect(Collectors.toList())
-                                        );
-                                    }
-                                    return grandchild;
-                                })
-                                .collect(Collectors.toList());
-                        String pathValue =getContent(child).stream()
-                                .filter(grandchild -> grandchild instanceof Xml.Tag && ((Xml.Tag) grandchild).getName().equalsIgnoreCase("forward")).map(t->TagHandler.getAttributeValueFromTagByKey((Xml.Tag)t,"path")).findFirst().get().orElse("");
+                    // Remove returnString attribute
+                    child = child.withAttributes(
+                            child.getAttributes().stream()
+                                    .filter(attr -> !attr.getKeyAsString().equals("returnString"))
+                                    .toList()
+                    );
 
-                        // Update forward path
-                        child = child.withContent(
-                                childContent
-                        );
+                    child = TagHandler.getTagWithoutAttribute(child,"returnString");
+                    List<Content> childContent = getContent(child).stream()
+                            .map(grandchild -> {
+                                if (grandchild instanceof Xml.Tag t && t.getName().equalsIgnoreCase("forward")) {
+                                    return t.withAttributes(
+                                            t.getAttributes().stream()
+                                                    .map(attr -> attr.getKeyAsString().equals("path") ? attr.withValue(attr.getValue().withValue(pipeName)) : attr)
+                                                    .toList()
+                                    );
+                                }
+                                return grandchild;
+                            })
+                            .toList();
+                    String pathValue =getContent(child).stream()
+                            .filter(grandchild -> grandchild instanceof Xml.Tag t && t.getName().equalsIgnoreCase("forward")).map(t->TagHandler.getAttributeValueFromTagByKey((Xml.Tag)t,"path")).findFirst().get().orElse("");
 
-                        // Create new EchoPipe element
-                        Xml.Tag echoPipe = Xml.Tag.build(
-                                "<EchoPipe name=\"" + pipeName + "\" getInputFromFixedValue='" + returnStringValue + "'>" +
-                                        "<forward name=\"success\" path=\""+pathValue+"\"/>" +
-                                        "</EchoPipe>"
-                        );
-                        amountRefactored++;
-                        changed.set(true);
+                    // Update forward path
+                    child = child.withContent(
+                            childContent
+                    );
 
-                        return List.of(child, echoPipe);
-                    }
+                    // Create new EchoPipe element
+                    Xml.Tag echoPipe = Xml.Tag.build(
+                            "<EchoPipe name=\"" + pipeName + "\" getInputFromFixedValue='" + returnStringValue + "'>" +
+                                    "<forward name=\"success\" path=\""+pathValue+"\"/>" +
+                                    "</EchoPipe>"
+                    );
+                    increaseAmountRefactored();
+                    changed.set(true);
+
+                    return List.of(child, echoPipe);
                 }
+
                 return new ArrayList<>(List.of(content));
             }).flatMap(List::stream).collect(Collectors.toList());
 
@@ -73,4 +75,8 @@ public class HandleReturnStringAttributeVisitor extends XmlIsoVisitor<ExecutionC
         }
         return super.visitTag(tag, ctx);
     }
+    public static void increaseAmountRefactored(){
+        amountRefactored++;
+    }
+
 }

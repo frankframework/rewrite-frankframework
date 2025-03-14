@@ -15,21 +15,10 @@
  */
 package org.frankrewrite.recipes;
 
-import org.frankrewrite.recipes.util.TagHandler;
 import org.frankrewrite.recipes.visitors.MoveReturnedSessionKeysVisitor;
 import org.openrewrite.ExecutionContext;
 import org.openrewrite.Recipe;
 import org.openrewrite.TreeVisitor;
-import org.openrewrite.xml.XmlIsoVisitor;
-import org.openrewrite.xml.tree.Content;
-import org.openrewrite.xml.tree.Xml;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-
-import static org.frankrewrite.recipes.util.TagHandler.getContent;
 
 public class MoveReturnedSessionKeysRecipe extends Recipe {
 
