@@ -25,7 +25,6 @@ import org.openrewrite.xml.XmlIsoVisitor;
 import org.openrewrite.xml.tree.Xml;
 
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static org.frankrewrite.recipes.util.TagHandler.getContent;
 
@@ -108,7 +107,7 @@ public class EditStyleConfigurationVisitor extends XmlIsoVisitor<ExecutionContex
         return PackageScanner.getInstance().getClasses().stream().noneMatch(clazz -> className.equalsIgnoreCase(clazz.getSimpleName()));  // Returns true if it's custom (not found), false if it's a known class
     }
     private String getElementName(String className) {
-        Optional<Class<?>> foundClass = PackageScanner.getInstance().getClasses().stream().filter(clazz -> className.equalsIgnoreCase(clazz.getSimpleName())).findFirst();;  // Returns true if it's custom (not found), false if it's a known class
+        Optional<Class<?>> foundClass = PackageScanner.getInstance().getClasses().stream().filter(clazz -> className.equalsIgnoreCase(clazz.getSimpleName())).findFirst();  // Returns true if it's custom (not found), false if it's a known class
         return foundClass.map(Class::getSimpleName).orElse(null);
     }
 }

@@ -22,7 +22,6 @@ import org.openrewrite.xml.tree.Xml;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Function;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -252,9 +251,7 @@ class TagHandlerTest {
         Xml.Attribute attribute2 = mock(Xml.Attribute.class);
         when(tag.getAttributes()).thenReturn(List.of(attribute1, attribute2));
 
-        Function<Xml.Attribute, Boolean> filter = attr -> attr == attribute2;
-
-        assertEquals(Optional.of(attribute2), TagHandler.getFilteredAttributeOptional(tag, filter));
+        assertEquals(Optional.of(attribute2), TagHandler.getFilteredAttributeOptional(tag, attr -> attr == attribute2));
         assertEquals(Optional.empty(), TagHandler.getFilteredAttributeOptional(tag, attr -> false));
     }
 
@@ -264,9 +261,7 @@ class TagHandlerTest {
         Xml.Attribute attribute = mock(Xml.Attribute.class);
         when(tag.getAttributes()).thenReturn(List.of(attribute));
 
-        Function<Xml.Attribute, Boolean> filter = attr -> true;
-
-        assertTrue(TagHandler.hasAnyFilteredAttribute(tag, filter));
+        assertTrue(TagHandler.hasAnyFilteredAttribute(tag, attr -> true));
         assertFalse(TagHandler.hasAnyFilteredAttribute(tag, attr -> false));
     }
 

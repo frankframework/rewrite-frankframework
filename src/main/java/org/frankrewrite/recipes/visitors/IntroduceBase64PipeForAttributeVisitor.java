@@ -16,7 +16,6 @@
 package org.frankrewrite.recipes.visitors;
 
 import org.frankrewrite.recipes.util.TagHandler;
-import org.jetbrains.annotations.NotNull;
 import org.openrewrite.xml.tree.Content;
 import org.openrewrite.xml.tree.Xml;
 
@@ -37,28 +36,17 @@ public class IntroduceBase64PipeForAttributeVisitor extends AbstractPipeIntroduc
                 String pipeName = TagHandler.getAttributeValueFromTagByKey(child, "name").get()+(base64Value.equals("ENCODE")?"Encoder":"Decoder");
 
                 child = TagHandler.getTagWithoutAttribute(child,"base64"); //Remove attribute
-                List<Content> childContent = getContentWithUpdatedForwardToBase64Pipe(child, pipeName); //Update the forward name to the base64pipe to be introduced
 
                 // Get path attribute value with corresponding forward tag in child
+                String successPathValue = getForwardPathValue(child, "success"); //Before success forward path has changed, get the old value
                 String exceptionPathValue = getForwardPathValue(child, "exception");
-                String successPathValue = getForwardPathValue(child, "success");
 
-                if (!successPathValue.isEmpty()) {
-                    childContent.stream()
-                            .filter(grandChild -> grandChild instanceof Xml.Tag t
-                                    && TagHandler.hasAnyAttributeWithKeyValue(t, "name", "success"))
-                            .findFirst()
-                            .map(Xml.Tag.class::cast)
-                            .ifPresent(successForwardTag -> {
-                                Xml.Tag updatedSuccessTag = TagHandler.getTagWithNewAttributeValueByAttributeName(successForwardTag, pipeName, "path");
-                                if (updatedSuccessTag != null) {
-                                    childContent.set(childContent.indexOf(successForwardTag), updatedSuccessTag);
-                                }
-                            });
-                }
+                //Update the forward path to the base64pipe name to be introduced
+                List<Content> childContent = updateForwardPathAttributeWithNewPipeName(child, pipeName);
 
                 // Update forward path
                 child = child.withContent(childContent);
+
 
                 // Create new EchoPipe element
                 Xml.Tag base64Pipe = createBase64Pipe(pipeName, base64Value, storeResultInSessionKeyValue, exceptionPathValue, successPathValue);
@@ -80,20 +68,6 @@ public class IntroduceBase64PipeForAttributeVisitor extends AbstractPipeIntroduc
         );
     }
 
-    private static @NotNull List<Content> getContentWithUpdatedForwardToBase64Pipe(Xml.Tag child, String pipeName) {
-        return getContent(child).stream()
-                .map(grandchild -> {
-                    if (grandchild instanceof Xml.Tag t && t.getName().equalsIgnoreCase("forward")) {
-                        return t.withAttributes(
-                                t.getAttributes().stream()
-                                        .map(attr -> (attr.getKeyAsString().equals("path") && attr.getValueAsString().equals("success")) ? attr.withValue(attr.getValue().withValue(pipeName)) : attr)
-                                        .toList()
-                        );
-                    }
-                    return grandchild;
-                })
-                .collect(Collectors.toList());
-    }
 
     protected boolean shouldIntroduceBase64PipeForChildTag(Xml.Tag childTag) {
         return childTag.getName().equals("LocalFileSystemPipe")
@@ -102,14 +76,4 @@ public class IntroduceBase64PipeForAttributeVisitor extends AbstractPipeIntroduc
                 && TagHandler.hasAnyAttributeWithKey(childTag, "name");
     }
 
-    private static @NotNull String getForwardPathValue(Xml.Tag child, String nameValue) {
-        return getContent(child).stream()
-                .filter(grandchild -> grandchild instanceof Xml.Tag t
-                        && t.getName().equalsIgnoreCase("forward")
-                        && TagHandler.getAttributeValueFromTagByKey(t, "name").map(nameValue::equals).orElse(false)) // Avoids unnecessary orElse("")
-                .map(t -> TagHandler.getAttributeValueFromTagByKey((Xml.Tag) t, "path"))
-                .findFirst()
-                .flatMap(path -> path) // Removes double Optional
-                .orElse(""); // Return empty string if not found
-    }
 }

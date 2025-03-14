@@ -17,8 +17,6 @@ package org.frankrewrite.recipes.visitors;
 
 import org.frankrewrite.recipes.util.TagHandler;
 import org.jetbrains.annotations.NotNull;
-import org.openrewrite.ExecutionContext;
-import org.openrewrite.xml.XmlIsoVisitor;
 import org.openrewrite.xml.tree.Content;
 import org.openrewrite.xml.tree.Xml;
 
@@ -50,16 +48,10 @@ public class IntroduceEchoPipeForFixedResultPipeVisitor extends AbstractPipeIntr
                 child = TagHandler.getTagWithoutAttribute(child,"returnString");
 
                 // Change forward path value with echoPipe name attribute value
-                List<Content> childContent = updateForwardPathAttributeWithNewPipename(child, pipeName);
+                List<Content> childContent = updateForwardPathAttributeWithNewPipeName(child, pipeName);
 
                 //Get path value for new EchoPipe forward
-                String pathValue =getContent(child).stream()
-                        .filter(grandchild ->
-                                grandchild instanceof Xml.Tag t
-                                        && t.getName().equalsIgnoreCase("forward"))
-                        .map(t->
-                                TagHandler.getAttributeValueFromTagByKey((Xml.Tag)t,"path"))
-                        .findFirst().get().orElse("");
+                String pathValue = getForwardPathValue(child, "success");
 
                 // Update forward path
                 child = child.withContent(
@@ -80,21 +72,6 @@ public class IntroduceEchoPipeForFixedResultPipeVisitor extends AbstractPipeIntr
 
             return new ArrayList<>(List.of(content));
         }).flatMap(List::stream).collect(Collectors.toList());
-    }
-
-    private static @NotNull List<Content> updateForwardPathAttributeWithNewPipename(Xml.Tag child, String pipeName) {
-        return getContent(child).stream()
-                .map(grandchild -> {
-                    if (grandchild instanceof Xml.Tag t && t.getName().equalsIgnoreCase("forward")) {
-                        return t.withAttributes(
-                                t.getAttributes().stream()
-                                        .map(attr -> attr.getKeyAsString().equals("path") ? attr.withValue(attr.getValue().withValue(pipeName)) : attr)
-                                        .toList()
-                        );
-                    }
-                    return grandchild;
-                })
-                .toList();
     }
 
     private static boolean shouldHandleReturnStringAttributeForChild(Xml.Tag child) {
