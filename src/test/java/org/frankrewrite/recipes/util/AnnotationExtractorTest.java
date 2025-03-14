@@ -32,7 +32,7 @@ class AnnotationExtractorTest {
 
     @BeforeEach
     void setUp() {
-        Logger.getINSTANCE().getLog().clear();
+        Logger.getInstance().getLog().clear();
     }
 
     @Test

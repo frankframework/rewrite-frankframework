@@ -23,7 +23,6 @@ import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class AnnotationExtractor {
 
@@ -45,7 +44,7 @@ public class AnnotationExtractor {
         if (matchedMethods.size() == 1) {
             return matchedMethods.get(0);
         } else {
-            Logger.getINSTANCE().log(clazz.getSimpleName() + ": No updated method/attribute implementation found in warning: " + warning);
+            Logger.getInstance().log(clazz.getSimpleName() + ": No updated method/attribute implementation found in warning: " + warning);
             throw new Exception("No updated method/attribute implementation found in warning: " + warning);
         }
     }
@@ -118,20 +117,20 @@ public class AnnotationExtractor {
 
         // If no class is found, log and throw an exception
         if (foundClasses.isEmpty()) {
-            Logger.getINSTANCE().log(deprecatedClass.getSimpleName() + ": No updated class implementation found in warning: " + warning);
+            Logger.getInstance().log(deprecatedClass.getSimpleName() + ": No updated class implementation found in warning: " + warning);
             throw new ClassNotFoundException(deprecatedClass.getSimpleName() + ": No updated class implementation found in warning: " + warning);
         }
         // If exactly one class is found, check for specific warning cases
         else if (foundClasses.size() == 1) {
             if (warning.toLowerCase().contains("configure")) {
-                Logger.getINSTANCE().log(deprecatedClass.getSimpleName() + ": Can't handle configure warnings properly, warning: " + warning);
+                Logger.getInstance().log(deprecatedClass.getSimpleName() + ": Can't handle configure warnings properly, warning: " + warning);
                 throw new ClassNotFoundException(deprecatedClass.getSimpleName() + ": Can't handle configure warnings properly, warning: " + warning);
             }
             return foundClasses.get(0); // Return the found class
         }
         // If multiple classes are found, log and throw an exception
         else {
-            Logger.getINSTANCE().log(deprecatedClass.getSimpleName() + ": Multiple class names found in warning: " + warning);
+            Logger.getInstance().log(deprecatedClass.getSimpleName() + ": Multiple class names found in warning: " + warning);
             throw new ClassNotFoundException(deprecatedClass.getSimpleName() + ": Multiple class names found in warning: " + warning);
         }
     }

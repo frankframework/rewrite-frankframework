@@ -22,7 +22,6 @@ import org.openrewrite.xml.XmlIsoVisitor;
 import org.openrewrite.xml.tree.Xml;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class RemoveAttributeVisitor extends XmlIsoVisitor<ExecutionContext> {
     final String attributeName;

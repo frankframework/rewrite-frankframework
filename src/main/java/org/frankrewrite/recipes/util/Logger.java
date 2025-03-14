@@ -1,27 +1,28 @@
 package org.frankrewrite.recipes.util;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Logger {
-    private static Logger INSTANCE;
+    private static Logger instance;
     private ArrayList<String> log;
 
     public Logger() {
         log = new ArrayList<>();
     }
 
-    public static Logger getINSTANCE() {
-        if (INSTANCE==null){
-            INSTANCE = new Logger();
+    public static Logger getInstance() {
+        if (instance ==null){
+            instance = new Logger();
         }
-        return INSTANCE;
+        return instance;
     }
 
     public void log(String msg){
         log.add(msg);
     }
 
-    public ArrayList<String> getLog() {
+    public List<String> getLog() {
         return log;
     }
 }

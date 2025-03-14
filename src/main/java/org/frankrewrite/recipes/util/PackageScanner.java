@@ -51,7 +51,7 @@ public class PackageScanner {
             try {
                 configurationWarningClass = (Class<? extends Annotation>) (dependency.equals("nl.nn.adapterframework")?Class.forName("nl.nn.adapterframework.configuration.ConfigurationWarning"):Class.forName("org.frankframework.configuration.ConfigurationWarning"));
             } catch (ClassNotFoundException e) {
-                Logger.getINSTANCE().log("Could not find configuration warning class");
+                Logger.getInstance().log("Could not find configuration warning class");
             }
             Reflections reflections = new Reflections(new ConfigurationBuilder()
                     .addScanners(Scanners.SubTypes.filterResultsBy(s->true)/*Override the default behavior which exclude Object class*/)
@@ -59,7 +59,6 @@ public class PackageScanner {
 
             List<String> packages = Arrays.asList("pipes", "receivers", "parameters", "senders", "processors", "util", "jdbc", "http", "compression", "errormessageformatters", "ftp", "scheduler");
             classes = reflections.getSubTypesOf(Object.class);
-            List<Class<?>> classes = new ArrayList<>();
             packages.forEach(pack -> classes.addAll(Stream.of(dependency+ "." + pack)
                     .flatMap(pkg -> {
                         List<Class<?>> pkgClasses = new ArrayList<>(getClassesIn(pkg));
@@ -70,7 +69,7 @@ public class PackageScanner {
                     .toList()));
             this.classes = new HashSet<>(classes);
         }catch (IOException e){
-            Logger.getINSTANCE().log("Could not load properties file in target/classes");
+            Logger.getInstance().log("Could not load properties file in target/classes");
         }
     }
 

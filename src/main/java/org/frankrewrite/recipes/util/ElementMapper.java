@@ -51,7 +51,7 @@ public class ElementMapper {
                         result.put(deprecatedClass, newClass);
                         deprecatedClassToNewClassMapCache.putIfAbsent(deprecatedClass, newClass);
                     } catch (Exception e) {
-                        Logger.getINSTANCE().log(e.getMessage()); // Log the issue
+                        Logger.getInstance().log(e.getMessage()); // Log the issue
                     }
                 });
 
@@ -78,7 +78,7 @@ public class ElementMapper {
                                 Method newMethod = AnnotationExtractor.extractNewAttributesFromConfigurationWarning(warning, classIn, deprecatedMethod);
                                 deprecatedMethodNewMethodMap.put(deprecatedMethod, newMethod);
                             } catch (Exception e) {
-                                Logger.getINSTANCE().log(e.getMessage());
+                                Logger.getInstance().log(e.getMessage());
                             }
                         }
                     }

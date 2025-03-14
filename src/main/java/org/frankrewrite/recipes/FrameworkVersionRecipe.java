@@ -59,11 +59,11 @@ public class FrameworkVersionRecipe extends Recipe {
                         @Override
                         public Xml.Tag visitTag(Xml.Tag tag, ExecutionContext executionContext) {
                             Optional<String> tagValue = tag.getValue();
-                            if (tagValue.isPresent()) {
-                                if (tag.getName().equals("iaf.version")&&!tagValue.get().equals(version)||
-                                        tag.getName().equals("ff.version")&&!tagValue.get().equals(version)) {
-                                    return tag.withValue(version);
-                                }
+                            if (tagValue.isPresent()
+                                &&!tagValue.get().equals(version)
+                                &&(tag.getName().equals("iaf.version")||
+                                    tag.getName().equals("ff.version"))) {
+                                return tag.withValue(version);
                             }
                             return super.visitTag(tag, executionContext);
                         }
