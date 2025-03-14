@@ -20,20 +20,19 @@ import org.frankframework.configuration.ConfigurationWarning;
 @Deprecated
 @ConfigurationWarning("Replace with MySecondPipe.")
 public class MyPipeTwo {
-    private String myPipeAttribute;
 
     @Deprecated
     @ConfigurationWarning("Change to myPipeAttribute or myPipeAttributeTwo")
     public void setPipeAttribute(String pipeAttribute) {
-        this.myPipeAttribute = pipeAttribute;
+//        this.myPipeAttribute = pipeAttribute;
     }
 
     public void setMyPipeAttribute(String pipeAttribute) {
-        this.myPipeAttribute = pipeAttribute;
+//        this.myPipeAttribute = pipeAttribute;
     }
 
     public void setMyPipeAttributeTwo(String pipeAttribute) {
-        this.myPipeAttribute = pipeAttribute;
+//        this.myPipeAttribute2 = pipeAttribute;
     }
 
 }

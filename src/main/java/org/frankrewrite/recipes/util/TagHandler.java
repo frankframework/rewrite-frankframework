@@ -28,6 +28,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class TagHandler {
+    private TagHandler() {}
     public static @NotNull Optional<Xml.Attribute> getAttributeFromTagByKeyAndValue(Xml.Tag tag, String attributeKey, String attributeValue) {
         return tag.getAttributes().stream()
                 .filter(attribute -> attribute.getKeyAsString().equalsIgnoreCase(attributeKey)&&attribute.getValueAsString().equalsIgnoreCase(attributeValue)).findFirst();
@@ -109,7 +110,7 @@ public class TagHandler {
         updatedTag = updatedTag.withAttributes(
                 updatedTag.getAttributes().stream()
                         .filter(attr -> !attr.getKey().getName().equals(attributeName))
-                        .collect(Collectors.toList())
+                        .toList()
         );
         return updatedTag;
     }

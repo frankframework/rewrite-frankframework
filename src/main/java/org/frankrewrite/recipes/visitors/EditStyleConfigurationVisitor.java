@@ -44,10 +44,11 @@ public class EditStyleConfigurationVisitor extends XmlIsoVisitor<ExecutionContex
             //Already sure that className Attribute exists, ignore warning
             String classSimpleName = classNameAttribute.get().getValue().getValue().substring(classNameAttribute.get().getValue().getValue().lastIndexOf(".")+1);
             if (!isCustomElement(classSimpleName)){
+                String elementName = getElementName(classSimpleName);
                 // Get the result tag and use getElementName to prevent bad element name casing
-                if(getElementName(classSimpleName)==null)
+                if(elementName==null)
                     return super.visitTag(tag, ctx);
-                Xml.Tag updatedTag = getTagWithClassNameValueAsTagName(tag, getElementName(classSimpleName));
+                Xml.Tag updatedTag = getTagWithClassNameValueAsTagName(tag, elementName);
                 if (updatedTag != null) {
                     return updatedTag;
                 }
@@ -61,7 +62,7 @@ public class EditStyleConfigurationVisitor extends XmlIsoVisitor<ExecutionContex
                 return tag
                         .withName(newName)
                         .withAttributes(tag.getAttributes().stream()
-                                .filter(attribute -> !attribute.getKeyAsString().equalsIgnoreCase("function")).collect(Collectors.toList()));
+                                .filter(attribute -> !attribute.getKeyAsString().equalsIgnoreCase("function")).toList());
             }
         }
 

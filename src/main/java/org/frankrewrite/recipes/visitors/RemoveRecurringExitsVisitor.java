@@ -16,7 +16,6 @@
 package org.frankrewrite.recipes.visitors;
 
 import org.frankrewrite.recipes.scanresults.ExitScanResult;
-import org.frankrewrite.recipes.util.AttributeHandler;
 import org.frankrewrite.recipes.util.TagHandler;
 import org.openrewrite.ExecutionContext;
 import org.openrewrite.xml.XmlIsoVisitor;
@@ -144,8 +143,15 @@ public class RemoveRecurringExitsVisitor extends XmlIsoVisitor<ExecutionContext>
     private List<Xml.Attribute> getUpdatedAttributes(Xml.Document document, Xml.Tag adapter, Xml.Tag tag) {
         List<Xml.Attribute> updatedAttributes = tag.getAttributes();
         TagHandler.getAttributeFromTagByKey(tag, "path")
-                .ifPresent(attr -> AttributeHandler.updateListForAttributeWithNewValue(updatedAttributes, attr,
+                .ifPresent(attr -> updateListForAttributeWithNewValue(updatedAttributes, attr,
                         acc.getNewExitNameByOldPathForDocument(document, adapter, attr.getValueAsString())));
         return updatedAttributes;
+    }
+
+    private void updateListForAttributeWithNewValue(List<Xml.Attribute> updatedAttributes, Xml.Attribute oldPathAttr, String newValue) {
+        if (newValue != null&&oldPathAttr!=null) {
+            updatedAttributes.removeIf(attr -> attr.getKeyAsString().equalsIgnoreCase(oldPathAttr.getKeyAsString()));
+            updatedAttributes.add(oldPathAttr.withValue(oldPathAttr.getValue().withValue(newValue)));
+        }
     }
 }

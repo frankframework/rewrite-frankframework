@@ -72,8 +72,8 @@ public class ChangeChildAttributeVisitor extends XmlIsoVisitor<ExecutionContext>
     }
     // Helper method to compare attributes between the original and modified tag
     private boolean areAttributesEqual(Xml.Tag original, Xml.Tag modified) {
-        List<Xml.Tag.Attribute> originalAttributes = original.getAttributes(); // Get the list of original attributes
-        List<Xml.Tag.Attribute> modifiedAttributes = modified.getAttributes(); // Get the list of modified attributes
+        List<Xml.Attribute> originalAttributes = original.getAttributes(); // Get the list of original attributes
+        List<Xml.Attribute> modifiedAttributes = modified.getAttributes(); // Get the list of modified attributes
 
         // Compare each attribute
         for (int i = 0; i < originalAttributes.size(); i++) {

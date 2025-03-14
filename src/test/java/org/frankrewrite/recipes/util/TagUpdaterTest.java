@@ -87,11 +87,17 @@ class TagUpdaterTest {
     }
 
     static class OldClass {
-        public void setOldAttribute(String value) {}
+        public void setOldAttribute(String value) {
+            //example
+        }
     }
 
     static class NewClass {
-        public void setOldAttribute(String value) {}
-        public void setNewAttribute(String value) {}
+        public void setOldAttribute(String value) {
+            //example
+        }
+        public void setNewAttribute(String value) {
+            //example
+        }
     }
 }

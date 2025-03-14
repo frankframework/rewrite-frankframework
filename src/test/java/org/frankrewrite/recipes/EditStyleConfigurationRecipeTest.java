@@ -24,11 +24,12 @@ import static org.openrewrite.xml.Assertions.xml;
 public class EditStyleConfigurationRecipeTest implements RewriteTest {
     @Override
     public void defaults(RecipeSpec spec) {
+        spec.recipe(new EditStyleConfigurationRecipe());
     }
 
     @Test
     void ignoresErrorStorageAndMessageLogTags() {
-        rewriteRun(recipeSpec -> recipeSpec.recipe(new EditStyleConfigurationRecipe()),
+        rewriteRun(
           xml(
             """
             <errorStorage/>
@@ -44,7 +45,7 @@ public class EditStyleConfigurationRecipeTest implements RewriteTest {
 
     @Test
     void updatesTagBasedOnClassNameAttributeWithTypeExtention() {
-        rewriteRun(recipeSpec -> recipeSpec.recipe(new EditStyleConfigurationRecipe()),
+        rewriteRun(
           xml(
             """
             <SomeTag className="org.frankframework.pipes.TheBest"/>
@@ -57,7 +58,7 @@ public class EditStyleConfigurationRecipeTest implements RewriteTest {
     }
     @Test
     void updatesTagBasedOnClassNameAttributeForFrankFramework() {
-        rewriteRun(recipeSpec -> recipeSpec.recipe(new EditStyleConfigurationRecipe()),
+        rewriteRun(
           xml(
             """
             <SomeTag className="org.frankframework.pipes.MyPipe"/>
@@ -70,7 +71,7 @@ public class EditStyleConfigurationRecipeTest implements RewriteTest {
     }
     @Test
     void updatesNotPipeBasedOnClassNameAttribute() {
-        rewriteRun(recipeSpec -> recipeSpec.recipe(new EditStyleConfigurationRecipe()),
+        rewriteRun(
           xml(
             """
             <SomeTag className="nl.nn.adapterframework.senders.MyNot"/>
@@ -83,7 +84,7 @@ public class EditStyleConfigurationRecipeTest implements RewriteTest {
     }
     @Test
     void updatesTagBasedOnClassNameAttributeForAdapterFramework() {
-        rewriteRun(recipeSpec -> recipeSpec.recipe(new EditStyleConfigurationRecipe()),
+        rewriteRun(
           xml(
             """
             <SomeTag className="nl.nn.adapterframework.pipes.MyPipe"/>
@@ -97,7 +98,7 @@ public class EditStyleConfigurationRecipeTest implements RewriteTest {
 
     @Test
     void doesNotChangeCustomElements() {
-        rewriteRun(recipeSpec -> recipeSpec.recipe(new EditStyleConfigurationRecipe()),
+        rewriteRun(
           xml(
             """
             <CustomTag className="com.custom.package.CustomClass"/>
@@ -108,7 +109,7 @@ public class EditStyleConfigurationRecipeTest implements RewriteTest {
 
     @Test
     void renamesJobBasedOnFunctionAttribute() {
-        rewriteRun(recipeSpec -> recipeSpec.recipe(new EditStyleConfigurationRecipe()),
+        rewriteRun(
           xml(
             """
             <job function="myFunction"/>
@@ -122,7 +123,7 @@ public class EditStyleConfigurationRecipeTest implements RewriteTest {
 
     @Test
     void keepsJobTagWhenNoFunctionAttribute() {
-        rewriteRun(recipeSpec -> recipeSpec.recipe(new EditStyleConfigurationRecipe()),
+        rewriteRun(
           xml(
             """
             <job/>
@@ -133,7 +134,7 @@ public class EditStyleConfigurationRecipeTest implements RewriteTest {
 
     @Test
     void doesNotChangeTagWithoutClassNameOrFunction() {
-        rewriteRun(recipeSpec -> recipeSpec.recipe(new EditStyleConfigurationRecipe()),
+        rewriteRun(
           xml(
             """
             <SomeOtherTag/>
@@ -143,7 +144,7 @@ public class EditStyleConfigurationRecipeTest implements RewriteTest {
     }
     @Test
     void doesNotChangeTagWithWrongClassNamePackage() {
-        rewriteRun(recipeSpec -> recipeSpec.recipe(new EditStyleConfigurationRecipe()),
+        rewriteRun(
           xml(
             """
             <pipe className="org.nonexistingorg.pipes.TheBest"/>

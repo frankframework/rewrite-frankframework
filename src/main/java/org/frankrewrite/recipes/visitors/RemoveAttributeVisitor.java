@@ -22,7 +22,6 @@ import org.openrewrite.xml.XmlIsoVisitor;
 import org.openrewrite.xml.tree.Xml;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class RemoveAttributeVisitor extends XmlIsoVisitor<ExecutionContext> {
     final String attributeName;
@@ -57,7 +56,7 @@ public class RemoveAttributeVisitor extends XmlIsoVisitor<ExecutionContext> {
         if (TagHandler.hasAnyAttributeWithKey(tag, attributeName)){
             List<Xml.Attribute> attributes = tag.getAttributes().stream()
                     .filter(attr -> !attr.getKeyAsString().equalsIgnoreCase(attributeName))
-                    .collect(Collectors.toList());
+                    .toList();
 
             //Return tag without filtered attribute
             return tag.withAttributes(attributes);

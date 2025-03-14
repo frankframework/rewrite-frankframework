@@ -32,15 +32,19 @@ class AnnotationExtractorTest {
 
     @BeforeEach
     void setUp() {
-        AnnotationExtractor.getLog().clear();
+        Logger.getInstance().getLog().clear();
     }
 
     @Test
     void testExtractNewAttributesFromConfigurationWarning_MethodFound() throws Exception {
         class TestClass {
-            public void setExampleMethod() {}
+            public void setExampleMethod() {
+                //example
+            }
             @Deprecated
-            public void setExampleMethodDeprecated() {}
+            public void setExampleMethodDeprecated() {
+                //example
+            }
         }
         Method deprecatedMethod = TestClass.class.getDeclaredMethod("setExampleMethodDeprecated");
         Method extractedMethod = AnnotationExtractor.extractNewAttributesFromConfigurationWarning("exampleMethod", TestClass.class, deprecatedMethod);
@@ -94,21 +98,6 @@ class AnnotationExtractorTest {
 
         assertTrue(exception.getMessage().contains("Multiple class names found"));
     }
-//    @Test
-//    void test() throws NoSuchMethodException {
-//        Class<?> c = FixedErrorMessageFormatter.class;
-//
-//        Method m = Arrays.stream(c.getMethods()).filter(it->it.getName().equalsIgnoreCase("setFileName")).findFirst().get();
-//        Method res;
-//        try {
-//            res = AnnotationExtractor.extractNewAttributesFromConfigurationWarning("attribute 'fileName' is replaced with 'filename", FixedErrorMessageFormatter.class, m);
-//            assertTrue(res.getName().equals("setFilename"));
-//        } catch (Exception e) {
-//            throw new RuntimeException(e);
-//        }
-//        assertNotNull(res);
-//
-//    }
 
     @Test
     void testGetConfigurationWarningValue_ThrowsIllegalStateException() {

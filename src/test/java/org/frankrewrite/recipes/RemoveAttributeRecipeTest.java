@@ -16,16 +16,11 @@
 package org.frankrewrite.recipes;
 
 import org.junit.jupiter.api.Test;
-import org.openrewrite.test.RecipeSpec;
 import org.openrewrite.test.RewriteTest;
 
 import static org.openrewrite.xml.Assertions.xml;
 
 public class RemoveAttributeRecipeTest implements RewriteTest {
-    @Override
-    public void defaults(RecipeSpec spec) {
-    }
-
     @Test
     void removesConfigurationNameAttribute(){
         rewriteRun(recipeSpec -> recipeSpec.recipe(new RemoveAttributeRecipe("configurationName",null, null, null)),
