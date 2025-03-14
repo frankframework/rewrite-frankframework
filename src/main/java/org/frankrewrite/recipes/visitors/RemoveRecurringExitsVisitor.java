@@ -48,11 +48,11 @@ public class RemoveRecurringExitsVisitor extends XmlIsoVisitor<ExecutionContext>
 
     private static int countExits(Xml.Tag tag) {
         return (int) getContent(tag).stream()
-                .filter(pipeline -> pipeline instanceof Xml.Tag && ((Xml.Tag) pipeline).getName().equalsIgnoreCase("pipeline"))
+                .filter(pipeline -> pipeline instanceof Xml.Tag t && t.getName().equalsIgnoreCase("pipeline"))
                 .flatMap(pipeline -> getContent(pipeline).stream())
-                .filter(child -> child instanceof Xml.Tag && ((Xml.Tag) child).getName().equalsIgnoreCase("exits"))
+                .filter(child -> child instanceof Xml.Tag t && t.getName().equalsIgnoreCase("exits"))
                 .flatMap(exitsTag -> getContent(exitsTag).stream())
-                .filter(exitTag -> exitTag instanceof Xml.Tag && ((Xml.Tag) exitTag).getName().equalsIgnoreCase("exit"))
+                .filter(exitTag -> exitTag instanceof Xml.Tag t && t.getName().equalsIgnoreCase("exit"))
                 .count();
     }
 

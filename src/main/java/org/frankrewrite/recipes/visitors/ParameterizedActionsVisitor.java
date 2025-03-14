@@ -21,10 +21,8 @@ import org.openrewrite.xml.XmlIsoVisitor;
 import org.openrewrite.xml.tree.Content;
 import org.openrewrite.xml.tree.Xml;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static org.frankrewrite.recipes.util.TagHandler.getContent;
 
