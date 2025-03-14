@@ -22,10 +22,11 @@ import org.openrewrite.xml.XmlIsoVisitor;
 import org.openrewrite.xml.tree.Content;
 import org.openrewrite.xml.tree.Xml;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
+
+import static org.frankrewrite.recipes.util.TagHandler.getContent;
 
 public class IntroduceReplacerPipeFromFixedResultPipeRecipe extends Recipe {
     private static int amountRefactored = 1;
@@ -45,9 +46,9 @@ public class IntroduceReplacerPipeFromFixedResultPipeRecipe extends Recipe {
         return new XmlIsoVisitor<>() {
             @Override
             public Xml.Tag visitTag(Xml.Tag tag, ExecutionContext ctx) {
-                if (tag.getName().equalsIgnoreCase("pipeline")&&tag.getContent()!=null) {
+                if (tag.getName().equalsIgnoreCase("pipeline")) {
                     AtomicBoolean changed = new AtomicBoolean(false);
-                    List<Content> updatedChildren = tag.getContent().stream().map(content -> {
+                    List<Content> updatedChildren = getContent(tag).stream().map(content -> {
                         if (content instanceof Xml.Tag child) {
                             if (child.getName().equals("FixedResultPipe") && TagHandler.hasAnyAttributeWithKey(child, "replaceFrom")&& TagHandler.hasAnyAttributeWithKey(child, "replaceTo")) {
                                 String replaceFromValue = TagHandler.getAttributeValueFromTagByKey(child, "replaceFrom").orElse("");
@@ -63,7 +64,7 @@ public class IntroduceReplacerPipeFromFixedResultPipeRecipe extends Recipe {
 
                                 child = TagHandler.getTagWithoutAttribute(child,"replaceFrom");
                                 child = TagHandler.getTagWithoutAttribute(child,"replaceTo");
-                                List<Content> childContent = child.getContent().stream()
+                                List<Content> childContent = getContent(child).stream()
                                         .map(grandchild -> {
                                             if (grandchild instanceof Xml.Tag && ((Xml.Tag) grandchild).getName().equalsIgnoreCase("forward")) {
                                                 return ((Xml.Tag) grandchild).withAttributes(
@@ -75,7 +76,7 @@ public class IntroduceReplacerPipeFromFixedResultPipeRecipe extends Recipe {
                                             return grandchild;
                                         })
                                         .collect(Collectors.toList());
-                                String pathValue =child.getContent().stream()
+                                String pathValue =getContent(child).stream()
                                         .filter(grandchild -> grandchild instanceof Xml.Tag && ((Xml.Tag) grandchild).getName().equalsIgnoreCase("forward")).map(t->TagHandler.getAttributeValueFromTagByKey((Xml.Tag)t,"path")).findFirst().get().orElse("");
 
                                 // Update forward path
@@ -95,7 +96,7 @@ public class IntroduceReplacerPipeFromFixedResultPipeRecipe extends Recipe {
                                 return List.of(child, echoPipe);
                             }
                         }
-                        return new ArrayList<>(List.of(content));
+                        return List.of(content);
                     }).flatMap(List::stream).collect(Collectors.toList());
 
                     if (changed.get())

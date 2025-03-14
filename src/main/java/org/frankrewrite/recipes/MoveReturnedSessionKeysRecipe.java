@@ -28,6 +28,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import static org.frankrewrite.recipes.util.TagHandler.getContent;
+
 public class MoveReturnedSessionKeysRecipe extends Recipe {
 
     @Override
@@ -65,9 +67,8 @@ public class MoveReturnedSessionKeysRecipe extends Recipe {
                             Xml.Tag updatedListenerTag = listenerTag.withAttributes(updatedListenerAttributes);
 
                             // Update content
-                            List<Content> filteredContent = new ArrayList<>(tag.getContent().stream()
+                            List<Content> filteredContent = new ArrayList<>(getContent(tag).stream()
                                     .filter(Objects::nonNull)
-                                    .map(Content.class::cast)
                                     .filter(child -> !child.equals(listenerTag))
                                     .toList());
                             filteredContent.add(updatedListenerTag);

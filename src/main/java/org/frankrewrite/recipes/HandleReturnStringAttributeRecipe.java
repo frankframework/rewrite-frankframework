@@ -27,6 +27,8 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
+import static org.frankrewrite.recipes.util.TagHandler.getContent;
+
 public class HandleReturnStringAttributeRecipe extends Recipe {
     private static int amountRefactored = 1;
 
@@ -47,9 +49,7 @@ public class HandleReturnStringAttributeRecipe extends Recipe {
             public Xml.Tag visitTag(Xml.Tag tag, ExecutionContext ctx) {
                 if (tag.getName().equalsIgnoreCase("pipeline")) {
                     AtomicBoolean changed = new AtomicBoolean(false);
-                    if (tag.getContent()==null)
-                        return super.visitTag(tag, ctx);
-                    List<Content> updatedChildren = tag.getContent().stream().map(content -> {
+                    List<Content> updatedChildren = getContent(tag).stream().map(content -> {
                         if (content instanceof Xml.Tag child) {
                             if (child.getName().equals("FixedResultPipe") && TagHandler.hasAnyAttributeWithKey(child, "returnString")) {
                                 String returnStringValue = TagHandler.getAttributeValueFromTagByKey(child, "returnString").orElse("");
@@ -63,7 +63,7 @@ public class HandleReturnStringAttributeRecipe extends Recipe {
                                 );
 
                                 child = TagHandler.getTagWithoutAttribute(child,"returnString");
-                                List<Content> childContent = child.getContent().stream()
+                                List<Content> childContent = getContent(child).stream()
                                         .map(grandchild -> {
                                             if (grandchild instanceof Xml.Tag && ((Xml.Tag) grandchild).getName().equalsIgnoreCase("forward")) {
                                                 return ((Xml.Tag) grandchild).withAttributes(
@@ -75,7 +75,7 @@ public class HandleReturnStringAttributeRecipe extends Recipe {
                                             return grandchild;
                                         })
                                         .collect(Collectors.toList());
-                                String pathValue =child.getContent().stream()
+                                String pathValue =getContent(child).stream()
                                         .filter(grandchild -> grandchild instanceof Xml.Tag && ((Xml.Tag) grandchild).getName().equalsIgnoreCase("forward")).map(t->TagHandler.getAttributeValueFromTagByKey((Xml.Tag)t,"path")).findFirst().get().orElse("");
 
                                         // Update forward path

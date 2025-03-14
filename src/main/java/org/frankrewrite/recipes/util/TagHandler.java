@@ -17,6 +17,7 @@
 package org.frankrewrite.recipes.util;
 
 import org.jetbrains.annotations.NotNull;
+import org.openrewrite.xml.tree.Content;
 import org.openrewrite.xml.tree.Xml;
 
 import java.util.ArrayList;
@@ -116,5 +117,11 @@ public class TagHandler {
         List<Xml.Attribute> attributeList = new ArrayList<>(updatedTag.getAttributes().stream().filter(attr -> attr!=attribute).toList());
         attributeList.add(attribute.withValue(attribute.getValue().withValue(attributeValue)));
         return updatedTag.withAttributes(attributeList);
+    }
+
+    public static List<Content> getContent(Content tag) {//Get content from tags if they are a Tag instance and return empty list if tag is self-closing
+        return tag instanceof Xml.Tag xmlTag && xmlTag.getContent() != null
+                ? new ArrayList<>(xmlTag.getContent())
+                : new ArrayList<>();
     }
 }

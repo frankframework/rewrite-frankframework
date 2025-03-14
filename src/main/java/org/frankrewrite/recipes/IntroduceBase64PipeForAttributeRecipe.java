@@ -29,9 +29,9 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
-public class IntroduceBase64PipeForAttributeRecipe extends Recipe {
-    private static int amountRefactored = 1;
+import static org.frankrewrite.recipes.util.TagHandler.getContent;
 
+public class IntroduceBase64PipeForAttributeRecipe extends Recipe {
     @Override
     public String getDisplayName() {
         return "Introduce Base64Pipe and update path strings";
@@ -47,9 +47,9 @@ public class IntroduceBase64PipeForAttributeRecipe extends Recipe {
         return new XmlIsoVisitor<>() {
             @Override
             public Xml.Tag visitTag(Xml.Tag tag, ExecutionContext ctx) {
-                if (tag.getName().equalsIgnoreCase("pipeline") && tag.getContent()!=null) {
+                if (tag.getName().equalsIgnoreCase("pipeline")) {
                     AtomicBoolean changed = new AtomicBoolean(false);
-                    List<Content> updatedChildren = tag.getContent().stream().map(content -> {
+                    List<Content> updatedChildren = getContent(tag).stream().map(content -> {
                         if (content instanceof Xml.Tag child) {
                             if (child.getName().equals("LocalFileSystemPipe") && TagHandler.hasAnyAttributeWithKey(child, "base64")
                                     && TagHandler.hasAnyAttributeWithKey(child, "storeResultInSessionKey")
@@ -59,7 +59,7 @@ public class IntroduceBase64PipeForAttributeRecipe extends Recipe {
                                 String pipeName = TagHandler.getAttributeValueFromTagByKey(child, "name").get()+(base64Value.equals("ENCODE")?"Encoder":"Decoder");
 
                                 child = TagHandler.getTagWithoutAttribute(child,"base64");
-                                List<Content> childContent = child.getContent().stream()
+                                List<Content> childContent = getContent(child).stream()
                                         .map(grandchild -> {
                                             if (grandchild instanceof Xml.Tag && ((Xml.Tag) grandchild).getName().equalsIgnoreCase("forward")) {
                                                 return ((Xml.Tag) grandchild).withAttributes(
@@ -100,7 +100,6 @@ public class IntroduceBase64PipeForAttributeRecipe extends Recipe {
                                     (successPathValue.isEmpty() ?"": "\n       <forward name=\"success\" path=\""+successPathValue+"\"/>") +
                                     "\n   </Base64Pipe>"
                                 );
-                                amountRefactored++;
                                 changed.set(true);
 
                                 return List.of(child, echoPipe);
@@ -116,9 +115,7 @@ public class IntroduceBase64PipeForAttributeRecipe extends Recipe {
             }
 
             private static @NotNull String getForwardPathValue(Xml.Tag child, String nameValue) {
-                if (child.getContent()==null)
-                    return "";
-                return child.getContent().stream()
+                return getContent(child).stream()
                         .filter(grandchild -> grandchild instanceof Xml.Tag t
                                 && t.getName().equalsIgnoreCase("forward")
                                 && TagHandler.getAttributeValueFromTagByKey(t, "name").map(nameValue::equals).orElse(false)) // Avoids unnecessary orElse("")

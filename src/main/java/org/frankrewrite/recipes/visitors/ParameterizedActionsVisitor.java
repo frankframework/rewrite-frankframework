@@ -26,6 +26,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static org.frankrewrite.recipes.util.TagHandler.getContent;
+
 public class ParameterizedActionsVisitor extends XmlIsoVisitor<ExecutionContext> {
     @Override
     public Xml.Tag visitTag(Xml.Tag tag, ExecutionContext executionContext) {
@@ -36,11 +38,7 @@ public class ParameterizedActionsVisitor extends XmlIsoVisitor<ExecutionContext>
         if (actionsAttributeOptional.isPresent()) {
             Xml.Attribute actionsAttribute = actionsAttributeOptional.get();
 
-            // Ensure tag content is not null
-            if (tag.getContent()==null){
-                return super.visitTag(tag, executionContext);
-            }
-            List<Content> content = new ArrayList<>(tag.getContent()); // To get rid of the wildcard type
+            List<Content> content = getContent(tag); // To get rid of the wildcard type
 
             // Determine the existing indentation level
             String parentIndent = tag.getPrefix();  // Prefix contains leading spaces & newlines
