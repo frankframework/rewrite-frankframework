@@ -16,7 +16,6 @@
 package org.frankrewrite.recipes;
 
 import org.junit.jupiter.api.Test;
-import org.openrewrite.test.RecipeSpec;
 import org.openrewrite.test.RewriteTest;
 
 import static org.openrewrite.xml.Assertions.xml;
