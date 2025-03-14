@@ -15,25 +15,25 @@
  */
 package org.frankrewrite.recipes;
 
-import org.frankrewrite.recipes.visitors.HandleReturnStringAttributeVisitor;
+import org.frankrewrite.recipes.visitors.IntroduceReplacerPipeForFixedResultPipeVisitor;
 import org.openrewrite.ExecutionContext;
 import org.openrewrite.Recipe;
 import org.openrewrite.xml.XmlIsoVisitor;
 
-public class HandleReturnStringAttributeRecipe extends Recipe {
+public class IntroduceReplacerPipeForFixedResultPipeRecipe extends Recipe {
 
     @Override
     public String getDisplayName() {
-        return "Introduce EchoPipe and update path strings";
+        return "Introduce ReplacerPipe and update path strings";
     }
 
     @Override
     public String getDescription() {
-        return "Replaces returnString attribute in FixedResultPipe with an EchoPipe and updates path references.";
+        return "Replaces replaceFrom/To attributes in FixedResultPipe with an ReplacerPipe and updates path references.";
     }
 
     @Override
     public XmlIsoVisitor<ExecutionContext> getVisitor() {
-        return new HandleReturnStringAttributeVisitor();
+        return new IntroduceReplacerPipeForFixedResultPipeVisitor() ;
     }
 }
