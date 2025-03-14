@@ -27,13 +27,17 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static org.openrewrite.xml.tree.Xml.Attribute;
+
 public class TagHandler {
     private TagHandler() {}
-    public static @NotNull Optional<Xml.Attribute> getAttributeFromTagByKeyAndValue(Xml.Tag tag, String attributeKey, String attributeValue) {
+
+    public static @NotNull Optional<Attribute> getAttributeFromTagByKeyAndValue(Xml.Tag tag, String attributeKey, String attributeValue) {
         return tag.getAttributes().stream()
                 .filter(attribute -> attribute.getKeyAsString().equalsIgnoreCase(attributeKey)&&attribute.getValueAsString().equalsIgnoreCase(attributeValue)).findFirst();
     }
-    public static @NotNull Optional<Xml.Attribute> getAttributeFromTagByKey(Xml.Tag tag, String attributeKey) {
+
+    public static @NotNull Optional<Attribute> getAttributeFromTagByKey(Xml.Tag tag, String attributeKey) {
         return tag.getAttributes().stream()
                 .filter(attribute -> attribute.getKeyAsString().equalsIgnoreCase(attributeKey)).findFirst();
     }
@@ -41,7 +45,8 @@ public class TagHandler {
     public static @NotNull Optional<String> getAttributeValueFromTagByKey(Xml.Tag tag, String attributeKey) {
         return getAttributeFromTagByKey(tag, attributeKey).flatMap(attr->Optional.ofNullable(attr.getValueAsString()));
     }
-    public static @NotNull Optional<Xml.Attribute> getAttributeFromTagByValue(Xml.Tag tag, String attributeValue) {
+
+    public static @NotNull Optional<Attribute> getAttributeFromTagByValue(Xml.Tag tag, String attributeValue) {
         return tag.getAttributes().stream()
                 .filter(attribute -> attribute.getValueAsString().equalsIgnoreCase(attributeValue)).findFirst();
     }
@@ -60,22 +65,27 @@ public class TagHandler {
                 .orElse(false);
     }
 
-    public static @NotNull Optional<Xml.Attribute> getFilteredAttributeOptional(Xml.Tag tag, Function<Xml.Attribute, Boolean> funFilter) {
+    public static @NotNull Optional<Attribute> getFilteredAttributeOptional(Xml.Tag tag, Function<Attribute, Boolean> funFilter) {
         return tag.getAttributes().stream().filter(funFilter::apply).findFirst();
     }
-    public static @NotNull boolean hasAnyFilteredAttribute(Xml.Tag tag, Function<Xml.Attribute, Boolean> funFilter) {
+
+    public static boolean hasAnyFilteredAttribute(Xml.Tag tag, Function<Attribute, Boolean> funFilter) {
         return tag.getAttributes().stream().anyMatch(funFilter::apply);
     }
-    public static @NotNull boolean hasAnyAttributeWithKey(Xml.Tag tag, String attributeValue) {
+
+    public static boolean hasAnyAttributeWithKey(Xml.Tag tag, String attributeValue) {
         return tag.getAttributes().stream().anyMatch(attribute -> attribute.getKeyAsString().equalsIgnoreCase(attributeValue));
     }
-    public static @NotNull boolean hasAnyAttributeWithValue(Xml.Tag tag, String attributeValue) {
+
+    public static boolean hasAnyAttributeWithValue(Xml.Tag tag, String attributeValue) {
         return tag.getAttributes().stream().anyMatch(attribute -> attribute.getValueAsString().equalsIgnoreCase(attributeValue));
     }
-    public static @NotNull boolean hasAnyAttributeWithKeyValue(Xml.Tag tag, String attributeKey, String attributeValue) {
+
+    public static boolean hasAnyAttributeWithKeyValue(Xml.Tag tag, String attributeKey, String attributeValue) {
         return tag.getAttributes().stream().anyMatch(attribute -> attribute.getValueAsString().equalsIgnoreCase(attributeValue)&&attribute.getKeyAsString().equalsIgnoreCase(attributeKey));
     }
-    public static @NotNull boolean hasAnyAttributeWithValue(Xml.Tag tag, Optional<String> attributeValue) {
+
+    public static boolean hasAnyAttributeWithValue(Xml.Tag tag, Optional<String> attributeValue) {
         return attributeValue.filter(s -> tag.getAttributes().stream().anyMatch(attribute -> attribute.getValueAsString().equalsIgnoreCase(s))).isPresent();
     }
 
@@ -92,10 +102,10 @@ public class TagHandler {
     }
 
     public static Xml.Tag getTagWithNewAttributeValueByAttributeName(Xml.Tag tag, String newValue, String attributeName) {
-        List<Xml.Attribute> attributes = tag.getAttributes();
-        Optional<Xml.Attribute> attributeOptional = attributes.stream().filter(attribute -> attribute.getKeyAsString().equalsIgnoreCase(attributeName)).findFirst();
+        List<Attribute> attributes = tag.getAttributes();
+        Optional<Attribute> attributeOptional = attributes.stream().filter(attribute -> attribute.getKeyAsString().equalsIgnoreCase(attributeName)).findFirst();
         if (attributeOptional.isPresent()) {
-            Xml.Attribute foundAttribute = attributeOptional.get();
+            Attribute foundAttribute = attributeOptional.get();
             foundAttribute = foundAttribute.withValue(foundAttribute.getValue().withValue(newValue));
             attributes = attributes.stream().filter(attribute-> !attribute.getKeyAsString().equalsIgnoreCase(attributeName)).collect(Collectors.toList());
             attributes.add(foundAttribute);
@@ -114,8 +124,9 @@ public class TagHandler {
         );
         return updatedTag;
     }
-    public static Xml.Tag getTagWithUpdatedAttributeValue(Xml.Tag updatedTag, Xml.Attribute attribute, String attributeValue) {
-        List<Xml.Attribute> attributeList = new ArrayList<>(updatedTag.getAttributes().stream().filter(attr -> attr!=attribute).toList());
+
+    public static Xml.Tag getTagWithUpdatedAttributeValue(Xml.Tag updatedTag, Attribute attribute, String attributeValue) {
+        List<Attribute> attributeList = new ArrayList<>(updatedTag.getAttributes().stream().filter(attr -> attr != attribute).toList());
         attributeList.add(attribute.withValue(attribute.getValue().withValue(attributeValue)));
         return updatedTag.withAttributes(attributeList);
     }

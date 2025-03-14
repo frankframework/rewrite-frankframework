@@ -17,8 +17,6 @@ package org.frankrewrite.recipes.visitors;
 
 import org.frankrewrite.recipes.util.TagHandler;
 import org.jetbrains.annotations.NotNull;
-import org.openrewrite.ExecutionContext;
-import org.openrewrite.xml.XmlIsoVisitor;
 import org.openrewrite.xml.tree.Content;
 import org.openrewrite.xml.tree.Xml;
 
@@ -51,10 +49,9 @@ public class IntroduceReplacerPipeForFixedResultPipeVisitor extends AbstractPipe
                 //Remove replaceFrom/-To attributes and update the success forward path value
                 child = TagHandler.getTagWithoutAttribute(child,"replaceFrom");
                 child = TagHandler.getTagWithoutAttribute(child,"replaceTo");
-                List<Content> childContent = updateForwardPathAttributeValueWithNewReplacerPipeName(child, pipeName);
+                List<Content> childContent = updateForwardPathAttributeWithNewPipeName(child, pipeName);
 
-                String pathValue =getContent(child).stream()
-                        .filter(grandchild -> grandchild instanceof Xml.Tag t && t.getName().equalsIgnoreCase("forward")).map(t->TagHandler.getAttributeValueFromTagByKey((Xml.Tag)t,"path")).findFirst().get().orElse("");
+                String pathValue = getForwardPathValue(child, "success");
 
                 // Update forward path
                 child = child.withContent(
@@ -80,22 +77,6 @@ public class IntroduceReplacerPipeForFixedResultPipeVisitor extends AbstractPipe
                         "<forward name=\"success\" path=\"" + pathValue + "\"/>" +
                         "</ReplacerPipe>"
         );
-    }
-
-    private static @NotNull List<Content> updateForwardPathAttributeValueWithNewReplacerPipeName(Xml.Tag child, String pipeName) {
-        List<Content> childContent = getContent(child).stream()
-                .map(grandchild -> {
-                    if (grandchild instanceof Xml.Tag t && t.getName().equalsIgnoreCase("forward")) {
-                        return t.withAttributes(
-                                t.getAttributes().stream()
-                                        .map(attr -> attr.getKeyAsString().equals("path") ? attr.withValue(attr.getValue().withValue(pipeName)) : attr)
-                                        .toList()
-                        );
-                    }
-                    return grandchild;
-                })
-                .toList();
-        return childContent;
     }
 
     private static boolean shouldIntroduceReplacerPipeForChild(Xml.Tag child) {

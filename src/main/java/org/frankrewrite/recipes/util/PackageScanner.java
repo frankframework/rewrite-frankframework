@@ -27,15 +27,15 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class PackageScanner {
-    private static PackageScanner INSTANCE;
+    private static PackageScanner instance;
     private Set<Class<?>> classes;
     private Class<? extends Annotation> configurationWarningClass;
 
     public static PackageScanner getInstance() {
-        if (INSTANCE == null){
-            INSTANCE = new PackageScanner();
+        if (instance == null) {
+            instance = new PackageScanner();
         }
-        return INSTANCE;
+        return instance;
     }
 
     public Class<? extends Annotation> getConfigurationWarningClass() {
