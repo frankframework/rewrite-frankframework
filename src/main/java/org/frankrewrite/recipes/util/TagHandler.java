@@ -23,7 +23,7 @@ import org.openrewrite.xml.tree.Xml;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -65,12 +65,12 @@ public class TagHandler {
                 .orElse(false);
     }
 
-    public static @NotNull Optional<Attribute> getFilteredAttributeOptional(Xml.Tag tag, Function<Attribute, Boolean> funFilter) {
-        return tag.getAttributes().stream().filter(funFilter::apply).findFirst();
+    public static @NotNull Optional<Attribute> getFilteredAttributeOptional(Xml.Tag tag, Predicate<Attribute> funFilter) {
+        return tag.getAttributes().stream().filter(funFilter).findFirst();
     }
 
-    public static boolean hasAnyFilteredAttribute(Xml.Tag tag, Function<Attribute, Boolean> funFilter) {
-        return tag.getAttributes().stream().anyMatch(funFilter::apply);
+    public static boolean hasAnyFilteredAttribute(Xml.Tag tag, Predicate<Attribute> funFilter) {
+        return tag.getAttributes().stream().anyMatch(funFilter);
     }
 
     public static boolean hasAnyAttributeWithKey(Xml.Tag tag, String attributeValue) {
