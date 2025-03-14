@@ -93,7 +93,7 @@ public class AnnotationExtractor {
 
     public static @NotNull Class<?> extractNewClassFromConfigurationWarning(String warning,
                                                                             Map<String, Class<?>> classLookup,
-                                                                            Class<?> deprecatedClass) throws Exception {
+                                                                            Class<?> deprecatedClass) throws ClassNotFoundException {
         // Split the warning message into individual words
         String[] segments = warning.split(" ");
 

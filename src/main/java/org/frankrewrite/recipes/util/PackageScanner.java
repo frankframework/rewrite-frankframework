@@ -48,28 +48,33 @@ public class PackageScanner {
         try {
             p.load(is);
             String dependency = p.getProperty("package");
-            try {
-                configurationWarningClass = (Class<? extends Annotation>) (dependency.equals("nl.nn.adapterframework")?Class.forName("nl.nn.adapterframework.configuration.ConfigurationWarning"):Class.forName("org.frankframework.configuration.ConfigurationWarning"));
-            } catch (ClassNotFoundException e) {
-                Logger.getInstance().log("Could not find configuration warning class");
-            }
+            resolveConfigurationWarningClass(dependency);
+
             Reflections reflections = new Reflections(new ConfigurationBuilder()
-                    .addScanners(Scanners.SubTypes.filterResultsBy(s->true)/*Override the default behavior which exclude Object class*/)
+                    .addScanners(Scanners.SubTypes.filterResultsBy(s -> true)) // Override the default behavior which excludes Object class
                     .forPackages(dependency));
 
             List<String> packages = Arrays.asList("pipes", "receivers", "parameters", "senders", "processors", "util", "jdbc", "http", "compression", "errormessageformatters", "ftp", "scheduler");
             classes = reflections.getSubTypesOf(Object.class);
-            packages.forEach(pack -> classes.addAll(Stream.of(dependency+ "." + pack)
+            packages.forEach(pack -> classes.addAll(Stream.of(dependency + "." + pack)
                     .flatMap(pkg -> {
                         List<Class<?>> pkgClasses = new ArrayList<>(getClassesIn(pkg));
-                        if (!pkgClasses.isEmpty()) {
-                            return pkgClasses.stream();
-                        }else return Stream.empty();
+                        return pkgClasses.isEmpty() ? Stream.empty() : pkgClasses.stream();
                     })
                     .toList()));
             this.classes = new HashSet<>(classes);
-        }catch (IOException e){
+        } catch (IOException e) {
             Logger.getInstance().log("Could not load properties file in target/classes");
+        }
+    }
+
+    private void resolveConfigurationWarningClass(String dependency) {
+        try {
+            this.configurationWarningClass = (Class<? extends Annotation>) (dependency.equals("nl.nn.adapterframework")
+                    ? Class.forName("nl.nn.adapterframework.configuration.ConfigurationWarning")
+                    : Class.forName("org.frankframework.configuration.ConfigurationWarning"));
+        } catch (ClassNotFoundException e) {
+            Logger.getInstance().log("Could not find configuration warning class");
         }
     }
 
