@@ -117,9 +117,6 @@ public class ChangeDependencyRecipe extends Recipe {
                         }
                     }
                 }
-
-
-
                 return super.visitTag(tag, executionContext);
             }
         };
