@@ -65,6 +65,7 @@ public class RemoveInvalidChildrenRecipe extends Recipe {
             }
 
             private List<Content> filterValidContent(Xml.Tag tag, List<? extends Content>... invalidLists) {
+                if (tag.getContent()==null) return Collections.emptyList();
                 return tag.getContent().stream()
                         .filter(it -> !isInvalidContent(it, invalidLists))
                         .collect(Collectors.toList());

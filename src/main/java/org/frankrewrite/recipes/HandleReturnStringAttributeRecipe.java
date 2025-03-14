@@ -47,6 +47,8 @@ public class HandleReturnStringAttributeRecipe extends Recipe {
             public Xml.Tag visitTag(Xml.Tag tag, ExecutionContext ctx) {
                 if (tag.getName().equalsIgnoreCase("pipeline")) {
                     AtomicBoolean changed = new AtomicBoolean(false);
+                    if (tag.getContent()==null)
+                        return super.visitTag(tag, ctx);
                     List<Content> updatedChildren = tag.getContent().stream().map(content -> {
                         if (content instanceof Xml.Tag child) {
                             if (child.getName().equals("FixedResultPipe") && TagHandler.hasAnyAttributeWithKey(child, "returnString")) {
@@ -56,7 +58,7 @@ public class HandleReturnStringAttributeRecipe extends Recipe {
                                 // Remove returnString attribute
                                 child = child.withAttributes(
                                         child.getAttributes().stream()
-                                                .filter(attr -> !attr.getKey().equals("returnString"))
+                                                .filter(attr -> !attr.getKeyAsString().equals("returnString"))
                                                 .collect(Collectors.toList())
                                 );
 

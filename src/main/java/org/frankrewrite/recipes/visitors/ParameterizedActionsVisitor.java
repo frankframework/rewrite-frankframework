@@ -37,7 +37,10 @@ public class ParameterizedActionsVisitor extends XmlIsoVisitor<ExecutionContext>
             Xml.Attribute actionsAttribute = actionsAttributeOptional.get();
 
             // Ensure tag content is not null
-            List<Content> content = new ArrayList<>(Optional.ofNullable(tag.getContent()).orElse(new ArrayList<>()));
+            if (tag.getContent()==null){
+                return super.visitTag(tag, executionContext);
+            }
+            List<Content> content = new ArrayList<>(tag.getContent()); // To get rid of the wildcard type
 
             // Determine the existing indentation level
             String parentIndent = tag.getPrefix();  // Prefix contains leading spaces & newlines

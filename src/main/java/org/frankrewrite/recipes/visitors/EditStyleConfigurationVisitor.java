@@ -30,18 +30,21 @@ import java.util.stream.Collectors;
 public class EditStyleConfigurationVisitor extends XmlIsoVisitor<ExecutionContext> {
     @Override
     public Xml.Tag visitTag(Xml.Tag tag, ExecutionContext ctx) {
+        Optional<Xml.Attribute> classNameAttribute = TagHandler.getAttributeFromTagByKey(tag, "className");
+
         //Handle exceptional cases, these produce warnings when refactored
         if (tag.getName().equalsIgnoreCase("errorStorage")||
                 tag.getName().equalsIgnoreCase("messageLog")){
             super.visitTag(tag, ctx);
         }
         //Check if className Attribute exists in tag
-        else if (tag.getAttributes().stream().anyMatch(attribute -> attribute.getKeyAsString().equals("className"))) {
-            Optional<Xml.Attribute> classNameAttribute = TagHandler.getAttributeFromTagByKey(tag, "className");
+        else if (classNameAttribute.isPresent()) {
             //Already sure that className Attribute exists, ignore warning
             String classSimpleName = classNameAttribute.get().getValue().getValue().substring(classNameAttribute.get().getValue().getValue().lastIndexOf(".")+1);
             if (!isCustomElement(classSimpleName)){
                 // Get the result tag and use getElementName to prevent bad element name casing
+                if(getElementName(classSimpleName)==null)
+                    return super.visitTag(tag, ctx);
                 Xml.Tag updatedTag = getTagWithClassNameValueAsTagName(tag, getElementName(classSimpleName));
                 if (updatedTag != null) {
                     return updatedTag;
@@ -67,8 +70,10 @@ public class EditStyleConfigurationVisitor extends XmlIsoVisitor<ExecutionContex
 
     private Xml.@Nullable Tag getTagWithClassNameValueAsTagName(Xml.@NotNull Tag tag, String classSimpleName) {
         Optional<Xml.Attribute> classNameAttribute = TagHandler.getAttributeFromTagByKey(tag, "className");
+        if (classNameAttribute.isEmpty()) {
+            return null; //If classNameAttribute doesn't exist in tag
+        }
         //Get the className Xml.Attribute from the tag
-        //ClassNameAttribute optional is for sure not empty, ignore warning
         String className = classNameAttribute.get().getValue().getValue();
         @NotNull String[] subPackage = className.split("\\.");
 

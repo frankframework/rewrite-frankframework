@@ -47,7 +47,7 @@ public class IntroduceBase64PipeForAttributeRecipe extends Recipe {
         return new XmlIsoVisitor<>() {
             @Override
             public Xml.Tag visitTag(Xml.Tag tag, ExecutionContext ctx) {
-                if (tag.getName().equalsIgnoreCase("pipeline")) {
+                if (tag.getName().equalsIgnoreCase("pipeline") && tag.getContent()!=null) {
                     AtomicBoolean changed = new AtomicBoolean(false);
                     List<Content> updatedChildren = tag.getContent().stream().map(content -> {
                         if (content instanceof Xml.Tag child) {
@@ -116,6 +116,8 @@ public class IntroduceBase64PipeForAttributeRecipe extends Recipe {
             }
 
             private static @NotNull String getForwardPathValue(Xml.Tag child, String nameValue) {
+                if (child.getContent()==null)
+                    return "";
                 return child.getContent().stream()
                         .filter(grandchild -> grandchild instanceof Xml.Tag t
                                 && t.getName().equalsIgnoreCase("forward")
