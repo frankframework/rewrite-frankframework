@@ -46,8 +46,8 @@ public class EditStyleConfigurationVisitor extends XmlIsoVisitor<ExecutionContex
                 String elementName = getElementName(classSimpleName);
                 // Get the result tag and use getElementName to prevent bad element name casing
                 if(elementName==null)
-                    return super.visitTag(tag, ctx);
-                Xml.Tag updatedTag = getTagWithClassNameValueAsTagName(tag, elementName);
+                    return super.visitTag(tag, ctx); //Should be unreachable because we checked if it exists with !isCustomElement(...)
+                Xml.Tag updatedTag = getTagWithClassNameValueAsTagName(tag, elementName, classNameAttribute.get());
                 if (updatedTag != null) {
                     return updatedTag;
                 }
@@ -70,13 +70,9 @@ public class EditStyleConfigurationVisitor extends XmlIsoVisitor<ExecutionContex
         return super.visitTag(tag, ctx);
     }
 
-    private Xml.@Nullable Tag getTagWithClassNameValueAsTagName(Xml.@NotNull Tag tag, String classSimpleName) {
-        Optional<Xml.Attribute> classNameAttribute = TagHandler.getAttributeFromTagByKey(tag, "className");
-        if (classNameAttribute.isEmpty()) {
-            return null; //If classNameAttribute doesn't exist in tag
-        }
+    private Xml.@Nullable Tag getTagWithClassNameValueAsTagName(Xml.@NotNull Tag tag, String classSimpleName, Xml.Attribute classNameAttribute) {
         //Get the className Xml.Attribute from the tag
-        String className = classNameAttribute.get().getValue().getValue();
+        String className = classNameAttribute.getValue().getValue();
         @NotNull String[] subPackage = className.split("\\.");
 
         if (className.startsWith("org.frankframework.")

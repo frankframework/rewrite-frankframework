@@ -50,7 +50,9 @@ public class RemoveRecurringExitsRecipeTest implements RewriteTest {
           xml("""
             <root>
                 <adapter name='adapter1'>
+                asdf
                     <pipeline>
+                    asdf
                         <exits>
                             <exit code="403" path="exit1"/>
                             <exit path="exit2" code="403"/>
@@ -75,16 +77,19 @@ public class RemoveRecurringExitsRecipeTest implements RewriteTest {
                             <forward name="success" path="exit2" />
                         </FixedResultPipe>
                     </pipeline>
+                    <random/>
                 </adapter>
             </root>
             """,
             """
             <root>
                 <adapter name='adapter1'>
-                    <pipeline>
-                        <exits>
+                asdf
+                    <pipeline><exits>
                             <exit code="403" path="exit1"/>
                         </exits>
+                    asdf
+                       \s
                         <FixedResultPipe
                             name="NotActivatedAccount"
                         >
@@ -104,6 +109,7 @@ public class RemoveRecurringExitsRecipeTest implements RewriteTest {
                             <forward name="success" path="exit2" />
                         </FixedResultPipe>
                     </pipeline>
+                    <random/>
                 </adapter>
             </root>
             """)
@@ -142,38 +148,36 @@ public class RemoveRecurringExitsRecipeTest implements RewriteTest {
             """)
         );
     }
-    //TODO: implement feature (not very likely this occurs often)
-//    @Test
-//    public void testMultipleRecurringExitsAreRemoved() {
-//        //language=xml
-//        rewriteRun(recipeSpec -> recipeSpec.recipe(new RemoveRecurringExitsRecipe()),
-//          xml("""
-//        <root>
-//            <adapter name='adapter1'>
-//                <pipeline>
-//                    <exits>
-//                        <exit code="403" path="exit1"/>
-//                        <exit code="403" path="exit1"/>
-//                        <exit code="403" path="exit2"/>
-//                    </exits>
-//                </pipeline>
-//            </adapter>
-//        </root>
-//        """,
-//        """
-//        <root>
-//            <adapter name='adapter1'>
-//                <pipeline>
-//                    <exits>
-//                        <exit code="403" path="exit1"/>
-//                        <exit code="403" path="exit2"/>
-//                    </exits>
-//                </pipeline>
-//            </adapter>
-//        </root>
-//        """)
-//        );
-//    }
+    @Test
+    public void testMultipleRecurringExitsAreRemoved() {
+        //language=xml
+        rewriteRun(recipeSpec -> recipeSpec.recipe(new RemoveRecurringExitsRecipe()),
+          xml("""
+        <root>
+            <adapter name='adapter1'>
+                <pipeline>
+                    <exits>
+                        <exit code="403" path="exit1"/>
+                        <exit code="403" path="exit2"/>
+                        <exit code="403" path="exit3"/>
+                    </exits>
+                </pipeline>
+            </adapter>
+        </root>
+        """,
+        """
+        <root>
+            <adapter name='adapter1'>
+                <pipeline>
+                    <exits>
+                        <exit code="403" path="exit1"/>
+                    </exits>
+                </pipeline>
+            </adapter>
+        </root>
+        """)
+        );
+    }
 
     @Test
     public void testNoChangeWhenNoRecurringExits() {
@@ -302,7 +306,7 @@ public class RemoveRecurringExitsRecipeTest implements RewriteTest {
                 <pipeline>
                     <exits>
                         <exit path="exit1"/>
-                        <exit code="403" path="exit2"/>
+                        <exit path="exit2" code="403"/>
                     </exits>
                 </pipeline>
             </adapter>

@@ -214,7 +214,7 @@ public class ChangeDependencyRecipeTest implements RewriteTest {
           );
     }
     @Test
-    void dontChangeDependenciesIfArtifactIdValueIsNull() {
+    void dontChangeDependenciesIfArtifactIdValueIsEmpty() {
         String oldGroupId = "com.old";
         String oldArtifactId = "old-artifact";
         String newGroupId = "com.new";
@@ -236,6 +236,37 @@ public class ChangeDependencyRecipeTest implements RewriteTest {
                     <dependency>
                         <groupId>com.old</groupId>
                         <artifactId></artifactId>
+                        <version>1.0.0</version>
+                    </dependency>
+                </dependencies>
+            </project>
+            """
+          )
+        );
+    }
+    @Test
+    void dontChangeDependenciesIfArtifactIdValueIsNull() {
+        String oldGroupId = "com.old";
+        String oldArtifactId = "old-artifact";
+        String newGroupId = "com.new";
+        String newArtifactId = "new-artifact";
+        String newVersion = "2.0.0";
+
+        rewriteRun(
+          recipeSpec -> recipeSpec.recipe(new ChangeDependencyRecipe(oldGroupId, oldArtifactId, newGroupId, newArtifactId, newVersion)),
+
+          xml(
+            """
+            <project>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.old</groupId>
+                        <artifactId/>
+                        <version>1.0.0</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>com.old</groupId>
+                        <artifactId/>
                         <version>1.0.0</version>
                     </dependency>
                 </dependencies>

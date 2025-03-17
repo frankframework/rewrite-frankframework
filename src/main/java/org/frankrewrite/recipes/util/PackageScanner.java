@@ -42,7 +42,7 @@ public class PackageScanner {
         return configurationWarningClass;
     }
 
-    public PackageScanner() {
+    private PackageScanner() {
         java.io.InputStream is = this.getClass().getClassLoader().getResourceAsStream("properties-from-pom.properties");
         java.util.Properties p = new Properties();
         try {

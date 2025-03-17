@@ -152,4 +152,14 @@ public class EditStyleConfigurationRecipeTest implements RewriteTest {
           )
         );
     }
+    @Test
+    void doesNotChangeTagWithClassNameWithBadCasing() {
+        rewriteRun(
+          xml(
+            """
+            <pipe className="nl.nn.adapterframework.pipes.mypipe"/>
+            """
+          )
+        );
+    }
 }

@@ -44,8 +44,8 @@ public class RemoveRecurringExitsVisitor extends XmlIsoVisitor<ExecutionContext>
         int exitCount = countExits(tag);
         Optional<Content> exitsOptional = findExitsTag(tag);
 
-        if (exitsOptional.isPresent()
-                &&!exitsForTag.isEmpty()) {
+        if (exitsOptional.isPresent()//adapter has exits tag
+                &&!exitsForTag.isEmpty()) {//exits tag contains exit elements
             List<Content> updatedContent = updateRecurringExits(tag, exitsForTag, document, exitsOptional.get());
             if (exitCount != countExits(tag.withContent(updatedContent))) {
                 return tag.withContent(updatedContent);
@@ -149,7 +149,7 @@ public class RemoveRecurringExitsVisitor extends XmlIsoVisitor<ExecutionContext>
     }
 
     private void updateListForAttributeWithNewValue(List<Xml.Attribute> updatedAttributes, Xml.Attribute oldPathAttr, String newValue) {
-        if (newValue != null&&oldPathAttr!=null) {
+        if (newValue != null) {
             updatedAttributes.removeIf(attr -> attr.getKeyAsString().equalsIgnoreCase(oldPathAttr.getKeyAsString()));
             updatedAttributes.add(oldPathAttr.withValue(oldPathAttr.getValue().withValue(newValue)));
         }
