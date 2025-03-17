@@ -17,17 +17,11 @@ package org.frankrewrite.recipes.util;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.Spy;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.lang.annotation.Annotation;
-import java.util.Properties;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 class PackageScannerTest {
     private PackageScanner packageScanner;
