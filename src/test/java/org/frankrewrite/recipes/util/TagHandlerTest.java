@@ -278,4 +278,32 @@ class TagHandlerTest {
         assertEquals(Optional.empty(), TagHandler.getAttributeFromTagByValue(tag, "nonMatchingValue"));
     }
 
+    @Test
+    void testGetContentWithNonTagReturnsEmptyList() {
+        Xml.Comment comment = mock(Xml.Comment.class);
+        assertTrue(TagHandler.getContent(comment).isEmpty());
+    }
+
+    @Test
+    void testGetTagWithUpdatedAttributeValue() {
+        // Arrange: Create an XML tag with an attribute
+        Xml.Tag originalTag = Xml.Tag.build("<myTag key=\"oldValue\" anotherKey=\"value\"/>");
+
+        // Get the specific attribute that needs to be updated
+        Optional<Xml.Attribute> optionalAttribute = originalTag.getAttributes().stream()
+          .filter(attr -> attr.getKeyAsString().equals("key"))
+          .findFirst();
+
+        assertTrue(optionalAttribute.isPresent()); // Ensure the attribute exists
+        Xml.Attribute attribute = optionalAttribute.get();
+
+        // Act: Update the attribute's value
+        Xml.Tag updatedTag = TagHandler.getTagWithUpdatedAttributeValue(originalTag, attribute, "newValue");
+
+        // Assert: Verify the attribute is updated while others remain unchanged
+        assertNotNull(updatedTag);
+        assertTrue(TagHandler.hasAnyAttributeWithKeyValue(updatedTag, "key", "newValue"));
+        assertTrue(TagHandler.hasAnyAttributeWithKeyValue(updatedTag, "anotherKey", "value"));
+    }
+
 }

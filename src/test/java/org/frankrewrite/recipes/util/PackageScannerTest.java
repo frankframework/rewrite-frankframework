@@ -17,13 +17,13 @@ package org.frankrewrite.recipes.util;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import java.lang.annotation.Annotation;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class PackageScannerTest {
-
     private PackageScanner packageScanner;
 
     @BeforeEach

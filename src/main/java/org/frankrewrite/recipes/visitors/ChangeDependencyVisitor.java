@@ -27,11 +27,11 @@ import java.util.Optional;
 import static org.frankrewrite.recipes.util.TagHandler.getContent;
 
 public class ChangeDependencyVisitor extends XmlIsoVisitor<ExecutionContext> {
-    private String oldGroupId;
-    private String oldArtifactId;
-    private String newGroupId;
-    private String newArtifactId;
-    private String version;
+    private final String oldGroupId;
+    private final String oldArtifactId;
+    private final String newGroupId;
+    private final String newArtifactId;
+    private final String version;
 
     public ChangeDependencyVisitor(String oldGroupId, String oldArtifactId, String newGroupId, String newArtifactId, String version) {
         this.oldGroupId = oldGroupId;
@@ -59,8 +59,9 @@ public class ChangeDependencyVisitor extends XmlIsoVisitor<ExecutionContext> {
                 Optional<Xml.Tag> artifactId = content.stream().filter(c ->
                         c instanceof Xml.Tag t
                                 && t.getName().equals("artifactId")//Filter the artifactId tag
-                                && t.getValue().map(
-                                v -> v.equals(oldArtifactId)).orElse(false)).map(Xml.Tag.class::cast).findFirst();
+                                && t.getValue().map(v -> v.equals(oldArtifactId))
+                                .orElse(false)
+                        ).map(Xml.Tag.class::cast).findFirst();
                 if (artifactId.isPresent()) {
                     //We've established tag is the target dependency tag
                     //Now we should replace the content tag values according to the parameters
