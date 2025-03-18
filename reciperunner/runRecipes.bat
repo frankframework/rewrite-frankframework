@@ -13,6 +13,10 @@ set "TARGET_DIR=%~dp1"
 
 REM Store target maven profile from argument
 set "TARGET_PROFILE=%2"
+set "SOURCE_VERSION=%3"
+
+REM Define the valid version list
+set "VALID_VERSIONS=7_3 7_4 7_5 7_6 7_8 7_9 8_0 8_1 8_2 8_3 9_0"
 
 REM Ensure the target directory exists
 if not exist "%TARGET_DIR%" (
@@ -42,12 +46,66 @@ if errorlevel 1 (
 )
 
 REM Run the Maven rewrite:run command
-echo Running rewrite:run with profile... 
+echo Running rewrite:run with profile...
 if "%TARGET_PROFILE%"=="" (
+    REM No target arg found, running default profile
     call mvn rewrite:run -f rewritepom.xml -Dmaven.test.skip=true -Dmaven.main.skip=true
-) else (
+) else if "%SOURCE_VERSION%"=="" (
+    REM No source arg found, but found target profile
     call mvn rewrite:run -f rewritepom.xml -Dmaven.test.skip=true -Dmaven.main.skip=true -P%TARGET_PROFILE%
+) else (
+    REM Both the target and source arg found
+    setlocal enabledelayedexpansion
+
+    set SHOULD_DO=false
+    echo Trying to run recipes in range: %SOURCE_VERSION% to %TARGET_PROFILE%
+
+    set SOURCE_FOUND=false
+    set TARGET_FOUND=false
+
+    REM Check if args are referring to valid profiles
+    for %%V in (%VALID_VERSIONS%) do (
+        if "%%V"=="%TARGET_PROFILE%" (
+            set TARGET_FOUND=true
+        )
+        if "%%V"=="%SOURCE_VERSION%" (
+            set SOURCE_FOUND=true
+        )
+    )
+
+    REM Exit on invalid args with debug message
+    if !TARGET_FOUND!==false (
+        echo Target, %TARGET_PROFILE%, not found or reached, either target profile doesn't exists in rewritepom.xml or in version range: %VALID_VERSIONS%
+        exit /b 1
+    )
+    if !SOURCE_FOUND!==false (
+        echo Source version, %SOURCE_VERSION%, not supported, make sure the source version is in version range: %VALID_VERSIONS%
+        exit /b 1
+    )
+
+
+    REM Run recipes for specified profile range
+    for %%V in (%VALID_VERSIONS%) do (
+        if !SHOULD_DO!==false (
+            echo Comparing: "%%V" with "%SOURCE_VERSION%"
+            if /i "%%V"=="%SOURCE_VERSION%" (
+                echo Found matching source version: %%V
+                set SHOULD_DO=true
+            )
+        )
+
+        if !SHOULD_DO!==true (
+            echo Running recipes from profile: %%V
+            call mvn rewrite:run -f rewritepom.xml -Dmaven.test.skip=true -Dmaven.main.skip=true -P%%V
+        )
+
+        if "%%V"=="%TARGET_PROFILE%" (
+            echo Reached target version: %%V. Stopping.
+            set SHOULD_DO=false
+        )
+    )
 )
+
 if errorlevel 1 (
     echo Error: Maven command failed. Does build profile %TARGET_PROFILE% exist?
 )
