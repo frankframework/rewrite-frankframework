@@ -29,7 +29,7 @@ Optionally you can provide your current Frank!Framework version if you want to r
 
 ```.\runRecipes.bat [relative path your project] [target Frank!Framework version] [current Frank!Framework version]```
 
-An example for migrating from 7.4.x to 9.0.x could be:
+An example for migrating from 7.3.x to 9.0.x could be:
 
 ```.\runRecipes.bat ..\..\myproject\ 9_0 7_3```
 
