@@ -14,6 +14,7 @@ The project uses OpenRewrite, a framework for programmatically transforming and 
 ## Getting started
 ### 1. Clone the repository
 ```git clone https://github.com/frankframework/rewrite-frankframework```
+
 ```cd rewrite-frankframework```
 ### 2. Build the project
 Build the project in this project using our install script using the terminal. This might take a while. 
