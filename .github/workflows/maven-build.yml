@@ -1,7 +1,7 @@
 name: rewrite-frankframework
 
 env:
-  PROFILES: default,codecoverage
+  PROFILES: codecoverage
 
 on:
   push:

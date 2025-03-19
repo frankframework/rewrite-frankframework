@@ -26,20 +26,39 @@
         <artifactName>frankrewrite</artifactName>
         <package>nl.nn.adapterframework</package>
         <artifactId>frankrewrite</artifactId>
-        <sonar.organization>frank-framework</sonar.organization>
-        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-        <sonar.binaries>target/classes</sonar.binaries>
-        <sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
     </properties>
 
     <profiles>
         <profile>
             <id>codecoverage</id>
+            <properties>
+                <sonar.organization>frank-framework</sonar.organization>
+                <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+                <sonar.binaries>target/classes</sonar.binaries>
+                <sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
+            </properties>
             <build>
                 <plugins>
                     <plugin>
                         <groupId>org.jacoco</groupId>
                         <artifactId>jacoco-maven-plugin</artifactId>
+                        <version>0.8.10</version>
+                        <executions>
+                            <execution>
+                                <id>prepare-jacoco</id>
+                                <phase>initialize</phase>
+                                <goals>
+                                    <goal>prepare-agent</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>generate-jacoco-report</id>
+                                <phase>test</phase>
+                                <goals>
+                                    <goal>report</goal>
+                                </goals>
+                            </execution>
+                        </executions>
                     </plugin>
                 </plugins>
             </build>
@@ -65,6 +84,106 @@
             <activation>
                 <activeByDefault>true</activeByDefault>  <!-- Set default profile -->
             </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>org.ibissource</groupId>
+                    <artifactId>ibis-adapterframework-akamai</artifactId>
+                    <version>${iaf.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.ibissource</groupId>
+                    <artifactId>ibis-adapterframework-larva</artifactId>
+                    <version>${iaf.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>javax.servlet</groupId>
+                    <artifactId>javax.servlet-api</artifactId>
+                    <version>3.1.0</version>
+                    <scope>provided</scope>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>7_4</id>
+            <properties>
+                <iaf.version>7.4</iaf.version>
+                <artifactId>${artifactName}-7_4</artifactId>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>org.ibissource</groupId>
+                    <artifactId>ibis-adapterframework-akamai</artifactId>
+                    <version>${iaf.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.ibissource</groupId>
+                    <artifactId>ibis-adapterframework-larva</artifactId>
+                    <version>${iaf.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>javax.servlet</groupId>
+                    <artifactId>javax.servlet-api</artifactId>
+                    <version>3.1.0</version>
+                    <scope>provided</scope>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>7_5</id>
+            <properties>
+                <iaf.version>7.5.2</iaf.version>
+                <artifactId>${artifactName}-7_5</artifactId>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>org.ibissource</groupId>
+                    <artifactId>ibis-adapterframework-akamai</artifactId>
+                    <version>${iaf.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.ibissource</groupId>
+                    <artifactId>ibis-adapterframework-larva</artifactId>
+                    <version>${iaf.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>javax.servlet</groupId>
+                    <artifactId>javax.servlet-api</artifactId>
+                    <version>3.1.0</version>
+                    <scope>provided</scope>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>7_6</id>
+            <properties>
+                <iaf.version>7.6.5</iaf.version>
+                <artifactId>${artifactName}-7_6</artifactId>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>org.ibissource</groupId>
+                    <artifactId>ibis-adapterframework-akamai</artifactId>
+                    <version>${iaf.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.ibissource</groupId>
+                    <artifactId>ibis-adapterframework-larva</artifactId>
+                    <version>${iaf.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>javax.servlet</groupId>
+                    <artifactId>javax.servlet-api</artifactId>
+                    <version>3.1.0</version>
+                    <scope>provided</scope>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>7_7</id>
+            <properties>
+                <iaf.version>7.7.7</iaf.version>
+                <artifactId>${artifactName}-7_7</artifactId>
+            </properties>
             <dependencies>
                 <dependency>
                     <groupId>org.ibissource</groupId>
@@ -314,13 +433,9 @@
         <!-- Frank!Framework dependencies -->
         <dependency>
             <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
+            <artifactId>slf4j-nop</artifactId>
             <version>2.0.9</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-slf4j-impl</artifactId>
-            <version>2.20.0</version>
+            <scope>runtime</scope>
         </dependency>
         <!-- Rewrite dependencies -->
         <dependency>
@@ -367,35 +482,14 @@
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <version>5.15.2</version>
+            <artifactId>mockito-inline</artifactId>
+            <version>5.0.0</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.10</version>
-                <executions>
-                    <execution>
-                        <id>prepare-jacoco</id>
-                        <phase>initialize</phase>
-                        <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>generate-jacoco-report</id>
-                        <phase>test</phase>
-                        <goals>
-                            <goal>report</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>properties-maven-plugin</artifactId>
