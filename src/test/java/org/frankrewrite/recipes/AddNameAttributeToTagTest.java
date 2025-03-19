@@ -42,7 +42,7 @@ public class AddNameAttributeToTagTest implements RewriteTest {
 
     @Test
     void addsNameAttributeToXmlValidatorPipe(){
-        rewriteRun(recipeSpec -> recipeSpec.cycles(1),
+        rewriteRun(
           xml(
             """
                 <module>

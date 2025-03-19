@@ -21,6 +21,7 @@ import org.openrewrite.*;
 import org.openrewrite.xml.XmlIsoVisitor;
 import org.openrewrite.xml.tree.Xml;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AddNameAttributeToTagRecipe extends Recipe {
@@ -56,7 +57,7 @@ public class AddNameAttributeToTagRecipe extends Recipe {
             public Xml.Tag visitTag(Xml.Tag tag, ExecutionContext executionContext) {
                 if (tag.getName().equals(tagName)&& !TagHandler.hasAnyAttributeWithKey(tag, "name")){
 
-                    List<Xml.Attribute> attributes = tag.getAttributes();
+                    List<Xml.Attribute> attributes = new ArrayList<>(tag.getAttributes());
                     Xml.Attribute attributeToAdd = Xml.Tag.build("<x name=\"my"+tag.getName()+(elementsWithName==0?"":elementsWithName+1)+"\"></x>").getAttributes().get(0);
                     attributes.add(attributeToAdd);
                     //avoid conflicting names
