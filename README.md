@@ -17,7 +17,7 @@ The project uses OpenRewrite, a framework for programmatically transforming and 
 
 ```cd rewrite-frankframework```
 ### 2. Build the project
-Build the project in this project using our install script using the terminal. This might take a while. 
+Run the install script using the commandline. This might take a while. 
 ```.\installRecipes.bat```
 
 The batch script installs the recipes using the provided Maven wrapper, so there's no need to have Maven installed locally.
