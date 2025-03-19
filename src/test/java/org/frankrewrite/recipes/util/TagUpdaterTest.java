@@ -22,7 +22,6 @@ import org.mockito.MockitoAnnotations;
 import org.openrewrite.xml.tree.Xml;
 
 import java.lang.reflect.Method;
-import java.util.Collections;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;

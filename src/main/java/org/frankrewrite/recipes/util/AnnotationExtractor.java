@@ -45,7 +45,7 @@ public class AnnotationExtractor {
             return matchedMethods.get(0);
         } else {
             Logger.getInstance().log(clazz.getSimpleName() + ": No updated method/attribute implementation found in warning: " + warning);
-            throw new Exception("No updated method/attribute implementation found in warning: " + warning);
+            throw new ClassNotFoundException("No updated method/attribute implementation found in warning: " + warning);
         }
     }
 
@@ -79,7 +79,7 @@ public class AnnotationExtractor {
             throw new IllegalStateException("The annotation does not have a 'value()' method.", e);
         }
         catch (IllegalAccessException | InvocationTargetException e) {
-            throw new RuntimeException("Failed to invoke 'value()' on the annotation.", e);
+            throw new IllegalStateException("Failed to invoke 'value()' on the annotation.", e);
         }
     }
 
