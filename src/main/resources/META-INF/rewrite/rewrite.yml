@@ -37,8 +37,6 @@ name: org.frankrewrite.7_4_to_7_5
 displayName: Recipe to migrate from 7.4.x to 7.5.2
 description: Migrates franks from 7.4.x to 7.5.2.
 recipeList:
-  - org.frankrewrite.recipes.EditStyleConfigurationRecipe
-  - org.frankrewrite.recipes.EditStyleConfigurationRecipe
   - org.frankrewrite.recipes.AddNameAttributeToTagRecipe:
       tagName: "XmlValidatorPipe"
   - org.frankrewrite.recipes.ReplaceTagNameRecipe:

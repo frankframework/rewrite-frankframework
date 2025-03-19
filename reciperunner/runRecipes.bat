@@ -86,22 +86,25 @@ if "%TARGET_PROFILE%"=="" (
 
     REM Run recipes for specified profile range
     for %%V in (%VALID_VERSIONS%) do (
+        if !SHOULD_DO!==true (
+            echo Running recipes from profile: %%V
+            call mvn rewrite:run -f rewritepom.xml -Dmaven.test.skip=true -Dmaven.main.skip=true -P%%V
+        )
+
+        REM When target profile is reached stop executing the rewrite plugin
+        if "%%V"=="%TARGET_PROFILE%" (
+            echo Reached target version: %%V. Stopping.
+            set SHOULD_DO=false
+        )
+
+        REM When source version is reached start executing the rewrite plugin
+        REM At the end of the for loop to prevent the previous profile from executing
         if !SHOULD_DO!==false (
             echo Comparing: "%%V" with "%SOURCE_VERSION%"
             if /i "%%V"=="%SOURCE_VERSION%" (
                 echo Found matching source version: %%V
                 set SHOULD_DO=true
             )
-        )
-
-        if !SHOULD_DO!==true (
-            echo Running recipes from profile: %%V
-            call mvn rewrite:run -f rewritepom.xml -Dmaven.test.skip=true -Dmaven.main.skip=true -P%%V
-        )
-
-        if "%%V"=="%TARGET_PROFILE%" (
-            echo Reached target version: %%V. Stopping.
-            set SHOULD_DO=false
         )
     )
 )
