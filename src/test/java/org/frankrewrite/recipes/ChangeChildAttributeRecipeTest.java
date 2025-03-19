@@ -3,7 +3,6 @@ package org.frankrewrite.recipes;
 import org.junit.jupiter.api.Test;
 import org.openrewrite.test.RewriteTest;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.openrewrite.xml.Assertions.xml;
 
 class ChangeChildAttributeRecipeTest implements RewriteTest {

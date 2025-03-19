@@ -1,9 +1,7 @@
 package org.frankrewrite.recipes.visitors;
 
 import org.frankrewrite.recipes.util.TagHandler;
-import org.jetbrains.annotations.NotNull;
 import org.openrewrite.ExecutionContext;
-import org.openrewrite.Option;
 import org.openrewrite.xml.XmlIsoVisitor;
 import org.openrewrite.xml.tree.Content;
 import org.openrewrite.xml.tree.Xml;
@@ -40,8 +38,7 @@ public class RemoveEtagHandlerPipeVisitor extends XmlIsoVisitor<ExecutionContext
                     List<Xml.Attribute> attributes = apiHandler.get().getAttributes();
                     attribute.ifPresent(attributes::remove);
                     //language=xml
-                    attributes.add(Xml.Tag.build("""
-                            <x updateEtag='true'> </x>""").getAttributes().get(0));
+                    attributes.add(Xml.Tag.build("<x updateEtag='true'> </x>").getAttributes().get(0));
                     resultContent.set(resultContent.indexOf(apiHandler.get()), apiHandler.get().withAttributes(attributes));
                     return tag.withContent(resultContent);
                 }
@@ -66,10 +63,9 @@ public class RemoveEtagHandlerPipeVisitor extends XmlIsoVisitor<ExecutionContext
             if (tag.getContent()!=null) {
                 List<Content> updatedChildren = tag.getContent().stream()
                         .map(child -> updateForwardTagsRecursively(child, etagHandler, newPath))
-                        .collect(Collectors.toList());
+                        .toList();
                 return tag.withContent(updatedChildren);
             }
-
         }
         return content;
     }

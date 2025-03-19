@@ -15,17 +15,10 @@
  */
 package org.frankrewrite.recipes;
 
-import org.frankrewrite.recipes.visitors.ExitScanningVisitor;
 import org.junit.jupiter.api.Test;
-import org.mockito.MockitoAnnotations;
 import org.openrewrite.test.RecipeSpec;
 import org.openrewrite.test.RewriteTest;
-import org.openrewrite.xml.XmlIsoVisitor;
-import org.openrewrite.xml.tree.Xml;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-import static org.openrewrite.properties.Assertions.properties;
 import static org.openrewrite.xml.Assertions.xml;
 
 public class RemoveRecurringExitsRecipeTest implements RewriteTest {
