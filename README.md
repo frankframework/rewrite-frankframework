@@ -19,6 +19,7 @@ The project uses OpenRewrite, a framework for programmatically transforming and 
 ### 2. Build the project
 Build the project in this project using our install script using the terminal. This might take a while. 
 ```.\installRecipes.bat```
+
 The batch script installs the recipes using the provided Maven wrapper, so there's no need to have Maven installed locally.
 ### 3. Run recipes
 Run recipes on your Frank!Framework project by providing the relative path to your target project. 
