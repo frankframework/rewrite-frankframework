@@ -11,6 +11,11 @@ The project uses OpenRewrite, a framework for programmatically transforming and 
 * **`Limited version support:`** Currently we only support migrations between Frank!Framework-version 7.3.x through 9.0.x.
 * **`Limited coverage:`** Currently we don't provide full coverage for all needed migrations. This project is still a work in progress and should be treated as such, don't blindly trust the output before commiting any changes to your project!
 
+## Requirements
+* **`Java version requirement:`** To run the install script users need to have at minimum Java version 16 installed.
+
+*Tip: To check which version of Java you have installed currently you can run the following command in powershell or cmd: ```java --version```.*
+
 ## Getting started
 ### 1. Clone the repository
 ```git clone https://github.com/frankframework/rewrite-frankframework```
