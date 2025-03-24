@@ -14,8 +14,6 @@ The project uses OpenRewrite, a framework for programmatically transforming and 
 ## Requirements
 * **`Required frank-runner installation:`** To run the installRecipes and runRecipes scripts users need to have [frank-runner](https://github.com/wearefrank/frank-runner) installed in the same directory as this project.
 
-*Tip: To check which version of Java you have installed currently you can run the following command in powershell or cmd: ```java --version```.*
-
 ## Getting started
 ### 1. Clone the repository
 ```git clone https://github.com/frankframework/rewrite-frankframework```
