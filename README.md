@@ -39,8 +39,6 @@ An example for migrating from 7.3.x to 9.0.x could be:
 
 ```.\runRecipes.bat ..\..\myproject\ 9_0 7_3```
 
-*Tip: you can also copy the "reciperunner" folder and paste it in your project's parent folder to more conveniently access your target project through the relative path argument.*
-
 ## How to contribute
 We endorse contributions to this project! If you would like to suggest any changes or even add additional missing recipes, please follow the following steps:
 1. Fork the repository and create a new branch.
