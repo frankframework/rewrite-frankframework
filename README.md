@@ -12,7 +12,7 @@ The project uses OpenRewrite, a framework for programmatically transforming and 
 * **`Limited coverage:`** Currently we don't provide full coverage for all needed migrations. This project is still a work in progress and should be treated as such, don't blindly trust the output before commiting any changes to your project!
 
 ## Requirements
-* **`Java version requirement:`** To run the install script users need to have at minimum Java version 16 installed.
+* **`Required frank-runner installation:`** To run the installRecipes and runRecipes scripts users need to have [frank-runner](https://github.com/wearefrank/frank-runner) installed in the same directory as this project.
 
 *Tip: To check which version of Java you have installed currently you can run the following command in powershell or cmd: ```java --version```.*
 
@@ -22,14 +22,16 @@ The project uses OpenRewrite, a framework for programmatically transforming and 
 
 ```cd rewrite-frankframework```
 ### 2. Build the project
-Run the install script using the commandline. This might take a while. 
+Run the installation script using Command Prompt (applies to the next script, as well). This might take a while. 
 ```.\installRecipes.bat```
 
 The batch script installs the recipes using the provided Maven wrapper, so there's no need to have Maven installed locally.
 ### 3. Run recipes
-Run recipes on your Frank!Framework project by providing the relative path to your target project. 
+Run recipes on your Frank!Framework project by providing the relative or absolute path to your target project. 
 After proving the path you should provide the target version of Frank!Framework to reference the needed recipes. This requires a certain syntax: [major version]_[minor version] (for example "7_4" references the recipes needed to migrate from 7.3.x to 7.4.x).
-Optionally you can provide your current Frank!Framework version if you want to run a range of recipes, without this argument it only runs a single recipe for the specified minor version. 
+Optionally you can provide your current Frank!Framework version if you want to run a range of recipes, without this argument it only runs a single recipe for the specified minor version.
+
+**Note: Not correctly ending the target path with a "\" (for example: ..\..\myproject, instead of ..\..\myproject\) when using runRecipes.bat will run the script in the parent directory (the wrong directory), and could cause unwanted changes to other projects!**
 
 ```cd .\reciperunner\```
 
