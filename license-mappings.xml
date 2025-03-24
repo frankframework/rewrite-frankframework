@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<license-lookup xmlns="https://source.jasig.org/schemas/maven-notice-plugin/license-lookup">
+    <licenseMapping>
+        <groupId>org.ibissource</groupId>
+        <artifactId>ibis-adapterframework-akamai</artifactId>
+        <license>The Apache Software License, Version 2.0</license>
+    </licenseMapping>
+    <licenseMapping>
+        <groupId>org.ibissource</groupId>
+        <artifactId>ibis-adapterframework-larva</artifactId>
+        <license>The Apache Software License, Version 2.0</license>
+    </licenseMapping>
+    <licenseMapping>
+        <groupId>javax.servlet</groupId>
+        <artifactId>javax.servlet-api</artifactId>
+        <version>3.1.0</version>
+        <license>Common Development and Distribution License (CDDL) v1.1</license>
+    </licenseMapping>
+    <licenseMapping>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-nop</artifactId>
+        <version>2.0.9</version>
+        <license>MIT</license>
+    </licenseMapping>
+    <licenseMapping>
+        <groupId>org.openrewrite</groupId>
+        <artifactId>rewrite-xml</artifactId>
+        <version>8.27.3</version>
+        <license>Apache License, Version 2.0</license>
+    </licenseMapping>
+    <licenseMapping>
+        <groupId>org.openrewrite</groupId>
+        <artifactId>rewrite-properties</artifactId>
+        <version>8.43.1</version>
+        <license>Apache License, Version 2.0</license>
+    </licenseMapping>
+    <licenseMapping>
+        <groupId>org.openrewrite</groupId>
+        <artifactId>rewrite-yaml</artifactId>
+        <license>Apache License, Version 2.0</license>
+    </licenseMapping>
+    <licenseMapping>
+        <groupId>org.openrewrite</groupId>
+        <artifactId>rewrite-test</artifactId>
+        <license>Apache License, Version 2.0</license>
+    </licenseMapping>
+    <licenseMapping>
+        <groupId>javax.jms</groupId>
+        <artifactId>javax.jms-api</artifactId>
+        <version>2.0.1</version>
+        <license>Common Development and Distribution License (CDDL) v1.1</license>
+    </licenseMapping>
+    <licenseMapping>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter</artifactId>
+        <license>Eclipse Public License v2.0</license>
+    </licenseMapping>
+    <licenseMapping>
+        <groupId>org.reflections</groupId>
+        <artifactId>reflections</artifactId>
+        <version>0.10.2</version>
+        <license>MIT</license>
+    </licenseMapping>
+    <licenseMapping>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-inline</artifactId>
+        <version>5.0.0</version>
+        <license>MIT</license>
+    </licenseMapping>
+    <licenseMapping>
+        <groupId>org.frankframework</groupId>
+        <artifactId>frankframework-akamai</artifactId>
+        <license>The Apache Software License, Version 2.0</license>
+    </licenseMapping>
+    <licenseMapping>
+        <groupId>org.frankframework</groupId>
+        <artifactId>frankframework-larva</artifactId>
+        <license>The Apache Software License, Version 2.0</license>
+    </licenseMapping>
+    <licenseMapping>
+        <groupId>org.frankframework</groupId>
+        <artifactId>frankframework-batch</artifactId>
+        <license>The Apache Software License, Version 2.0</license>
+    </licenseMapping>
+    <licenseMapping>
+        <groupId>jakarta.servlet</groupId>
+        <artifactId>jakarta.servlet-api</artifactId>
+        <version>6.1.0</version>
+        <license>Eclipse Public License v2.0</license>
+    </licenseMapping>
+    <licenseMapping>
+        <groupId>org.openrewrite.recipe</groupId>
+        <artifactId>rewrite-recipe-bom</artifactId>
+        <version>3.0.1</version>
+        <license>Apache License, Version 2.0</license>
+    </licenseMapping>
+    <licenseMapping>
+        <groupId>org.junit</groupId>
+        <artifactId>junit-bom</artifactId>
+        <version>5.11.4</version>
+        <license>Eclipse Public License v2.0</license>
+    </licenseMapping>
+    <artifact>
+        <license>Apache License, Version 2.0</license>
+        <groupId>cglib</groupId>
+        <artifactId>cglib-nodep</artifactId>
+        <version>2.1_3</version>
+    </artifact>
+    <artifact>
+        <license>Common Development and Distribution License (CDDL) v1.0</license>
+        <groupId>javax.xml</groupId>
+        <artifactId>jaxrpc-api</artifactId>
+        <version>1.1</version>
+    </artifact>
+    <artifact>
+        <license>Apache License, Version 2.0</license>
+        <groupId>rome</groupId>
+        <artifactId>rome</artifactId>
+        <version>1.0</version>
+    </artifact>
+    <artifact>
+        <license>Unknown</license>
+        <groupId>soap</groupId>
+        <artifactId>soap</artifactId>
+        <version>2.3.1</version>
+    </artifact>
+    <artifact>
+        <license>Unknown</license>
+        <groupId>sshtools</groupId>
+        <artifactId>j2ssh-core</artifactId>
+        <version>0.2.9</version>
+    </artifact>
+    <artifact>
+        <license>Apache License, Version 2.0</license>
+        <groupId>xalan</groupId>
+        <artifactId>serializer</artifactId>
+        <version>2.7.3</version>
+    </artifact>
+    <artifact>
+        <license>Apache License, Version 2.0</license>
+        <groupId>xalan</groupId>
+        <artifactId>xalan</artifactId>
+        <version>2.7.3</version>
+    </artifact>
+</license-lookup>
