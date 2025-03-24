@@ -578,6 +578,20 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.jasig.maven</groupId>
+                <artifactId>notice-maven-plugin</artifactId>
+                <version>2.0.0</version>
+                <configuration>
+                    <noticeMessage>{0} - using: {1}</noticeMessage>
+                    <excludeOptional>true</excludeOptional>
+                    <generateChildNotices>false</generateChildNotices>
+                    <includeChildDependencies>true</includeChildDependencies>
+                    <licenseMapping>
+                        <param>license-mappings.xml</param>
+                    </licenseMapping>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 </project>

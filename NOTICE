@@ -1,0 +1,231 @@
+Licensed under the Apache License, Version 2.0 (the
+"License"); you may not use this file except in compliance
+with the License. You may obtain a copy of the License at:
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on
+an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied. See the License for the
+specific language governing permissions and limitations
+under the License.
+
+This project includes:
+A simple HTTP client - using: The MIT License (MIT)
+ANTLR 4 Runtime - using: BSD-3-Clause
+AOP alliance - using: Public Domain
+Apache Ant Core - using: The Apache Software License, Version 2.0
+Apache Ant Launcher - using: The Apache Software License, Version 2.0
+Apache Commons BeanUtils - using: Apache License, Version 2.0
+Apache Commons Codec - using: Apache License, Version 2.0
+Apache Commons Collections - using: Apache License, Version 2.0
+Apache Commons CSV - using: Apache License, Version 2.0
+Apache Commons Digester - using: The Apache Software License, Version 2.0
+Apache Commons FileUpload - using: Apache-2.0
+Apache Commons IO - using: Apache License, Version 2.0
+Apache Commons Lang - using: Apache-2.0
+Apache Commons Net - using: Apache License, Version 2.0
+Apache Commons Pool - using: Apache License, Version 2.0
+Apache Commons Text - using: Apache-2.0
+Apache Commons Validator - using: Apache License, Version 2.0
+Apache CXF Core - using: Apache License, Version 2.0
+Apache CXF JAX-RS Client - using: Apache License, Version 2.0
+Apache CXF Runtime Core for WSDL - using: Apache License, Version 2.0
+Apache CXF Runtime HTTP Transport - using: Apache License, Version 2.0
+Apache CXF Runtime JAX-RS Frontend - using: Apache License, Version 2.0
+Apache CXF Runtime JAX-WS Frontend - using: Apache License, Version 2.0
+Apache CXF Runtime JAXB DataBinding - using: Apache License, Version 2.0
+Apache CXF Runtime Security functionality - using: Apache License, Version 2.0
+Apache CXF Runtime Simple Frontend - using: Apache License, Version 2.0
+Apache CXF Runtime SOAP Binding - using: Apache License, Version 2.0
+Apache CXF Runtime WS Addressing - using: Apache License, Version 2.0
+Apache CXF Runtime WS Policy - using: Apache License, Version 2.0
+Apache CXF Runtime XML Binding - using: Apache License, Version 2.0
+Apache HttpClient - using: Apache License, Version 2.0
+Apache HttpClient Mime - using: Apache License, Version 2.0
+Apache HttpCore - using: Apache License, Version 2.0
+Apache Log4j API - using: Apache License, Version 2.0
+Apache Log4j Commons Logging Bridge - using: Apache License, Version 2.0
+Apache Log4j Core - using: Apache License, Version 2.0
+Apache Log4j JUL Adapter - using: Apache License, Version 2.0
+Apache Log4j SLF4J Binding - using: Apache License, Version 2.0
+Apache Neethi - using: Apache License, Version 2.0
+Apache ServiceMix :: Bundles :: saaj-impl - using: The Apache Software License, Version 2.0
+Apache ServiceMix :: Specs :: SAAJ API 1.3 - using: The Apache Software License, Version 2.0
+Apache WSS4J DOM WS-Security - using: Apache License, Version 2.0
+Apache WSS4J WS-Security Common - using: Apache License, Version 2.0
+Apache XML Security for Java - using: Apache License, Version 2.0
+asm - using: BSD-3-Clause
+ASM based accessors helper used by json-smart - using: The Apache Software License, Version 2.0
+asm-analysis - using: BSD-3-Clause
+asm-tree - using: BSD-3-Clause
+asm-util - using: BSD-3-Clause
+asn-one - using: Apache License 2.0
+AssertJ Core - using: Apache-2.0
+AWS Java SDK for Amazon S3 - using: Apache License, Version 2.0
+AWS Java SDK for AWS KMS - using: Apache License, Version 2.0
+AWS SDK for Java - Core - using: Apache License, Version 2.0
+Bitronix Transaction Manager :: Core - using: Apache License, Version 2.0
+Bouncy Castle OpenPGP API - using: Bouncy Castle Licence or Apache Software License, Version 1.1
+Bouncy Castle Provider - using: Bouncy Castle Licence
+bouncy-gpg - using: Apache-2.0
+BSON - using: The Apache License, Version 2.0
+Byte Buddy (without dependencies) - using: Apache License, Version 2.0
+Byte Buddy agent - using: Apache License, Version 2.0
+c3p0 - using: GNU Lesser General Public License, Version 2.1 or Eclipse Public License, Version 1.0
+cglib - using: Apache License, Version 2.0
+ClassGraph - using: The MIT License (MIT)
+Code Generation Library - using: ASF 2.0
+Commons Digester - using: The Apache Software License, Version 2.0
+CredentialProvider - using: Apache License, Version 2.0
+Cryptacular Library - using: Apache 2 or GNU Lesser General Public License
+CUP Parser Generator for Java - using: CUP Parser Generator Copyright Notice, License, and Disclaimer
+ehcache - using: The Apache Software License, Version 2.0
+Exchange Web Services Java API - using: MIT License
+Extended StAX API - using: Eclipse Distribution License - v 1.0
+FindBugs-jsr305 - using: The Apache Software License, Version 2.0
+frankrewrite - using: The Apache Software License, Version 2.0
+Gizmo - using: The Apache Software License, Version 2.0
+Guava InternalFutureFailureAccess and InternalFutures - using: The Apache Software License, Version 2.0
+Guava: Google Core Libraries for Java - using: Apache License, Version 2.0
+HdrHistogram - using: Public Domain, per Creative Commons CC0 or BSD-2-Clause
+HikariCP - using: The Apache Software License, Version 2.0
+HtmlCleaner - using: BSD License
+HttpClient - using: Apache License
+Ibis AdapterFramework core - using: Apache License, Version 2.0
+Ibis AdapterFramework Larva - using: Apache License, Version 2.0
+Ibis AdapterFramework support for Akamai - using: Apache License, Version 2.0
+Ibis Servicedispatcher Core - using: Apache License, Version 2.0
+ICU4J - using: ICU License
+istack common utility code runtime - using: Eclipse Distribution License - v 1.0
+j2ssh-core - using: Unknown
+j2v8_linux_x86_64 - using: Eclipse Public License - v 1.0
+j2v8_macosx_x86_64 - using: Eclipse Public License - v 1.0
+j2v8_win32_x86 - using: Eclipse Public License - v 1.0
+j2v8_win32_x86_64 - using: Eclipse Public License - v 1.0
+Jackson dataformat: CBOR - using: The Apache Software License, Version 2.0
+Jackson dataformat: Smile - using: The Apache Software License, Version 2.0
+Jackson datatype: JSR310 - using: The Apache Software License, Version 2.0
+Jackson module: Old JAXB Annotations (javax.xml.bind) - using: The Apache Software License, Version 2.0
+Jackson-annotations - using: The Apache Software License, Version 2.0
+Jackson-core - using: The Apache Software License, Version 2.0
+jackson-databind - using: The Apache Software License, Version 2.0
+Jackson-dataformat-CSV - using: The Apache Software License, Version 2.0
+Jackson-JAXRS: base - using: The Apache Software License, Version 2.0
+Jackson-JAXRS: JSON - using: The Apache Software License, Version 2.0
+Jackson-module-parameter-names - using: The Apache Software License, Version 2.0
+Jakarta Activation - using: EDL 1.0
+Jakarta Activation API jar - using: EDL 1.0
+Jakarta Annotations API - using: EPL 2.0 or GPL2 w/ CPE
+Jakarta SOAP with Attachments API - using: Eclipse Distribution License - v 1.0
+Jakarta Web Services Metadata API - using: Eclipse Distribution License - v 1.0
+Jakarta XML Binding API - using: Eclipse Distribution License - v 1.0
+Jakarta XML Web Services API - using: Eclipse Distribution License - v 1.0
+jakarta.ws.rs-api - using: EPL 2.0 or GPL2 w/ CPE
+JASYPT: Java Simplified Encryption - using: The Apache Software License, Version 2.0
+Java Annotation Indexer - using: Apache License, Version 2.0
+Java API for XML Based RPC - using: Common Development and Distribution License (CDDL) v1.0
+Java Native Access - using: LGPL-2.1-or-later or Apache-2.0
+Java Native Access Platform - using: LGPL-2.1-or-later or Apache-2.0
+Java Servlet API - using: CDDL + GPLv2 with classpath exception
+Java(TM) EE Connector Architecture 1.7 API - using: Common Development and Distribution License or GNU General Public License, Version 2 with the Classpath Exception
+java-object-diff - using: The Apache Software License, Version 2.0
+JavaBeans(TM) Activation Framework - using: COMMON DEVELOPMENT AND DISTRIBUTION LICENSE (CDDL) Version 1.0
+JavaEWAH - using: Apache 2
+JavaMail API - using: CDDL/GPLv2+CE
+Javassist - using: MPL 1.1 or LGPL 2.1 or Apache License 2.0
+javax.xml.soap API - using: CDDL + GPLv2 with classpath exception
+JAX-WS API - using: CDDL + GPLv2 with classpath exception
+JAXB Runtime - using: Eclipse Distribution License - v 1.0
+jaxb-api - using: CDDL 1.1 or GPL2 w/ CPE
+JBoss Transaction SPI - using: Public Domain
+jCIFS - using: GNU Lesser General Public License, version 2.1
+JCIP Annotations under Apache License - using: Apache License, Version 2.0
+JDOM - using: Similar to Apache License but with the acknowledgment clause removed
+JetBrains Java Annotations - using: The Apache Software License, Version 2.0
+jgit - using: The Apache Software License, Version 2.0
+JMES Path Query library - using: Apache License, Version 2.0
+JMS API - using: CDDL + GPLv2 with classpath exception
+Joda-Time - using: Apache 2
+JSON (JavaScript Object Notation) - using: provided without support or warranty
+JSON Small and Fast Parser - using: The Apache Software License, Version 2.0
+JSpecify annotations - using: The Apache License, Version 2.0
+JSR 353 (JSON Processing) Default Provider - using: Dual license consisting of the CDDL v1.1 and GPL v2
+JUnit Jupiter (Aggregator) - using: Eclipse Public License v2.0
+JUnit Jupiter API - using: Eclipse Public License v2.0
+JUnit Jupiter Engine - using: Eclipse Public License v2.0
+JUnit Jupiter Params - using: Eclipse Public License v2.0
+JUnit Platform Commons - using: Eclipse Public License v2.0
+JUnit Platform Engine API - using: Eclipse Public License v2.0
+JUnit Platform Launcher - using: Eclipse Public License v2.0
+LatencyUtils - using: Public Domain, per Creative Commons CC0
+Liquibase - using: Apache License, Version 2.0
+Logging - using: The Apache Software License, Version 2.0
+mbassador - using: MIT license
+mchange-commons-java - using: GNU Lesser General Public License, Version 2.1 or Eclipse Public License, Version 1.0
+micrometer-core - using: The Apache Software License, Version 2.0
+mockito-core - using: The MIT License
+mockito-inline - using: The MIT License
+MongoDB Driver - using: The Apache License, Version 2.0
+MongoDB Java Driver Core - using: The Apache License, Version 2.0
+msal4j - using: MIT License
+Narayana: ArjunaJTA narayana-jta - using: LGPL 2.1
+nashorn-promise - using: MIT License
+Nimbus Content Type - using: The Apache Software License, Version 2.0
+Nimbus JOSE+JWT - using: The Apache Software License, Version 2.0
+Nimbus LangTag - using: The Apache Software License, Version 2.0
+OAuth 2.0 SDK with OpenID Connect extensions - using: Apache License, version 2.0
+Objenesis - using: Apache License, Version 2.0
+Old JAXB Core - using: Eclipse Distribution License - v 1.0
+Old JAXB Runtime - using: Eclipse Distribution License - v 1.0
+org.apiguardian:apiguardian-api - using: The Apache License, Version 2.0
+org.eclipse.paho.client.mqttv3 - using: Eclipse Public License - Version 2.0
+org.opentest4j:opentest4j - using: The Apache License, Version 2.0
+PBKDF2 - using: GNU Lesser General Public License (LGPL), Version 2.1
+PsychoPath XPath 2.0 Processor - using: Eclipse Public License Version 1.0
+quartz - using: The Apache Software License, Version 2.0
+Reflections - using: WTFPL or The Apache Software License, Version 2.0
+rewrite-core - using: The Apache Software License, Version 2.0
+rewrite-properties - using: The Apache Software License, Version 2.0
+rewrite-test - using: The Apache Software License, Version 2.0
+rewrite-xml - using: The Apache Software License, Version 2.0
+rewrite-yaml - using: The Apache Software License, Version 2.0
+rhino - using: Mozilla Public License, Version 2.0
+ROME, RSS and atOM utilitiEs for Java - using: Apache License, Version 2.0
+Saxon-HE - using: Mozilla Public License Version 1.0
+serializer - using: Apache License, Version 2.0
+SLF4J API Module - using: MIT License
+SLF4J NOP Provider - using: MIT License
+smbj - using: Apache License 2.0
+SnakeYAML - using: Apache License, Version 2.0
+soap - using: Unknown
+software.amazon.ion:ion-java - using: The Apache License, Version 2.0
+Spring AOP - using: Apache License, Version 2.0
+Spring Beans - using: Apache License, Version 2.0
+Spring Commons Logging Bridge - using: Apache License, Version 2.0
+Spring Context - using: Apache License, Version 2.0
+Spring Context Support - using: Apache License, Version 2.0
+Spring Core - using: Apache License, Version 2.0
+Spring Expression Language (SpEL) - using: Apache License, Version 2.0
+Spring JDBC - using: Apache License, Version 2.0
+Spring JMS - using: Apache License, Version 2.0
+Spring Messaging - using: Apache License, Version 2.0
+Spring TestContext Framework - using: Apache License, Version 2.0
+Spring Transaction - using: Apache License, Version 2.0
+Spring Web - using: Apache License, Version 2.0
+Spymemcached - using: The Apache Software License, Version 2.0
+stax-utils - using: BSD
+Stax2 API - using: The BSD License
+Sun Java Streaming XML Parser - using: CDDL-1.0 or GPL-2.0
+Twilio SendGrid Java helper library - using: The MIT License (MIT)
+TXW2 Runtime - using: Eclipse Distribution License - v 1.0
+Woodstox - using: The Apache License, Version 2.0
+WSDL4J - using: CPL
+xalan - using: Apache License, Version 2.0
+Xerces2-j - using: The Apache Software License, Version 2.0
+XML Commons Resolver Component - using: The Apache Software License, Version 2.0
+XmlBeans - using: The Apache Software License, Version 2.0
+XmlSchema Core - using: Apache License, Version 2.0
+XMLUnit for Java - using: BSD License
+
