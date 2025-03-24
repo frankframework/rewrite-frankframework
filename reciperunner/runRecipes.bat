@@ -12,14 +12,6 @@ set "SOURCE_DIR=%cd%"
 REM Store the target directory from the argument
 set "TARGET_DIR=%~dp1"
 
-REM Normalize forward slashes to backslashes
-set "TARGET_DIR=%TARGET_DIR:/=\%"
-
-REM Ensure TARGET_DIR ends with a backslash
-if not "%TARGET_DIR:~-1%"=="\" set "TARGET_DIR=%TARGET_DIR%\"
-
-ECHO %TARGET_DIR%
-
 REM Store target maven profile from argument
 set "TARGET_PROFILE=%2"
 set "SOURCE_VERSION=%3"
