@@ -22,14 +22,16 @@ The project uses OpenRewrite, a framework for programmatically transforming and 
 
 ```cd rewrite-frankframework```
 ### 2. Build the project
-Run the installation script using the commandline. This might take a while. 
+Run the installation script using Command Prompt (applies to the next script, as well). This might take a while. 
 ```.\installRecipes.bat```
 
 The batch script installs the recipes using the provided Maven wrapper, so there's no need to have Maven installed locally.
 ### 3. Run recipes
 Run recipes on your Frank!Framework project by providing the relative or absolute path to your target project. 
 After proving the path you should provide the target version of Frank!Framework to reference the needed recipes. This requires a certain syntax: [major version]_[minor version] (for example "7_4" references the recipes needed to migrate from 7.3.x to 7.4.x).
-Optionally you can provide your current Frank!Framework version if you want to run a range of recipes, without this argument it only runs a single recipe for the specified minor version. 
+Optionally you can provide your current Frank!Framework version if you want to run a range of recipes, without this argument it only runs a single recipe for the specified minor version.
+
+**Note: Not correctly ending the target path with a "\" (for example: ..\..\myproject, instead of ..\..\myproject\) when using runRecipes.bat will run the script in the parent directory (the wrong directory), and could cause unwanted changes to other projects!**
 
 ```cd .\reciperunner\```
 

@@ -7,10 +7,18 @@ if "%~dp1"=="" (
     exit /b 1
 )
 
-REM Store the current directory (where pom.xml is assumed to be located)
+REM Store the current directory
 set "SOURCE_DIR=%cd%"
 REM Store the target directory from the argument
 set "TARGET_DIR=%~dp1"
+
+REM Normalize forward slashes to backslashes
+set "TARGET_DIR=%TARGET_DIR:/=\%"
+
+REM Ensure TARGET_DIR ends with a backslash
+if not "%TARGET_DIR:~-1%"=="\" set "TARGET_DIR=%TARGET_DIR%\"
+
+ECHO %TARGET_DIR%
 
 REM Store target maven profile from argument
 set "TARGET_PROFILE=%2"
@@ -25,7 +33,7 @@ if not exist "%TARGET_DIR%" (
     exit /b 1
 )
 
-REM Check if pom.xml exists in the current directory
+REM Check if rewritepom.xml exists in the source directory
 if not exist "%SOURCE_DIR%\rewritepom.xml" (
     echo Error: rewritepom.xml not found in the current directory %SOURCE_DIR%.
     exit /b 1
@@ -40,12 +48,12 @@ if errorlevel 1 (
 )
 
 REM Define the frank runner directory and mvn.bat location
-set "FRANK_RUNNER_DIR=..\..\frank-runner\"
+set "FRANK_RUNNER_DIR=%SOURCE_DIR%\..\..\frank-runner"
 set "MVN_BAT=%FRANK_RUNNER_DIR%\mvn.bat"
 
 REM Check if mvn.bat exists
 if not exist "%MVN_BAT%" (
-    echo "mvn.bat not found in frank-runner directory."
+    echo Error: mvn.bat not found in frank-runner directory at %MVN_BAT%.
     exit /b 1
 )
 
@@ -53,10 +61,14 @@ REM Run the Maven rewrite:run command
 echo Running rewrite:run with profile...
 if "%TARGET_PROFILE%"=="" (
     REM No target arg found, running default profile
-    call "%MVN_BAT%" rewrite:run -f "%TARGET_DIR%\rewritepom.xml" -Dmaven.test.skip=true -Dmaven.main.skip=true
+    pushd "%TARGET_DIR%"
+    call "%MVN_BAT%" rewrite:run -f "rewritepom.xml" -Dmaven.test.skip=true -Dmaven.main.skip=true
+    popd
 ) else if "%SOURCE_VERSION%"=="" (
     REM No source arg found, but found target profile
-    call "%MVN_BAT%" rewrite:run -f "%TARGET_DIR%\rewritepom.xml" -Dmaven.test.skip=true -Dmaven.main.skip=true -P%TARGET_PROFILE%
+    pushd "%TARGET_DIR%"
+    call "%MVN_BAT%" rewrite:run -f "rewritepom.xml" -Dmaven.test.skip=true -Dmaven.main.skip=true -P%TARGET_PROFILE%
+    popd
 ) else (
     REM Both the target and source arg found
     setlocal enabledelayedexpansion
@@ -79,7 +91,7 @@ if "%TARGET_PROFILE%"=="" (
 
     REM Exit on invalid args with debug message
     if !TARGET_FOUND!==false (
-        echo Target, %TARGET_PROFILE%, not found or reached, either target profile doesn't exists in rewritepom.xml or in version range: %VALID_VERSIONS%
+        echo Target, %TARGET_PROFILE%, not found or reached, either target profile doesn't exist in rewritepom.xml or in version range: %VALID_VERSIONS%
         exit /b 1
     )
     if !SOURCE_FOUND!==false (
@@ -91,7 +103,15 @@ if "%TARGET_PROFILE%"=="" (
     for %%V in (%VALID_VERSIONS%) do (
         if !SHOULD_DO!==true (
             echo Running recipes from profile: %%V
-            call "%MVN_BAT%" rewrite:run -f "%TARGET_DIR%\rewritepom.xml" -Dmaven.test.skip=true -Dmaven.main.skip=true -P%%V
+
+            REM Change to the target directory before running Maven
+            pushd "%TARGET_DIR%"
+            echo Running in directory: %cd%
+
+            call "%MVN_BAT%" rewrite:run -f "rewritepom.xml" -Dmaven.test.skip=true -Dmaven.main.skip=true -P%%V
+
+            REM Return to original directory
+            popd
         )
 
         REM When target profile is reached stop executing the rewrite plugin
@@ -125,8 +145,8 @@ if errorlevel 1 (
 )
 
 echo Done. Running ant in directory %TARGET_DIR%..
-cd /d "%TARGET_DIR%"
+pushd "%TARGET_DIR%"
 call ant
-cd /d "%SOURCE_DIR%"
+popd
 
 exit /b 0
