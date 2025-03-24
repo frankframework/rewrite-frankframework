@@ -1,16 +1,16 @@
 @echo off
 
 REM Check if the argument is provided
-if "%~dp1"=="" (
+if "%~1"=="" (
     echo Error: No target directory provided.
-    echo Usage: script.bat [target_directory]
+    echo Usage: .\runRecipes.bat [relative path your project] [target Frank!Framework version] [current Frank!Framework version]
     exit /b 1
 )
 
 REM Store the current directory
 set "SOURCE_DIR=%cd%"
 REM Store the target directory from the argument
-set "TARGET_DIR=%~dp1"
+set "TARGET_DIR=%~f1"
 
 REM Store target maven profile from argument
 set "TARGET_PROFILE=%2"
