@@ -13,7 +13,7 @@
             org.frankrewrite.7_3_to_7_4,
             org.frankrewrite.7_4_to_7_5,
             org.frankrewrite.7_5_to_7_6,
-            org.frankrewrite.7_6_to_7_7
+            org.frankrewrite.7_6_to_7_7,
         </active.recipes>
         <rewrite.id>${artifactId}</rewrite.id>
         <servlet.groupId>
@@ -32,7 +32,7 @@
             <properties>
                 <rewrite.id>${artifactId}-7_4</rewrite.id>
                 <active.recipes>
-                    org.frankrewrite.7_3_to_7_4
+                    org.frankrewrite.7_3_to_7_4,
                 </active.recipes>
             </properties>
         </profile>
@@ -41,7 +41,7 @@
             <properties>
                 <rewrite.id>${artifactId}-7_5</rewrite.id>
                 <active.recipes>
-                    org.frankrewrite.7_4_to_7_5
+                    org.frankrewrite.7_4_to_7_5,
                 </active.recipes>
             </properties>
         </profile>
@@ -50,7 +50,7 @@
             <properties>
                 <rewrite.id>${artifactId}-7_6</rewrite.id>
                 <active.recipes>
-                    org.frankrewrite.7_5_to_7_6
+                    org.frankrewrite.7_5_to_7_6,
                 </active.recipes>
             </properties>
         </profile>
@@ -59,7 +59,7 @@
             <properties>
                 <rewrite.id>${artifactId}-7_7</rewrite.id>
                 <active.recipes>
-                    org.frankrewrite.7_6_to_7_7
+                    org.frankrewrite.7_6_to_7_7,
                 </active.recipes>
             </properties>
         </profile>
@@ -77,7 +77,7 @@
             <properties>
                 <rewrite.id>${artifactId}-7_9</rewrite.id>
                 <active.recipes>
-                    org.frankrewrite.7_8_to_7_9
+                    org.frankrewrite.7_8_to_7_9,
                 </active.recipes>
             </properties>
         </profile>
@@ -185,7 +185,8 @@
                         org.frankrewrite.recipes.RemoveInvalidChildrenRecipe,
                         org.frankrewrite.recipes.EditStyleConfigurationRecipe,
                         org.frankrewrite.recipes.EditStyleConfigurationRecipe,
-						${active.recipes}
+						${active.recipes},
+                        org.openrewrite.xml.format.AutoFormat
                     </activeRecipes>
                 </configuration>
                 <dependencies>
