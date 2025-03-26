@@ -21,6 +21,22 @@
 
 # Notice how we can have multiple recipes in the same file, separated by `---`
 # You can also have multiple files in `src/main/resources/META-INF/rewrite`, each containing one or more recipes.
+type: specs.openrewrite.org/v1beta/recipe
+name: org.frankrewrite.ClassNameToElementName
+displayName: Recipe to migrate from 7.3.x to 7.4
+description: Migrates franks from 7.3.x to 7.4.
+recipeList:
+  - org.frankrewrite.recipes.EditStyleConfigurationRecipe
+  - org.frankrewrite.recipes.EditStyleConfigurationRecipe
+  - org.frankrewrite.recipes.AddNameAttributeToTagRecipe:
+      tagName: "XmlValidatorPipe"
+  - org.frankrewrite.recipes.AddNameAttributeToTagRecipe:
+      tagName: "EsbSoapWrapperPipe"
+  - org.frankrewrite.recipes.ReplaceTagNameRecipe:
+      oldName: "EsbSoapValidator"
+      newName: "EsbSoapValidatorPipe"
+  - org.frankrewrite.recipes.AddNameAttributeToTagRecipe:
+      tagName: "EsbSoapValidatorPipe"
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: org.frankrewrite.7_3_to_7_4
@@ -68,6 +84,7 @@ recipeList:
       newKey: "base64"
       newValue: "DECODE" #Hoe weet je of je encode of decode moet toepassen?
   - org.frankrewrite.recipes.ParameterizedActionsRecipe
+  - org.frankrewrite.recipes.RemoveRecurringExitsRecipe
   - org.frankrewrite.recipes.FrameworkVersionRecipe:
       version: "7.6.5"
 ---
@@ -120,12 +137,16 @@ recipeList:
       attributeKeyFilter: "queryType"
       attributeValueFilter: "update"
       newValue: "other"
+  - org.frankrewrite.recipes.ChangeAttributeRecipe:
+      tagNameFilter: "FixedQuerySender"
+      attributeKeyFilter: "queryType"
+      attributeValueFilter: "delete"
+      newValue: "other"
   - org.frankrewrite.recipes.RemoveAttributeRecipe:
       tag: "FixedQuerySender"
       attributeName: "jmsRealm"
   - org.frankrewrite.recipes.FrameworkVersionRecipe:
       version: "7.7.7"
-  - org.frankrewrite.recipes.RemoveRecurringExitsRecipe
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: org.frankrewrite.7_7_to_7_8
@@ -212,6 +233,10 @@ recipeList:
       tag: "FixedQuerySender"
       attributeName: "queryType"
       value: "other"
+  - org.frankrewrite.recipes.ChangeAttributeRecipe:
+      tagNameFilter: "EsbJmsListener"
+      attributeKeyFilter: "timeOut"
+      newKey: "timeout"
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: org.frankrewrite.8_1_to_8_2
@@ -228,7 +253,30 @@ recipeList:
   - org.frankrewrite.recipes.ChangeAttributeValueToUnionTypeRecipe:
       attributeKey: "logLevel"
       tagName: "LarvaPipe"
-
+  - org.frankrewrite.recipes.RemoveAttributeRecipe:
+      tagName: "DirectQuerySender"
+      attributeName: "queryType"
+      value: "insert"
+  - org.frankrewrite.recipes.RemoveAttributeRecipe:
+      tagName: "DirectQuerySender"
+      attributeName: "queryType"
+      value: "update"
+  - org.frankrewrite.recipes.RemoveAttributeRecipe:
+      tagName: "DirectQuerySender"
+      attributeName: "queryType"
+      value: "delete"
+  - org.frankrewrite.recipes.RemoveAttributeRecipe:
+      tagName: "FixedQuerySender"
+      attributeName: "queryType"
+      value: "insert"
+  - org.frankrewrite.recipes.RemoveAttributeRecipe:
+      tagName: "FixedQuerySender"
+      attributeName: "queryType"
+      value: "update"
+  - org.frankrewrite.recipes.RemoveAttributeRecipe:
+      tagName: "FixedQuerySender"
+      attributeName: "queryType"
+      value: "delete"
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: org.frankrewrite.8_2_to_8_3

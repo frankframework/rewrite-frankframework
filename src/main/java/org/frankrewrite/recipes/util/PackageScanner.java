@@ -54,7 +54,7 @@ public class PackageScanner {
                     .addScanners(Scanners.SubTypes.filterResultsBy(s -> true)) // Override the default behavior which excludes Object class
                     .forPackages(dependency));
 
-            List<String> packages = Arrays.asList("pipes", "receivers", "parameters", "senders", "processors", "util", "jdbc", "http", "compression", "errormessageformatters", "ftp", "scheduler");
+            List<String> packages = Arrays.asList("pipes", "receivers", "parameters", "senders", "processors", "util", "jdbc", "http", "compression", "errormessageformatters", "ftp", "scheduler", "extensions");
             classes = reflections.getSubTypesOf(Object.class);
             packages.forEach(pack -> classes.addAll(Stream.of(dependency + "." + pack)
                     .flatMap(pkg -> {

@@ -183,8 +183,7 @@
                     <activeRecipes>
                     <!--TODO: fix so EditStyleConfigurationRecipe doesn't need to be run twice to work in some cases-->
                         org.frankrewrite.recipes.RemoveInvalidChildrenRecipe,
-                        org.frankrewrite.recipes.EditStyleConfigurationRecipe,
-                        org.frankrewrite.recipes.EditStyleConfigurationRecipe,
+                        org.frankrewrite.ClassNameToElementName,
 						${active.recipes},
                         org.openrewrite.xml.format.AutoFormat
                     </activeRecipes>
