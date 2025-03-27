@@ -23,8 +23,8 @@
 # You can also have multiple files in `src/main/resources/META-INF/rewrite`, each containing one or more recipes.
 type: specs.openrewrite.org/v1beta/recipe
 name: org.frankrewrite.ClassNameToElementName
-displayName: Recipe to migrate from 7.3.x to 7.4
-description: Migrates franks from 7.3.x to 7.4.
+displayName: ClassName to tag name recipe.
+description: Refactors className attributes and replaces the tag names accordingly.
 recipeList:
   - org.frankrewrite.recipes.EditStyleConfigurationRecipe
   - org.frankrewrite.recipes.EditStyleConfigurationRecipe
@@ -220,7 +220,6 @@ recipeList:
       newGroupId: "org.frankframework"
       oldArtifactId: "ibis-adapterframework-webapp"
       newArtifactId: "frankframework-webapp"
-#     TODO: Configuration [Util] - LocalFileSystemPipe [OpenZipStream] does not have an attribute [base64] to set to value [DECODE]
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: org.frankrewrite.8_0_to_8_1
