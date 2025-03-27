@@ -181,7 +181,6 @@
                 <version>5.36.0</version>
                 <configuration>
                     <activeRecipes>
-                    <!--TODO: fix so EditStyleConfigurationRecipe doesn't need to be run twice to work in some cases-->
                         org.frankrewrite.recipes.RemoveInvalidChildrenRecipe,
                         org.frankrewrite.ClassNameToElementName,
 						${active.recipes},
