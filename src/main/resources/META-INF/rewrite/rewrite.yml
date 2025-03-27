@@ -32,6 +32,8 @@ recipeList:
       tagName: "XmlValidatorPipe"
   - org.frankrewrite.recipes.AddNameAttributeToTagRecipe:
       tagName: "EsbSoapWrapperPipe"
+  - org.frankrewrite.recipes.AddNameAttributeToTagRecipe:
+      tagName: "FxfWrapperPipe"
   - org.frankrewrite.recipes.ReplaceTagNameRecipe:
       oldName: "EsbSoapValidator"
       newName: "EsbSoapValidatorPipe"
@@ -235,6 +237,10 @@ recipeList:
       value: "other"
   - org.frankrewrite.recipes.ChangeAttributeRecipe:
       tagNameFilter: "EsbJmsListener"
+      attributeKeyFilter: "timeOut"
+      newKey: "timeout"
+  - org.frankrewrite.recipes.ChangeAttributeRecipe:
+      tagNameFilter: "EsbJmsSender"
       attributeKeyFilter: "timeOut"
       newKey: "timeout"
 ---
