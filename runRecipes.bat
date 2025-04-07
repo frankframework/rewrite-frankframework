@@ -40,7 +40,7 @@ if errorlevel 1 (
 )
 
 REM Define the frank runner directory and mvn.bat location
-set "FRANK_RUNNER_DIR=%SOURCE_DIR%\..\..\frank-runner"
+set "FRANK_RUNNER_DIR=%SOURCE_DIR%\..\frank-runner"
 set "MVN_BAT=%FRANK_RUNNER_DIR%\mvn.bat"
 
 REM Check if mvn.bat exists

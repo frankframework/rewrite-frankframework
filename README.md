@@ -29,13 +29,11 @@ Run recipes on your Frank!Framework project by providing the relative or absolut
 After proving the path you should provide the target version of Frank!Framework to reference the needed recipes. This requires a certain syntax: [major version]_[minor version] (for example "7_4" references the recipes needed to migrate from 7.3.x to 7.4.x).
 Optionally you can provide your current Frank!Framework version if you want to run a range of recipes, without this argument it only runs a single recipe for the specified minor version.
 
-```cd .\reciperunner\```
-
 ```.\runRecipes.bat [relative path your project] [target Frank!Framework version] [current Frank!Framework version]```
 
 An example for migrating from 7.3.x to 9.0.x could be:
 
-```.\runRecipes.bat ..\..\myproject\ 9_0 7_3```
+```.\runRecipes.bat ..\myproject\ 9_0 7_3```
 
 ## How to contribute
 We endorse contributions to this project! If you would like to suggest any changes or even add additional missing recipes, please follow the following steps:
