@@ -21,6 +21,7 @@
 
 # Notice how we can have multiple recipes in the same file, separated by `---`
 # You can also have multiple files in `src/main/resources/META-INF/rewrite`, each containing one or more recipes.
+
 type: specs.openrewrite.org/v1beta/recipe
 name: org.frankrewrite.ClassNameToElementName
 displayName: ClassName to tag name recipe.
@@ -85,7 +86,19 @@ recipeList:
       attributeKeyFilter: "outputType"
       newKey: "base64"
       newValue: "DECODE" #Hoe weet je of je encode of decode moet toepassen?
+  - org.frankrewrite.recipes.ChangeAttributeRecipe:
+      tagNameFilter: "LocalFileSystemPipe"
+      attributeKeyFilter: "createDirectory"
+      newKey: "createFolder"
+  - org.frankrewrite.recipes.RemoveAttributeRecipe:
+      tagName: "LocalFileSystemPipe"
+      attributeName: "fileSource"
+  - org.frankrewrite.recipes.ChangeAttributeRecipe:
+      tagNameFilter: "LocalFileSystemPipe"
+      attributeKeyFilter: "fileName"
+      newKey: "filename"
   - org.frankrewrite.recipes.ParameterizedActionsRecipe
+  - org.frankrewrite.recipes.ConvertFilePipeRecipe
   - org.frankrewrite.recipes.RemoveRecurringExitsRecipe
   - org.frankrewrite.recipes.FrameworkVersionRecipe:
       version: "7.6.5"
@@ -195,121 +208,6 @@ recipeList:
       tag: "ZipWriterPipe"
       attributeName: "action"
       value: "write"
----
-type: specs.openrewrite.org/v1beta/recipe
-name: org.frankrewrite.7_9_to_8_0
-displayName: Recipe to migrate from 7.9.x to 8.0.3
-description: Migrates franks from 7.9.x to 8.0.3.
-recipeList:
-  - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
-  - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
-  - org.frankrewrite.recipes.FrameworkVersionRecipe:
-      version: "8.0.3"
-  - org.frankrewrite.recipes.ChangeDependencyRecipe:
-      oldGroupId: "org.ibissource"
-      newGroupId: "org.frankframework"
-      oldArtifactId: "ibis-adapterframework-core"
-      newArtifactId: "frankframework-batch"
-  - org.frankrewrite.recipes.ChangeDependencyRecipe:
-      oldGroupId: "org.ibissource"
-      newGroupId: "org.frankframework"
-      oldArtifactId: "ibis-adapterframework-larva"
-      newArtifactId: "frankframework-larva"
-  - org.frankrewrite.recipes.ChangeDependencyRecipe:
-      oldGroupId: "org.ibissource"
-      newGroupId: "org.frankframework"
-      oldArtifactId: "ibis-adapterframework-webapp"
-      newArtifactId: "frankframework-webapp"
----
-type: specs.openrewrite.org/v1beta/recipe
-name: org.frankrewrite.8_0_to_8_1
-displayName: Recipe to migrate from 8.0.x to 8.1.1
-description: Migrates franks from 8.0.x to 8.1.1.
-recipeList:
-  - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
-  - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
-  - org.frankrewrite.recipes.FrameworkVersionRecipe:
-      version: "8.1.1"
-  - org.frankrewrite.recipes.RemoveAttributeRecipe:
-      tag: "FixedQuerySender"
-      attributeName: "queryType"
-      value: "other"
-  - org.frankrewrite.recipes.ChangeAttributeRecipe:
-      tagNameFilter: "EsbJmsListener"
-      attributeKeyFilter: "timeOut"
-      newKey: "timeout"
-  - org.frankrewrite.recipes.ChangeAttributeRecipe:
-      tagNameFilter: "EsbJmsSender"
-      attributeKeyFilter: "timeOut"
-      newKey: "timeout"
----
-type: specs.openrewrite.org/v1beta/recipe
-name: org.frankrewrite.8_1_to_8_2
-displayName: Recipe to migrate from 8.1.x to 8.2.0
-description: Migrates franks from 8.1.x to 8.2.0.
-recipeList:
-  - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
-  - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
-  - org.frankrewrite.recipes.FrameworkVersionRecipe:
-      version: "8.2.0"
-  - org.frankrewrite.recipes.IntroduceEchoPipeForFixedResultPipeRecipe
-  - org.frankrewrite.recipes.IntroduceReplacerPipeForFixedResultPipeRecipe
-  - org.frankrewrite.recipes.IntroduceBase64PipeForAttributeRecipe
-  - org.frankrewrite.recipes.ChangeAttributeValueToUnionTypeRecipe:
-      attributeKey: "logLevel"
-      tagName: "LarvaPipe"
-  - org.frankrewrite.recipes.RemoveAttributeRecipe:
-      tagName: "DirectQuerySender"
-      attributeName: "queryType"
-      value: "insert"
-  - org.frankrewrite.recipes.RemoveAttributeRecipe:
-      tagName: "DirectQuerySender"
-      attributeName: "queryType"
-      value: "update"
-  - org.frankrewrite.recipes.RemoveAttributeRecipe:
-      tagName: "DirectQuerySender"
-      attributeName: "queryType"
-      value: "delete"
-  - org.frankrewrite.recipes.RemoveAttributeRecipe:
-      tagName: "FixedQuerySender"
-      attributeName: "queryType"
-      value: "insert"
-  - org.frankrewrite.recipes.RemoveAttributeRecipe:
-      tagName: "FixedQuerySender"
-      attributeName: "queryType"
-      value: "update"
-  - org.frankrewrite.recipes.RemoveAttributeRecipe:
-      tagName: "FixedQuerySender"
-      attributeName: "queryType"
-      value: "delete"
----
-type: specs.openrewrite.org/v1beta/recipe
-name: org.frankrewrite.8_2_to_8_3
-displayName: Recipe to migrate from 8.2.x to 8.3.0
-description: Migrates franks from 8.2.x to 8.3.0.
-recipeList:
-  - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
-  - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
-  - org.frankrewrite.recipes.FrameworkVersionRecipe:
-      version: "8.3.0"
-  - org.frankrewrite.recipes.ChangeAttributeRecipe: #spelfout in priooo denk ik
-      tagNameFilter: "forward"
-      attributeKeyFilter: "name"
-      attributeValueFilter: "succes"
-      newValue: "success"
-  - org.frankrewrite.recipes.ChangeChildAttributeRecipe: #spelfout in priooo denk ik
-      tagNameFilter: "XsltPipe"
-      childTagNameFilter: "forward"
-      attributeKeyFilter: "name"
-      attributeValueFilter: "failure"
-      newValue: "exception"
----
-type: specs.openrewrite.org/v1beta/recipe
-name: org.frankrewrite.8_3_to_9_0
-displayName: Recipe to migrate from 8.3.x to 9.0.0
-description: Migrates franks from 8.3.x to 9.0.0.
-recipeList:
-  - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
-  - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
-  - org.frankrewrite.recipes.FrameworkVersionRecipe:
-      version: "9.0.0"
+  - org.openrewrite.xml.AddCommentToXmlTag:
+      xPath: //CleanupOldFilesPipe
+      commentText: CleanupOldFilesPipe need to be replaced by LocalFileSystemPipe
