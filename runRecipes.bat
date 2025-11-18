@@ -7,8 +7,19 @@ if "%~1"=="" (
     exit /b 1
 )
 
-REM Store the current directory
-set "SOURCE_DIR=%cd%"
+@REM REM Store the current directory
+@REM set "SOURCE_DIR=%cd%"
+
+
+REM Check if the fourth argument is provided
+IF "%~4"=="" (
+    REM No fourth argument, use current directory
+    set "SOURCE_DIR=%cd%"
+) ELSE (
+    REM Fourth argument provided, use it
+    set "SOURCE_DIR=%~f4"
+)
+
 REM Store the target directory from the argument
 set "TARGET_DIR=%~f1"
 
