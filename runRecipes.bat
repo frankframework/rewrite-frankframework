@@ -28,7 +28,7 @@ set "TARGET_PROFILE=%2"
 set "SOURCE_VERSION=%3"
 
 REM Define the valid version list
-set "VALID_VERSIONS=7_3 7_4 7_5 7_6 7_7 7_8 7_9 8_0 8_1 8_2 8_3 9_0"
+set "VALID_VERSIONS=7_3 7_4 7_5 7_6 7_7 7_8 7_9_5 7_9_6 8_0_0 8_0_1 8_0_2 8_0_3 8_0_4 8_0_5 8_1_0 8_1_1 8_1_2 8_1_3 8_2_0 8_2_1 8_2_2 8_3_0 8_3_1 8_3_2 8_3_3 9_0_0 9_0_1 9_0_2 9_0_3 9_1_0 9_2_0 9_2_1 9_2_2 9_3_0"
 
 REM Ensure the target directory exists
 if not exist "%TARGET_DIR%" (

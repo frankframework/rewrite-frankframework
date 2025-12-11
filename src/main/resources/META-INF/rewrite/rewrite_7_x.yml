@@ -192,7 +192,7 @@ recipeList:
   - org.frankrewrite.recipes.MoveReturnedSessionKeysRecipe
 ---
 type: specs.openrewrite.org/v1beta/recipe
-name: org.frankrewrite.7_8_to_7_9
+name: org.frankrewrite.7_8_to_7_9_5
 displayName: Recipe to migrate from 7.8.x to 7.9.5
 description: Migrates franks from 7.8.x to 7.9.5.
 recipeList:
@@ -211,3 +211,13 @@ recipeList:
   - org.openrewrite.xml.AddCommentToXmlTag:
       xPath: //CleanupOldFilesPipe
       commentText: CleanupOldFilesPipe need to be replaced by LocalFileSystemPipe
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.frankrewrite.7_9_5_to_7_9_6
+displayName: Recipe to migrate from 7.9.5 to 7.9.6
+description: Migrates franks from 7.9.5 to 7.9.6.
+recipeList:
+  - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
+  - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
+  - org.frankrewrite.recipes.FrameworkVersionRecipe:
+      version: "7.9.6"
