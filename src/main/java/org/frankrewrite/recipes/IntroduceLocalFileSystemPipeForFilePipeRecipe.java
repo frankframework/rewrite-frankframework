@@ -15,14 +15,14 @@
  */
 package org.frankrewrite.recipes;
 
-import org.frankrewrite.recipes.visitors.ConvertFilePipeVisitor;
+import org.frankrewrite.recipes.visitors.IntroduceLocalFileSystemPipeForFilePipeVisitor;
 import org.jetbrains.annotations.NotNull;
 import org.openrewrite.ExecutionContext;
 import org.openrewrite.NlsRewrite;
 import org.openrewrite.Recipe;
 import org.openrewrite.TreeVisitor;
 
-public class ConvertFilePipeRecipe extends Recipe {
+public class IntroduceLocalFileSystemPipeForFilePipeRecipe extends Recipe {
     @Override
     public @NlsRewrite.DisplayName @NotNull String getDisplayName() {
         return "Convert FilePipe to LocalFileSystemPipe";
@@ -35,6 +35,6 @@ public class ConvertFilePipeRecipe extends Recipe {
 
     @Override
     public @NotNull TreeVisitor<?, ExecutionContext> getVisitor() {
-        return new ConvertFilePipeVisitor();
+        return new IntroduceLocalFileSystemPipeForFilePipeVisitor();
     }
 }

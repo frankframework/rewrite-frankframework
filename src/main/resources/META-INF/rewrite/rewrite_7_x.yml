@@ -98,7 +98,7 @@ recipeList:
       attributeKeyFilter: "fileName"
       newKey: "filename"
   - org.frankrewrite.recipes.ParameterizedActionsRecipe
-  - org.frankrewrite.recipes.ConvertFilePipeRecipe
+  - org.frankrewrite.recipes.IntroduceLocalFileSystemPipeForFilePipeRecipe
   - org.frankrewrite.recipes.RemoveRecurringExitsRecipe
   - org.frankrewrite.recipes.FrameworkVersionRecipe:
       version: "7.6.5"
