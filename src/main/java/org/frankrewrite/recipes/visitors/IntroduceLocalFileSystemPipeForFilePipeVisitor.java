@@ -26,40 +26,7 @@ import java.util.Optional;
 
 import static org.frankrewrite.recipes.util.TagHandler.getContent;
 
-// public class ConvertFilePipeVisitor extends XmlIsoVisitor<ExecutionContext> {
-//     @Override
-//     public Xml.Tag visitTag(Xml.Tag tag, ExecutionContext executionContext) {
-//         //Find fileNameSessionKey attribute
-//         Optional<Xml.Attribute> fileNameSessionKeyAttributeOptional = TagHandler.getAttributeFromTagByKey(tag, "fileNameSessionKey");
-//         Optional<Xml.Attribute> directoryAttributeOptional = TagHandler.getAttributeFromTagByKey(tag, "directory");
-//         Optional<Xml.Attribute> filenameAttributeOptional = TagHandler.getAttributeFromTagByKey(tag, "filename");
-
-
-//         //Ensure fileNameSessionKey attribute exists
-//         if (fileNameSessionKeyAttributeOptional.isPresent()) {
-//             Xml.Attribute fileNameSessionKeyAttribute = fileNameSessionKeyAttributeOptional.get();
-
-//             List<Content> content = getContent(tag); // To get rid of the wildcard type
-
-//             // Determine the existing indentation level
-//             String parentIndent = tag.getPrefix();  // Prefix contains leading spaces & newlines
-//             String childIndent = parentIndent + "    ";  // Assuming 4-space indentation
-
-//             // Convert fileNameSessionKey attribute value into multiple <param> children with proper indentation
-//             String fileNameSessionKeyValue = fileNameSessionKeyAttribute.getValueAsString();
-//             Xml.Tag value = Xml.Tag.build("<Param name=\"filename\" sessionKey=\"" + fileNameSessionKeyValue + "\"/>")
-//                     .withPrefix("\n" + childIndent);  // Ensure correct indentation
-//             content.add(value);
-
-//             return TagHandler.getTagWithoutAttribute(tag, "fileNameSessionKey")// Remove the original 'fileNameSessionKey' attribute
-//                     .withContent(content) //Add parameters
-//                     .withPrefix(parentIndent);  // Maintain parent's indentation
-//         }
-
-//         return super.visitTag(tag, executionContext);
-//     }
-// }
-public class ConvertFilePipeVisitor extends XmlIsoVisitor<ExecutionContext> {
+public class IntroduceLocalFileSystemPipeForFilePipeVisitor extends XmlIsoVisitor<ExecutionContext> {
     @Override
     public Xml.Tag visitTag(Xml.Tag tag, ExecutionContext executionContext) {
         //Find attributes

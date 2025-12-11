@@ -21,10 +21,10 @@ import org.openrewrite.test.RewriteTest;
 
 import static org.openrewrite.xml.Assertions.xml;
 
-public class ConvertFilePipeRecipeTest implements RewriteTest{
+public class IntroduceLocalFileSystemPipeForFilePipeRecipeTest implements RewriteTest{
     @Override
     public void defaults(RecipeSpec spec) {
-        spec.recipe(new ConvertFilePipeRecipe());
+        spec.recipe(new IntroduceLocalFileSystemPipeForFilePipeRecipe());
     }
 
     @Test

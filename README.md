@@ -8,7 +8,7 @@ The project uses OpenRewrite, a framework for programmatically transforming and 
 * **`Plug-and-play:`** No need to integrate this standalone tool into your own Frank!Framework project. Clone the project, and you're good to go.
 
 ## Limitations
-* **`Limited version support:`** Currently we only support migrations between Frank!Framework-version 7.3.x through 9.0.x.
+* **`Limited version support:`** Currently we only support migrations between Frank!Framework-version 7.3.x through 9.3.0.
 * **`Limited coverage:`** Currently we don't provide full coverage for all needed migrations. This project is still a work in progress and should be treated as such, don't blindly trust the output before commiting any changes to your project!
 
 ## Requirements
@@ -33,7 +33,7 @@ Optionally you can provide your current Frank!Framework version if you want to r
 
 An example for migrating from 7.3.x to 9.0.x could be:
 
-```.\runRecipes.bat ..\myproject\ 9_0 7_3```
+```.\runRecipes.bat ..\myproject\ 9_0_0 7_3```
 
 ## How to contribute
 We endorse contributions to this project! If you would like to suggest any changes or even add additional missing recipes, please follow the following steps:

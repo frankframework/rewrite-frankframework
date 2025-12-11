@@ -11,7 +11,7 @@
         <artifactId>frankrewrite</artifactId>
 		<active.recipes>
             org.frankrewrite.7_3_to_7_4,
-            org.frankrewrite.7_4_to_7_5,
+            org.frankrewrite.7_4_to_7_5_2,
             org.frankrewrite.7_5_to_7_6,
             org.frankrewrite.7_6_to_7_7,
         </active.recipes>
@@ -73,38 +73,29 @@
             </properties>
         </profile>
         <profile>
-            <id>7_9</id>
+            <id>7_9_5</id>
             <properties>
-                <rewrite.id>${artifactId}-7_9</rewrite.id>
+                <rewrite.id>${artifactId}-7_9_5</rewrite.id>
                 <active.recipes>
-                    org.frankrewrite.7_8_to_7_9,
+                    org.frankrewrite.7_8_to_7_9_5,
                 </active.recipes>
             </properties>
         </profile>
         <profile>
-            <id>8_0</id>
+            <id>7_9_6</id>
             <properties>
-                <rewrite.id>${artifactId}-8_0</rewrite.id>
+                <rewrite.id>${artifactId}-7_9_6</rewrite.id>
                 <active.recipes>
-                    org.frankrewrite.7_9_to_8_0,
+                    org.frankrewrite.7_9_5_to_7_9_6,
                 </active.recipes>
-                <servlet.groupId>
-                    jakarta.servlet
-                </servlet.groupId>
-                <servlet.artifactId>
-                    jakarta.servlet-api
-                </servlet.artifactId>
-                <servlet.version>
-                    6.1.0
-                </servlet.version>
             </properties>
         </profile>
         <profile>
-            <id>8_1</id>
+            <id>8_0_0</id>
             <properties>
-                <rewrite.id>${artifactId}-8_1</rewrite.id>
+                <rewrite.id>${artifactId}-8_0_0</rewrite.id>
                 <active.recipes>
-                    org.frankrewrite.8_0_to_8_1,
+                    org.frankrewrite.7_9_6_to_8_0_0,
                 </active.recipes>
                 <servlet.groupId>
                     jakarta.servlet
@@ -118,11 +109,11 @@
             </properties>
         </profile>
         <profile>
-            <id>8_2</id>
+            <id>8_0_1</id>
             <properties>
-                <rewrite.id>${artifactId}-8_2</rewrite.id>
+                <rewrite.id>${artifactId}-8_0_1</rewrite.id>
                 <active.recipes>
-                    org.frankrewrite.8_1_to_8_2,
+                    org.frankrewrite.8_0_0_to_8_0_1,
                 </active.recipes>
                 <servlet.groupId>
                     jakarta.servlet
@@ -136,11 +127,11 @@
             </properties>
         </profile>
         <profile>
-            <id>8_3</id>
+            <id>8_0_2</id>
             <properties>
-                <rewrite.id>${artifactId}-8_3</rewrite.id>
+                <rewrite.id>${artifactId}-8_0_2</rewrite.id>
                 <active.recipes>
-                    org.frankrewrite.8_2_to_8_3,
+                    org.frankrewrite.8_0_1_to_8_0_2,
                 </active.recipes>
                 <servlet.groupId>
                     jakarta.servlet
@@ -154,11 +145,407 @@
             </properties>
         </profile>
         <profile>
-            <id>9_0</id>
+            <id>8_0_3</id>
             <properties>
-                <rewrite.id>${artifactId}-9_0</rewrite.id>
+                <rewrite.id>${artifactId}-8_0_3</rewrite.id>
                 <active.recipes>
-                    org.frankrewrite.8_3_to_9_0,
+                    org.frankrewrite.8_0_2_to_8_0_3,
+                </active.recipes>
+                <servlet.groupId>
+                    jakarta.servlet
+                </servlet.groupId>
+                <servlet.artifactId>
+                    jakarta.servlet-api
+                </servlet.artifactId>
+                <servlet.version>
+                    6.1.0
+                </servlet.version>
+            </properties>
+        </profile>
+        <profile>
+            <id>8_0_4</id>
+            <properties>
+                <rewrite.id>${artifactId}-8_0_4</rewrite.id>
+                <active.recipes>
+                    org.frankrewrite.8_0_3_to_8_0_4,
+                </active.recipes>
+                <servlet.groupId>
+                    jakarta.servlet
+                </servlet.groupId>
+                <servlet.artifactId>
+                    jakarta.servlet-api
+                </servlet.artifactId>
+                <servlet.version>
+                    6.1.0
+                </servlet.version>
+            </properties>
+        </profile>
+        <profile>
+            <id>8_0_5</id>
+            <properties>
+                <rewrite.id>${artifactId}-8_0_5</rewrite.id>
+                <active.recipes>
+                    org.frankrewrite.8_0_4_to_8_0_5,
+                </active.recipes>
+                <servlet.groupId>
+                    jakarta.servlet
+                </servlet.groupId>
+                <servlet.artifactId>
+                    jakarta.servlet-api
+                </servlet.artifactId>
+                <servlet.version>
+                    6.1.0
+                </servlet.version>
+            </properties>
+        </profile>
+        <profile>
+            <id>8_1_0</id>
+            <properties>
+                <rewrite.id>${artifactId}-8_1_0</rewrite.id>
+                <active.recipes>
+                    org.frankrewrite.8_0_5_to_8_1_0,
+                </active.recipes>
+                <servlet.groupId>
+                    jakarta.servlet
+                </servlet.groupId>
+                <servlet.artifactId>
+                    jakarta.servlet-api
+                </servlet.artifactId>
+                <servlet.version>
+                    6.1.0
+                </servlet.version>
+            </properties>
+        </profile>
+        <profile>
+            <id>8_1_1</id>
+            <properties>
+                <rewrite.id>${artifactId}-8_1_1</rewrite.id>
+                <active.recipes>
+                    org.frankrewrite.8_1_0_to_8_1_1,
+                </active.recipes>
+                <servlet.groupId>
+                    jakarta.servlet
+                </servlet.groupId>
+                <servlet.artifactId>
+                    jakarta.servlet-api
+                </servlet.artifactId>
+                <servlet.version>
+                    6.1.0
+                </servlet.version>
+            </properties>
+        </profile>
+        <profile>
+            <id>8_1_2</id>
+            <properties>
+                <rewrite.id>${artifactId}-8_1_2</rewrite.id>
+                <active.recipes>
+                    org.frankrewrite.8_1_1_to_8_1_2,
+                </active.recipes>
+                <servlet.groupId>
+                    jakarta.servlet
+                </servlet.groupId>
+                <servlet.artifactId>
+                    jakarta.servlet-api
+                </servlet.artifactId>
+                <servlet.version>
+                    6.1.0
+                </servlet.version>
+            </properties>
+        </profile>
+        <profile>
+            <id>8_1_3</id>
+            <properties>
+                <rewrite.id>${artifactId}-8_1_3</rewrite.id>
+                <active.recipes>
+                    org.frankrewrite.8_1_2_to_8_1_3,
+                </active.recipes>
+                <servlet.groupId>
+                    jakarta.servlet
+                </servlet.groupId>
+                <servlet.artifactId>
+                    jakarta.servlet-api
+                </servlet.artifactId>
+                <servlet.version>
+                    6.1.0
+                </servlet.version>
+            </properties>
+        </profile>
+        <profile>
+            <id>8_2_0</id>
+            <properties>
+                <rewrite.id>${artifactId}-8_2_0</rewrite.id>
+                <active.recipes>
+                    org.frankrewrite.8_1_3_to_8_2_0,
+                </active.recipes>
+                <servlet.groupId>
+                    jakarta.servlet
+                </servlet.groupId>
+                <servlet.artifactId>
+                    jakarta.servlet-api
+                </servlet.artifactId>
+                <servlet.version>
+                    6.1.0
+                </servlet.version>
+            </properties>
+        </profile>
+        <profile>
+            <id>8_2_1</id>
+            <properties>
+                <rewrite.id>${artifactId}-8_2_1</rewrite.id>
+                <active.recipes>
+                    org.frankrewrite.8_2_0_to_8_2_1,
+                </active.recipes>
+                <servlet.groupId>
+                    jakarta.servlet
+                </servlet.groupId>
+                <servlet.artifactId>
+                    jakarta.servlet-api
+                </servlet.artifactId>
+                <servlet.version>
+                    6.1.0
+                </servlet.version>
+            </properties>
+        </profile>
+        <profile>
+            <id>8_2_2</id>
+            <properties>
+                <rewrite.id>${artifactId}-8_2_2</rewrite.id>
+                <active.recipes>
+                    org.frankrewrite.8_2_1_to_8_2_2,
+                </active.recipes>
+                <servlet.groupId>
+                    jakarta.servlet
+                </servlet.groupId>
+                <servlet.artifactId>
+                    jakarta.servlet-api
+                </servlet.artifactId>
+                <servlet.version>
+                    6.1.0
+                </servlet.version>
+            </properties>
+        </profile>
+        <profile>
+            <id>8_3_0</id>
+            <properties>
+                <rewrite.id>${artifactId}-8_3_0</rewrite.id>
+                <active.recipes>
+                    org.frankrewrite.8_2_2_to_8_3_0,
+                </active.recipes>
+                <servlet.groupId>
+                    jakarta.servlet
+                </servlet.groupId>
+                <servlet.artifactId>
+                    jakarta.servlet-api
+                </servlet.artifactId>
+                <servlet.version>
+                    6.1.0
+                </servlet.version>
+            </properties>
+        </profile>
+        <profile>
+            <id>8_3_1</id>
+            <properties>
+                <rewrite.id>${artifactId}-8_3_1</rewrite.id>
+                <active.recipes>
+                    org.frankrewrite.8_3_0_to_8_3_1,
+                </active.recipes>
+                <servlet.groupId>
+                    jakarta.servlet
+                </servlet.groupId>
+                <servlet.artifactId>
+                    jakarta.servlet-api
+                </servlet.artifactId>
+                <servlet.version>
+                    6.1.0
+                </servlet.version>
+            </properties>
+        </profile>
+        <profile>
+            <id>8_3_2</id>
+            <properties>
+                <rewrite.id>${artifactId}-8_3_2</rewrite.id>
+                <active.recipes>
+                    org.frankrewrite.8_3_1_to_8_3_2,
+                </active.recipes>
+                <servlet.groupId>
+                    jakarta.servlet
+                </servlet.groupId>
+                <servlet.artifactId>
+                    jakarta.servlet-api
+                </servlet.artifactId>
+                <servlet.version>
+                    6.1.0
+                </servlet.version>
+            </properties>
+        </profile>
+        <profile>
+            <id>8_3_3</id>
+            <properties>
+                <rewrite.id>${artifactId}-8_3_3</rewrite.id>
+                <active.recipes>
+                    org.frankrewrite.8_3_2_to_8_3_3,
+                </active.recipes>
+                <servlet.groupId>
+                    jakarta.servlet
+                </servlet.groupId>
+                <servlet.artifactId>
+                    jakarta.servlet-api
+                </servlet.artifactId>
+                <servlet.version>
+                    6.1.0
+                </servlet.version>
+            </properties>
+        </profile>
+        <profile>
+            <id>9_0_0</id>
+            <properties>
+                <rewrite.id>${artifactId}-9_0_0</rewrite.id>
+                <active.recipes>
+                    org.frankrewrite.8_3_3_to_9_0_0,
+                </active.recipes>
+                <servlet.groupId>
+                    jakarta.servlet
+                </servlet.groupId>
+                <servlet.artifactId>
+                    jakarta.servlet-api
+                </servlet.artifactId>
+                <servlet.version>
+                    6.1.0
+                </servlet.version>
+           </properties>
+        </profile> 
+        <profile>
+            <id>9_0_1</id>
+            <properties>
+                <rewrite.id>${artifactId}-9_0_1</rewrite.id>
+                <active.recipes>
+                    org.frankrewrite.9_0_0_to_9_0_1,
+                </active.recipes>
+                <servlet.groupId>
+                    jakarta.servlet
+                </servlet.groupId>
+                <servlet.artifactId>
+                    jakarta.servlet-api
+                </servlet.artifactId>
+                <servlet.version>
+                    6.1.0
+                </servlet.version>
+           </properties>
+        </profile> 
+        <profile>
+            <id>9_0_2</id>
+            <properties>
+                <rewrite.id>${artifactId}-9_0_2</rewrite.id>
+                <active.recipes>
+                    org.frankrewrite.9_0_1_to_9_0_2,
+                </active.recipes>
+                <servlet.groupId>
+                    jakarta.servlet
+                </servlet.groupId>
+                <servlet.artifactId>
+                    jakarta.servlet-api
+                </servlet.artifactId>
+                <servlet.version>
+                    6.1.0
+                </servlet.version>
+           </properties>
+        </profile> 
+        <profile>
+            <id>9_0_3</id>
+            <properties>
+                <rewrite.id>${artifactId}-9_0_3</rewrite.id>
+                <active.recipes>
+                    org.frankrewrite.9_0_2_to_9_0_3,
+                </active.recipes>
+                <servlet.groupId>
+                    jakarta.servlet
+                </servlet.groupId>
+                <servlet.artifactId>
+                    jakarta.servlet-api
+                </servlet.artifactId>
+                <servlet.version>
+                    6.1.0
+                </servlet.version>
+           </properties>
+        </profile> 
+        <profile>
+            <id>9_1_0</id>
+            <properties>
+                <rewrite.id>${artifactId}-9_1_0</rewrite.id>
+                <active.recipes>
+                    org.frankrewrite.9_0_3_to_9_1_0,
+                </active.recipes>
+                <servlet.groupId>
+                    jakarta.servlet
+                </servlet.groupId>
+                <servlet.artifactId>
+                    jakarta.servlet-api
+                </servlet.artifactId>
+                <servlet.version>
+                    6.1.0
+                </servlet.version>
+           </properties>
+        </profile> 
+        <profile>
+            <id>9_2_0</id>
+            <properties>
+                <rewrite.id>${artifactId}-9_2_0</rewrite.id>
+                <active.recipes>
+                    org.frankrewrite.9_1_0_to_9_2_0,
+                </active.recipes>
+                <servlet.groupId>
+                    jakarta.servlet
+                </servlet.groupId>
+                <servlet.artifactId>
+                    jakarta.servlet-api
+                </servlet.artifactId>
+                <servlet.version>
+                    6.1.0
+                </servlet.version>
+           </properties>
+        </profile> 
+        <profile>
+            <id>9_2_1</id>
+            <properties>
+                <rewrite.id>${artifactId}-9_2_1</rewrite.id>
+                <active.recipes>
+                    org.frankrewrite.9_2_0_to_9_2_1,
+                </active.recipes>
+                <servlet.groupId>
+                    jakarta.servlet
+                </servlet.groupId>
+                <servlet.artifactId>
+                    jakarta.servlet-api
+                </servlet.artifactId>
+                <servlet.version>
+                    6.1.0
+                </servlet.version>
+           </properties>
+        </profile> 
+        <profile>
+            <id>9_2_2</id>
+            <properties>
+                <rewrite.id>${artifactId}-9_2_2</rewrite.id>
+                <active.recipes>
+                    org.frankrewrite.9_2_1_to_9_2_2,
+                </active.recipes>
+                <servlet.groupId>
+                    jakarta.servlet
+                </servlet.groupId>
+                <servlet.artifactId>
+                    jakarta.servlet-api
+                </servlet.artifactId>
+                <servlet.version>
+                    6.1.0
+                </servlet.version>
+           </properties>
+        </profile> 
+        <profile>
+            <id>9_3_0</id>
+            <properties>
+                <rewrite.id>${artifactId}-9_3</rewrite.id>
+                <active.recipes>
+                    org.frankrewrite.9_2_2_to_9_3_0,
                 </active.recipes>
                 <servlet.groupId>
                     jakarta.servlet

@@ -62,7 +62,8 @@ public class FrameworkVersionRecipe extends Recipe {
                             if (tagValue.isPresent()
                                 &&!tagValue.get().equals(version)
                                 &&(tag.getName().equals("iaf.version")||
-                                    tag.getName().equals("ff.version"))) {
+                                    tag.getName().equals("ff.version")||
+                                    tag.getName().equals("frankframework.version"))) {
                                 return tag.withValue(version);
                             }
                             return super.visitTag(tag, executionContext);

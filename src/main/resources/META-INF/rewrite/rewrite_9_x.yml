@@ -22,9 +22,9 @@
 # Notice how we can have multiple recipes in the same file, separated by `---`
 # You can also have multiple files in `src/main/resources/META-INF/rewrite`, each containing one or more recipes.
 type: specs.openrewrite.org/v1beta/recipe
-name: org.frankrewrite.8_3_to_9_0
-displayName: Recipe to migrate from 8.3.x to 9.0.0
-description: Migrates franks from 8.3.x to 9.0.0.
+name: org.frankrewrite.8_3_3_to_9_0_0
+displayName: Recipe to migrate from 8.3.3 to 9.0.0
+description: Migrates franks from 8.3.3 to 9.0.0.
 recipeList:
   - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
   - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
@@ -52,5 +52,91 @@ recipeList:
       attributeKeyFilter: "authenticationRoles"
       newKey: "authenticationMethod"
       newValue: "AUTHROLE"
+  - org.frankrewrite.recipes.ReplaceTagNameRecipe:
+      oldName: "XmlIfPipe"
+      newName: "IfPipe"
   - org.frankrewrite.recipes.FrameworkVersionRecipe:
       version: "9.0.0"
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.frankrewrite.9_0_0_to_9_0_1
+displayName: Recipe to migrate from 9.0.0 to 9.0.1
+description: Migrates franks from 9.0.0 to 9.0.1.
+recipeList:
+  - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
+  - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
+  - org.frankrewrite.recipes.FrameworkVersionRecipe:
+      version: "9.0.1"
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.frankrewrite.9_0_1_to_9_0_2
+displayName: Recipe to migrate from 9.0.1 to 9.0.2
+description: Migrates franks from 9.0.1 to 9.0.2.
+recipeList:
+  - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
+  - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
+  - org.frankrewrite.recipes.FrameworkVersionRecipe:
+      version: "9.0.2"
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.frankrewrite.9_0_2_to_9_0_3
+displayName: Recipe to migrate from 9.0.2 to 9.0.3
+description: Migrates franks from 9.0.2 to 9.0.3.
+recipeList:
+  - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
+  - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
+  - org.frankrewrite.recipes.FrameworkVersionRecipe:
+      version: "9.0.3"
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.frankrewrite.9_0_3_to_9_1_0
+displayName: Recipe to migrate from 9.0.3 to 9.1.0
+description: Migrates franks from 9.0.3 to 9.1.0.
+recipeList:
+  - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
+  - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
+  - org.frankrewrite.recipes.FrameworkVersionRecipe:
+      version: "9.1.0"
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.frankrewrite.9_1_0_to_9_2_0
+displayName: Recipe to migrate from 9.1.0 to 9.2.0
+description: Migrates franks from 9.1.0 to 9.2.0.
+recipeList:
+  - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
+  - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
+  - org.frankrewrite.recipes.ReplaceTagNameRecipe:
+      oldName: "XmlSwitchPipe"
+      newName: "SwitchPipe"
+  - org.frankrewrite.recipes.FrameworkVersionRecipe:
+      version: "9.2.0"
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.frankrewrite.9_2_0_to_9_2_1
+displayName: Recipe to migrate from 9.2.0 to 9.2.1
+description: Migrates franks from 9.2.0 to 9.2.1.
+recipeList:
+  - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
+  - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
+  - org.frankrewrite.recipes.FrameworkVersionRecipe:
+      version: "9.2.1"
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.frankrewrite.9_2_1_to_9_2_2
+displayName: Recipe to migrate from 9.2.1 to 9.2.2
+description: Migrates franks from 9.2.1 to 9.2.2.
+recipeList:
+  - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
+  - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
+  - org.frankrewrite.recipes.FrameworkVersionRecipe:
+      version: "9.2.2"
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.frankrewrite.9_2_2_to_9_3_0
+displayName: Recipe to migrate from 9.2.2 to 9.3.0
+description: Migrates franks from 9.2.2 to 9.3.0.
+recipeList:
+  - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
+  - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
+  - org.frankrewrite.recipes.FrameworkVersionRecipe:
+      version: "9.3.0"

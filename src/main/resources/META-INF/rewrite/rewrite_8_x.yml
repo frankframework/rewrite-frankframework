@@ -22,9 +22,40 @@
 # Notice how we can have multiple recipes in the same file, separated by `---`
 # You can also have multiple files in `src/main/resources/META-INF/rewrite`, each containing one or more recipes.
 type: specs.openrewrite.org/v1beta/recipe
-name: org.frankrewrite.7_9_to_8_0
-displayName: Recipe to migrate from 7.9.x to 8.0.3
-description: Migrates franks from 7.9.x to 8.0.3.
+name: org.frankrewrite.7_9_6_to_8_0_0
+displayName: Recipe to migrate from 7.9.6 to 8.0.0
+description: Migrates franks from 7.9.6 to 8.0.0.
+recipeList:
+  - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
+  - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
+  - org.frankrewrite.recipes.IntroduceBase64PipeForAttributeRecipe
+  - org.frankrewrite.recipes.FrameworkVersionRecipe:
+      version: "8.0.0"
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.frankrewrite.8_0_0_to_8_0_1
+displayName: Recipe to migrate from 8.0.0 to 8.0.1
+description: Migrates franks from 8.0.0 to 8.0.1.
+recipeList:
+  - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
+  - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
+  - org.frankrewrite.recipes.FrameworkVersionRecipe:
+      version: "8.0.1"
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.frankrewrite.8_0_1_to_8_0_2
+displayName: Recipe to migrate from 8.0.1 to 8.0.2
+description: Migrates franks from 8.0.1 to 8.0.2.
+recipeList:
+  - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
+  - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
+  - org.frankrewrite.recipes.FrameworkVersionRecipe:
+      version: "8.0.2"
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.frankrewrite.8_0_2_to_8_0_3
+displayName: Recipe to migrate from 8.0.2 to 8.0.3
+description: Migrates franks from 8.0.2 to 8.0.3.
 recipeList:
   - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
   - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
@@ -47,9 +78,39 @@ recipeList:
       newArtifactId: "frankframework-webapp"
 ---
 type: specs.openrewrite.org/v1beta/recipe
-name: org.frankrewrite.8_0_to_8_1
-displayName: Recipe to migrate from 8.0.x to 8.1.1
-description: Migrates franks from 8.0.x to 8.1.1.
+name: org.frankrewrite.8_0_3_to_8_0_4
+displayName: Recipe to migrate from 8.0.3 to 8.0.4
+description: Migrates franks from 8.0.3 to 8.0.4.
+recipeList:
+  - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
+  - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
+  - org.frankrewrite.recipes.FrameworkVersionRecipe:
+      version: "8.0.4"
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.frankrewrite.8_0_4_to_8_0_5
+displayName: Recipe to migrate from 8.0.4 to 8.0.5
+description: Migrates franks from 8.0.4 to 8.0.5.
+recipeList:
+  - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
+  - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
+  - org.frankrewrite.recipes.FrameworkVersionRecipe:
+      version: "8.0.5"
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.frankrewrite.8_0_5_to_8_1_0
+displayName: Recipe to migrate from 8.0.5 to 8.1.0
+description: Migrates franks from 8.0.5 to 8.1.0.
+recipeList:
+  - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
+  - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
+  - org.frankrewrite.recipes.FrameworkVersionRecipe:
+      version: "8.1.0"
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.frankrewrite.8_1_0_to_8_1_1
+displayName: Recipe to migrate from 8.1.0 to 8.1.1
+description: Migrates franks from 8.1.0 to 8.1.1.
 recipeList:
   - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
   - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
@@ -69,9 +130,29 @@ recipeList:
       newKey: "timeout"
 ---
 type: specs.openrewrite.org/v1beta/recipe
-name: org.frankrewrite.8_1_to_8_2
-displayName: Recipe to migrate from 8.1.x to 8.2.0
-description: Migrates franks from 8.1.x to 8.2.0.
+name: org.frankrewrite.8_1_1_to_8_1_2
+displayName: Recipe to migrate from 8.1.1 to 8.1.2
+description: Migrates franks from 8.1.1 to 8.1.2.
+recipeList:
+  - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
+  - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
+  - org.frankrewrite.recipes.FrameworkVersionRecipe:
+      version: "8.1.2"
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.frankrewrite.8_1_2_to_8_1_3
+displayName: Recipe to migrate from 8.1.2 to 8.1.3
+description: Migrates franks from 8.1.2 to 8.1.3.
+recipeList:
+  - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
+  - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
+  - org.frankrewrite.recipes.FrameworkVersionRecipe:
+      version: "8.1.3"
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.frankrewrite.8_1_3_to_8_2_0
+displayName: Recipe to migrate from 8.1.3 to 8.2.0
+description: Migrates franks from 8.1.3 to 8.2.0.
 recipeList:
   - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
   - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
@@ -79,7 +160,6 @@ recipeList:
       version: "8.2.0"
   - org.frankrewrite.recipes.IntroduceEchoPipeForFixedResultPipeRecipe
   - org.frankrewrite.recipes.IntroduceReplacerPipeForFixedResultPipeRecipe
-  - org.frankrewrite.recipes.IntroduceBase64PipeForAttributeRecipe
   - org.frankrewrite.recipes.ChangeAttributeValueToUnionTypeRecipe:
       attributeKey: "logLevel"
       tagName: "LarvaPipe"
@@ -109,9 +189,29 @@ recipeList:
       value: "delete"
 ---
 type: specs.openrewrite.org/v1beta/recipe
-name: org.frankrewrite.8_2_to_8_3
-displayName: Recipe to migrate from 8.2.x to 8.3.0
-description: Migrates franks from 8.2.x to 8.3.0.
+name: org.frankrewrite.8_2_0_to_8_2_1
+displayName: Recipe to migrate from 8.2.0 to 8.2.1
+description: Migrates franks from 8.2.0 to 8.2.1.
+recipeList:
+  - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
+  - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
+  - org.frankrewrite.recipes.FrameworkVersionRecipe:
+      version: "8.2.1"
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.frankrewrite.8_2_1_to_8_2_2
+displayName: Recipe to migrate from 8.2.1 to 8.2.2
+description: Migrates franks from 8.2.1 to 8.2.2.
+recipeList:
+  - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
+  - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
+  - org.frankrewrite.recipes.FrameworkVersionRecipe:
+      version: "8.2.2"
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.frankrewrite.8_2_2_to_8_3_0
+displayName: Recipe to migrate from 8.2.2 to 8.3.0
+description: Migrates franks from 8.2.2 to 8.3.0.
 recipeList:
   - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
   - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
@@ -128,3 +228,33 @@ recipeList:
       attributeKeyFilter: "name"
       attributeValueFilter: "failure"
       newValue: "exception"
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.frankrewrite.8_3_0_to_8_3_1
+displayName: Recipe to migrate from 8.3.0 to 8.3.1
+description: Migrates franks from 8.3.0 to 8.3.1.
+recipeList:
+  - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
+  - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
+  - org.frankrewrite.recipes.FrameworkVersionRecipe:
+      version: "8.3.1"
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.frankrewrite.8_3_1_to_8_3_2
+displayName: Recipe to migrate from 8.3.1 to 8.3.2
+description: Migrates franks from 8.3.1 to 8.3.2.
+recipeList:
+  - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
+  - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
+  - org.frankrewrite.recipes.FrameworkVersionRecipe:
+      version: "8.3.2"
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.frankrewrite.8_3_2_to_8_3_3
+displayName: Recipe to migrate from 8.3.2 to 8.3.3
+description: Migrates franks from 8.3.2 to 8.3.3.
+recipeList:
+  - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
+  - org.frankrewrite.recipes.WarningAnnotationUpdaterRecipe
+  - org.frankrewrite.recipes.FrameworkVersionRecipe:
+      version: "8.3.3"
