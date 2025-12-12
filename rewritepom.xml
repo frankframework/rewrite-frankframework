@@ -543,7 +543,7 @@
         <profile>
             <id>9_3_0</id>
             <properties>
-                <rewrite.id>${artifactId}-9_3</rewrite.id>
+                <rewrite.id>${artifactId}-9_3_0</rewrite.id>
                 <active.recipes>
                     org.frankrewrite.9_2_2_to_9_3_0,
                 </active.recipes>
